@@ -1,0 +1,81 @@
+{
+  "artifact_bytes": 231000661239,
+  "assessment": {
+    "always_final_h50_balanced": 0.2548630252927542,
+    "always_path_h50_balanced": 0.2886491425558924,
+    "mechanism_claim_passed": false,
+    "mechanism_reason": "In this dt=1 Gray-Scott regime, accepted Newton corrections are numerically almost identical to endpoint increments; endpoint control matched path control.",
+    "practical_stability_gate_definition": "Point-estimate mean no worse than both fixed choices on the prespecified 256-square h50 balanced endpoint.",
+    "practical_stability_gate_passed": true,
+    "router_improvement_vs_always_final": 0.08027558710887783,
+    "router_improvement_vs_always_path": 0.18792848567133746,
+    "router_vs_final_conditional_ci95": [
+      -0.257000186393022,
+      0.4031299075141229
+    ],
+    "router_vs_path_conditional_ci95": [
+      -0.060598209154441696,
+      0.39661614285952096
+    ],
+    "safe_router_h50_balanced": 0.23440374630503355,
+    "statistical_superiority_confirmed": false
+  },
+  "checked_checkpoint_sha256": {
+    "task0/final": "c026e211d4d9f9026591f8ceed84f15526dc078ff264c77fff55b9a8abd89d38",
+    "task0/path": "d2d0295f3f4c51192dba1690dea13d9dea8ac55778da0844cdd983e114d9eb75",
+    "task12/final": "c625a33c31d7789756d751dcf113f777012c877a01b3cbd40c2c015176df8b2e",
+    "task12/path": "d5f0d02f70b179225297533e41b9fa49df648fa640dd07d9e57e1618c98739ab",
+    "task16/final": "ba1e19fb1b9c9c6f8bc535565fc0e9b9be0a2f3c9e2d16884893d0320ec6793b",
+    "task16/path": "deb23621dc96466906c6f0e8c240047b2978dea7d3a15288b579e03ff3b0fce4",
+    "task4/final": "8114118c78397f090ca457ac00bd68e9519530cd6f70791fd8e15675da36e526",
+    "task4/path": "f237ec40b5e18263e557e4810e47509b36612ddd4439915f1e8a9c946f870d79",
+    "task8/final": "90dd27d01f3b7f7fc492a1f29e88bf017fc930d50558e58e4d8c82ad0a8fc82e",
+    "task8/path": "207d5d85c6449ef34736c9898cab23bc2ff08a4dcab255d87c6ddea674432ad5"
+  },
+  "code_sha256": {
+    "blrpng/cli/audit_gray_scott_r5.py": "8eee6d5c542dbefa33b4d47800004377a801ca06d8514b6555012d7ab31a103e",
+    "blrpng/cli/diagnose_gray_scott_multires_consistency.py": "aacb07c4597895514046ad1859151828a400845bd374613e0fcc5fe748046d31",
+    "blrpng/cli/finalize_gray_scott_r5.py": "8107ff461b6cb70a002f679c4799f46044065faeadbf40d793d769bf6586007a",
+    "blrpng/cli/gray_scott_r5_safe_router.py": "945d86e16a1eb29ea4fdffb02f97ebd1dbdfd88a27fd8119de8bf47e13dde31c",
+    "blrpng/training/gray_scott_commutator.py": "dd4113f4884e8d73147ef427b229e8fc78d0a13de42e0e6bcf3814d2428fdd88",
+    "blrpng/training/gray_scott_r3.py": "8b04e0c3b15c8309ad2dd35c38daa68aedaa511e014d11de6fda2580c5e1d233"
+  },
+  "figure_manifest_sha256": "16589c386a98570e272dabca805e04c2757d23cd20e09d526735e345b51d53eb",
+  "limitations": [
+    "One training seed",
+    "Boundaries are not new; only initial conditions are new",
+    "No saturated HR specialist comparison",
+    "Conditional boundary-to-IC bootstrap is descriptive, not a multi-seed paper claim"
+  ],
+  "newton_mechanism_claim_passed": false,
+  "next_decision": "Use the safe router as the practical Gray-Scott result, but test Newton-specific mechanism only in a prescreened nonlinear regime where Newton corrections materially differ from the endpoint increment.",
+  "outside_project_status": [],
+  "png_count": 10,
+  "protocol_file_sha256": "cf32a1669f3ea6f2371b79f0cc97dce443028a6f75972dbb708dbc7676bf0996",
+  "protocol_sha256": "f3abc0d08407a761d18d34cc8419d949b1bbd43466b5ec0c4f1a849930ca8bad",
+  "query_index_sha256": {
+    "artifacts/data/gray_scott_r5/task00_query_128.index.json": "2a19345bcf4a1f401f94f47848702f135c3c4d40b816c20f0c543d6b8bad45ef",
+    "artifacts/data/gray_scott_r5/task00_query_256.index.json": "2a9f47137e7d7523f58d501c33d1202d74951fe160c98865603ba82d6d67d453",
+    "artifacts/data/gray_scott_r5/task04_query_128.index.json": "328ea8bbbf34fc20ab8d2c48501855ba5a9527f4ce137bcc3acd769b1db7e83b",
+    "artifacts/data/gray_scott_r5/task04_query_256.index.json": "cf1066931b5f654690c9b0ea11dfa2922e98516820038e2b458f661dbea9bd87",
+    "artifacts/data/gray_scott_r5/task08_query_128.index.json": "f86aab182c8fdcac4161ea4f55a14c3d6cc8797a28fe1cba2ee2b9a4ba12a588",
+    "artifacts/data/gray_scott_r5/task08_query_256.index.json": "cf9002b847a59964a5fa7f5ee541d1570d11fa98f5497ddad684e150a10ac36a",
+    "artifacts/data/gray_scott_r5/task12_query_128.index.json": "45f56d463726dff5f62f6d09387c6cde07403caf53f3d37d9ac2f40c1ed5d1e2",
+    "artifacts/data/gray_scott_r5/task12_query_256.index.json": "7eb7eb4f0a8d6d5259a80f4f290b329234b20fe600ea84bd0168a1f4405af879",
+    "artifacts/data/gray_scott_r5/task16_query_128.index.json": "e1c0f20bf4e3be15a68ce4aae14b4b64bf36a48b1869cbd918118210f330d01a",
+    "artifacts/data/gray_scott_r5/task16_query_256.index.json": "29aa30ff70791e8a8d643600947583070d4f6fd77029358ff41539ea945b55db"
+  },
+  "route": {
+    "0": "final",
+    "12": "final",
+    "16": "final",
+    "4": "path",
+    "8": "path"
+  },
+  "safe_router_point_gate_passed": true,
+  "safe_router_statistical_superiority_confirmed": false,
+  "scope": "Five reused development boundaries; two entirely new frozen ICs per boundary.",
+  "seed": 42,
+  "stage_completed": true,
+  "summary_sha256": "74fd2493a7a321196f1c893ceba0bced7b9c51b89b063012433149ac227fbe32"
+}

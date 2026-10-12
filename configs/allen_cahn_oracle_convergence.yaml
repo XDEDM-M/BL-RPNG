@@ -1,0 +1,60 @@
+experiment:
+  name: allen_cahn_oracle_convergence
+  seed: 20260820
+  training_seed: 42
+  deterministic: true
+  artifact_dir: artifacts/experiments/allen_cahn_oracle_convergence
+data:
+  equation: allen_cahn
+  representation: lifted
+  source_blrpng_checkpoint: artifacts/checkpoints/allen_cahn_formal_a_blrpng_seed42.pt
+  source_final_checkpoint: artifacts/checkpoints/allen_cahn_formal_a_final_only_seed42.pt
+  target_boundaries: 8
+  dt: 0.2
+  eps: 0.03
+  gamma: 5.0
+model:
+  in_channels: 4
+  out_channels: 1
+  modes1: 24
+  modes2: 24
+  width: 96
+  layers: 6
+  probe_mode: per_layer
+  field_scales: [1.0]
+training:
+  epochs: 300
+  minimum_epochs: 100
+  early_stopping_patience: 30
+  batch_size: 2
+  lr: 0.0003
+  weight_decay: 0.000001
+  lr_scheduler: cosine
+  minimum_lr: 0.000001
+  lr_drop_epoch: 270
+  lr_drop_gamma: 0.2
+  recovery_interval: 300
+  path_layer: 1
+  path_gradient_ratio: 0.15
+  path_anneal_gamma: 2.0
+  commutator_weight: 0.0
+  calibration_resolution: 256
+  path_log_magnitude_weight: 0.1
+  path_epsilon: 1.0e-8
+  defect_weight: 0.0
+  adapter:
+    strategy: full
+    rank: 4
+    alpha: 4.0
+    train_last_blocks: 0
+oracle_audit:
+  representative_tasks: [0, 2, 7]
+  budgets: [64, 128, 256]
+  learning_rates: [0.001, 0.0003, 0.0001]
+  initializations: [scratch, ordinary_pretrained, path_pretrained]
+  optimization_plateau_fraction: 0.005
+  data_plateau_fraction: 0.01
+  required_consecutive_data_plateaus: 2
+resources:
+  max_total_artifacts_gb: 300
+  stage_budget_gb: 45

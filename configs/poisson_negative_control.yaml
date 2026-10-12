@@ -1,0 +1,56 @@
+experiment:
+  name: poisson_negative_control
+  seed: 42
+  split_seed: 20260901
+  deterministic: true
+  prerequisite_gate: artifacts/manifests/allen_cahn_reconfirmation_seed42_stage_gate.json
+  artifact_dir: artifacts/experiments/poisson_negative_control
+data:
+  equation: poisson
+  representation: lifted
+  pretrain_resolution: 128
+  support_resolution: 64
+  query_resolutions: [128, 256]
+  frozen_resolution: 512
+  boundary_families: [fourier, bump, piecewise_smooth]
+  pretrain_cases: 500
+  validation_cases: 100
+  target_tasks: 30
+  tasks_per_family: 10
+  target_validation_cases: 4
+  target_query_cases: 16
+  support_budgets: [1, 2, 4, 8]
+model:
+  in_channels: 5
+  out_channels: 1
+  condition_channels: 1
+  modes1: 24
+  modes2: 24
+  width: 96
+  layers: 6
+  probe_mode: per_layer
+training:
+  seeds: [42, 0, 1, 2, 3]
+  epochs: 20
+  batch_size: 4
+  lr: 0.001
+  weight_decay: 0.000001
+  lr_scheduler: multistep
+  lr_drop_epoch: 18
+  lr_drop_gamma: 0.2
+  path_layer: 1
+  path_gradient_ratio: 0.15
+  path_log_magnitude_weight: 0.1
+  path_epsilon: 1.0e-8
+  adapter:
+    strategy: full
+    rank: 4
+    alpha: 4.0
+    train_last_blocks: 0
+  stream_v4: true
+  ema_decay: 0.995
+  progress_interval: 1
+  recovery_interval: 5
+resources:
+  max_total_artifacts_gb: 300
+  stage_budget_gb: 3

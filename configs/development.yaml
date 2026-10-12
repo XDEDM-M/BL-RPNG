@@ -1,0 +1,53 @@
+experiment:
+  name: allen_cahn_development
+  seed: 42
+  deterministic: true
+  artifact_dir: artifacts/experiments/allen_cahn_development
+data:
+  equation: allen_cahn
+  representation: lifted
+  a_train_rollouts: 100
+  a_validation_rollouts: 20
+  b_boundary_count: 4
+  b_initial_conditions_per_boundary: 4
+  num_time_steps: 10
+  coarse_grid: 64
+  fine_grid: 128
+  coarse_mesh: 65
+  fine_mesh: 129
+  dt: 0.2
+  eps: 0.03
+  gamma: 5.0
+  a_frequency_pool: [1, 2, 3, 4]
+  a_amplitude_range: [0.1, 0.55]
+  b_frequencies: [5, 6]
+  b_amplitude: 0.35
+  residual_progress_threshold: 0.25
+model:
+  in_channels: 4
+  out_channels: 1
+  modes1: 24
+  modes2: 24
+  width: 96
+  layers: 6
+  probe_mode: per_layer
+training:
+  seeds: [42]
+  objectives: [final_only, blrpng]
+  epochs: 20
+  batch_size: 4
+  lr: 0.001
+  weight_decay: 0.000001
+  lr_drop_epoch: 18
+  lr_drop_gamma: 0.2
+  path_layer: 1
+  path_gradient_ratio: 0.15
+  path_log_magnitude_weight: 0.1
+  path_epsilon: 1.0e-8
+  best_metric: rollout_rel_l2
+gate:
+  valid_correction_fraction_min: 0.95
+  boundary_error_max: 1.0e-6
+  gradient_ratio_tolerance: 1.0e-3
+  max_relative_degradation: 0.10
+

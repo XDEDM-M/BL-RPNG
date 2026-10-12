@@ -1,0 +1,76 @@
+# Candidate only: formal generation remains locked until the 256-grid benchmark
+# and the 128-grid development-model causal comparison pass.
+experiment:
+  name: navier_stokes_transient_candidate
+  seed: 42
+  gate_report: artifacts/reports/navier_stokes_sfepy_transient_gate/frozen_gate_and_protocol.json
+
+solver:
+  backend: sfepy
+  discretization: taylor_hood_p2_p1
+  time_integrator: BDF1
+  dt: 0.07
+  reynolds: [600, 800, 1000]
+  grad_div_gamma: 100.0
+  newton_predictor: previous_physical_state
+  path_selection: first_accepted
+  matched_endpoint: predictor_to_converged_state
+  newton_rtol: 1.0e-8
+  newton_atol: 1.0e-10
+  max_newton_iterations: 20
+
+forcing:
+  type: static_divergence_free_streamfunction
+  amplitude_range: [0.04, 0.06]
+  wavenumbers: [1, 2, 3]
+  include_condition_fields: true
+
+path_information_mask:
+  field: pressure
+  endpoint_discrepancy_min: 0.05
+  orthogonal_fraction_min: 0.03
+  endpoint_fraction_of_state_min: 0.02
+  residual_progress_max: 0.8
+  apply_identical_mask_to_endpoint_control: true
+
+data:
+  development:
+    resolution: 128
+    mesh_resolution: 65
+    train_rollouts: 24
+    validation_rollouts: 8
+    steps: 20
+  source:
+    resolution: 256
+    mesh_resolution: 129
+    train_rollouts: 96
+    validation_rollouts: 24
+    steps: 20
+    boundary_frequencies: [1, 2, 3, 4]
+    boundary_amplitude_range: [0.75, 1.25]
+    initial_perturbation_scale_range: [0.10, 0.25]
+  target_support:
+    resolution: 64
+    mesh_resolution: 33
+    budgets: [1, 2, 4, 8]
+    steps: 20
+    adaptation: nlt_final_only
+    use_path_labels: false
+  target_query:
+    resolutions: [128, 256]
+    initial_conditions_per_task: 8
+    steps: 50
+    blind: true
+
+causal_controls:
+  - ordinary_final_pretrain
+  - matched_endpoint_pretrain
+  - first_accepted_newton_pretrain
+  - pressure_only_newton_pretrain
+
+resources:
+  generation_workers: 1
+  worker_threads: 1
+  worker_address_space_gib: 8.0
+  case_timeout_seconds: 180.0
+  artifact_limit_gib: 300.0

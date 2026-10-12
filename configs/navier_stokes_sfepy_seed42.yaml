@@ -1,0 +1,175 @@
+experiment:
+  name: navier_stokes_sfepy_seed42
+  seed: 42
+  deterministic: true
+  artifact_dir: artifacts/experiments/navier_stokes_sfepy_seed42
+  prerequisite_gate: artifacts/manifests/gray_scott_r2_blind_query256_gate.json
+
+solver:
+  backend: sfepy
+  discretization: taylor_hood_p2_p1
+  time_integrator: BDF1
+  nonlinear_solver: newton_line_search
+  linear_solver: scipy_direct
+  dt_candidates: [0.005, 0.01, 0.02, 0.04]
+  reynolds_prescreen: [100, 400, 800]
+  prescreen_steps: 5
+  newton_atol: 1.0e-10
+  newton_rtol: 1.0e-8
+  max_newton_iterations: 20
+  residual_progress_threshold: 0.25
+  direct_memory_limit_gib: 24.0
+  richness_search:
+    time_integrator: BDF2
+    resolution: 64
+    mesh_resolution: 33
+    steps: 4
+    reynolds: [800, 1500]
+    dt_candidates: [0.06, 0.08, 0.12, 0.16]
+    initial_perturbation_scales: [0.20, 0.35, 0.50]
+    forcing_amplitudes: [0.0, 0.15]
+    boundary_tasks: [0, 6]
+    exclude_startup_step_from_richness: true
+    confirmation:
+      resolution: 128
+      mesh_resolution: 65
+      steps: 20
+      boundary_tasks: [0, 3, 6, 9, 12, 18]
+      time_reference_tasks: [0, 6]
+
+data:
+  equation: navier_stokes
+  representation: lifted
+  condition_names: [viscosity, dt, force_x, force_y]
+  output_resolutions:
+    support: 64
+    development: 128
+    source: 256
+    frozen: 512
+  mesh_resolutions:
+    64: 33
+    128: 65
+    256: 129
+    512: 257
+  development_train_rollouts: 24
+  development_validation_rollouts: 8
+  source_train_rollouts: 192
+  source_validation_rollouts: 32
+  source_fallback_train_rollouts: 96
+  source_fallback_validation_rollouts: 24
+  source_steps: 20
+  target_tasks: 24
+  support_budgets: [1, 2, 4, 8]
+  support_steps: 20
+  validation_initial_conditions: 4
+  query_initial_conditions: 8
+  query_steps: 50
+  frozen_tasks: [0, 6, 12, 18]
+  frozen_initial_conditions: 2
+  oracle_tasks: [0, 3, 6, 9, 12, 18]
+  oracle_budgets: [4, 8, 16, 32]
+  reynolds_source: [100, 200, 400, 600]
+  reynolds_target_in_distribution: [200, 400]
+  reynolds_target_ood: [800, 1000]
+  source_forcing_fraction: 0.25
+
+model_search:
+  selection_tolerance: 0.03
+  candidates:
+    small: {layers: 4, width: 32, modes1: 12, modes2: 12}
+    medium: {layers: 6, width: 32, modes1: 16, modes2: 16}
+    large: {layers: 6, width: 48, modes1: 16, modes2: 16}
+
+model:
+  in_channels: 12
+  out_channels: 3
+  condition_channels: 4
+  modes1: 16
+  modes2: 16
+  width: 32
+  layers: 6
+  probe_mode: per_layer
+  field_scales: [1.0, 1.0, 0.25]
+  field_loss_weights: [0.4, 0.4, 0.2]
+  gauge_channels: [2]
+
+training:
+  seeds: [42, 0, 1, 2, 3]
+  batch_size: 2
+  gradient_accumulation_steps: 4
+  optimizer: adamw
+  lr: 0.0003
+  weight_decay: 0.000001
+  gradient_clip_norm: 1.0
+  ema_decay: 0.999
+  final_loss: field_weighted_relative_l2
+  field_loss_weights: [0.4, 0.4, 0.2]
+  minimum_optimizer_steps: 15000
+  max_optimizer_steps: 60000
+  validation_interval_steps: 1000
+  plateau_patience: 3
+  early_stopping_patience: 8
+  relative_improvement_threshold: 0.0025
+  minimum_lr: 0.00001
+  path_layer: 1
+  path_gradient_ratios: [0.02, 0.05, 0.10]
+  path_gradient_ratio: 0.05
+  path_log_magnitude_weight: 0.1
+  path_epsilon: 0.00000001
+  path_anneal_start: 0.10
+  path_anneal_end: 0.80
+  warmup_fraction: 0.10
+  unroll_steps: 3
+  vorticity_weight: 0.10
+  divergence_weight: 0.05
+  adapter:
+    strategy: nlt
+    rank: 4
+    alpha: 4.0
+    train_last_blocks: 0
+  adaptation:
+    batch_size: 4
+    lr: 0.001
+    minimum_optimizer_steps: 1000
+    max_optimizer_steps: 8000
+    validation_interval_steps: 250
+    plateau_patience: 3
+    early_stopping_patience: 8
+
+gates:
+  convergence_fraction_min: 0.99
+  final_relative_residual_max: 1.0e-8
+  boundary_error_max: 1.0e-6
+  pressure_gauge_error_max: 1.0e-7
+  weak_continuity_error_max: 1.0e-6
+  grid_divergence_rms_max: 1.0e-3
+  velocity_time_refinement_error_max: 0.01
+  pressure_time_refinement_error_max: 0.02
+  vorticity_time_refinement_error_max: 0.03
+  valid_correction_fraction_min: 0.95
+  correction_endpoint_discrepancy_median_min: 0.05
+  correction_endpoint_discrepancy_p25_min: 0.01
+  accepted_newton_updates_median_min: 3
+  timing_cv_max: 0.10
+  scratch_improvement_min: 0.75
+  oracle_ratio_ci_upper_max: 1.05
+  marginal_speedup_ci_lower_min: 10.0
+
+resources:
+  sfepy_python: /opt/miniconda3/envs/sfepy_env/bin/python
+  sfepy_worker_address_space_gib: 16.0
+  # Crash-recovery prescreen bound; raise only after a measured resolution-specific benchmark.
+  sfepy_case_timeout_seconds: 180.0
+  # Keep generation serialized until the restart cause and high-resolution RSS are known.
+  max_generation_workers: 1
+  initial_256_workers: 1
+  max_256_workers: 1
+  workers_512: 1
+  worker_threads: 1
+  aggregate_rss_limit_gib: 80.0
+  cpu_utilization_limit: 0.75
+  max_total_artifacts_gib: 300.0
+  stage_budget_gib: 55.0
+  source_generation_budget_days: 10.0
+  bootstrap_replicates: 50000
+  gpu_assignment: {ordinary: 0, newton: 1}

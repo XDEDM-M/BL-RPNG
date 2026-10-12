@@ -1,0 +1,13 @@
+{
+  "candidate_bytes": 0,
+  "candidate_count": 1,
+  "candidates": [
+    {
+      "bytes": 0,
+      "path": "artifacts/checkpoints/gray_scott_task02_m4_s42_lifted_scratch_e100_recovery.pt.tmp",
+      "reason": "zero-byte interrupted atomic recovery write"
+    }
+  ],
+  "created_date": "2026-10-12",
+  "schema": "blrpng_cleanup_manifest_supplement_v1"
+}

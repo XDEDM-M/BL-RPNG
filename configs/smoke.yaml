@@ -1,0 +1,52 @@
+experiment:
+  name: smoke
+  seed: 42
+  deterministic: true
+  artifact_dir: artifacts/experiments/smoke
+data:
+  train_path: artifacts/data/smoke_train.pt
+  validation_path: artifacts/data/smoke_validation.pt
+  test_path: artifacts/data/smoke_test_fine.pt
+  manifest_path: artifacts/manifests/smoke.json
+  equation: allen_cahn
+  representation: lifted
+  num_rollouts: 2
+  num_validation_rollouts: 1
+  num_time_steps: 2
+  coarse_grid: 64
+  fine_grid: 128
+  coarse_mesh: 17
+  fine_mesh: 25
+  dt: 0.2
+  eps: 0.03
+  gamma: 5.0
+  boundary_frequencies: [1, 2]
+  boundary_amplitude: [0.2, 0.35]
+  residual_progress_threshold: 0.25
+model:
+  in_channels: 4
+  out_channels: 1
+  modes1: 8
+  modes2: 8
+  width: 16
+  layers: 2
+  probe_mode: per_layer
+training:
+  objective: blrpng
+  epochs: 1
+  batch_size: 2
+  lr: 0.001
+  weight_decay: 0.000001
+  lr_drop_epoch: 18
+  lr_drop_gamma: 0.2
+  path_layer: 1
+  path_gradient_ratio: 0.15
+  path_log_magnitude_weight: 0.1
+  path_epsilon: 1.0e-8
+  best_metric: rollout_rel_l2
+  checkpoint_path: artifacts/checkpoints/smoke_best.pt
+evaluation:
+  output_path: artifacts/reports/smoke_evaluation.json
+  horizon: 2
+  near_boundary_width: 4
+

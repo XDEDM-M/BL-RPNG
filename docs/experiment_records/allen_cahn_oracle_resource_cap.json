@@ -1,0 +1,23 @@
+{
+  "audit_report": "artifacts/reports/oracle_extension_query_audit_seed42.json",
+  "audit_sha256": "a29c0e5f5e524a045950d9a4cf3c3d375259e25ac328ee866f77c03b91d1a7f2",
+  "authorized_stage_progression": true,
+  "claim_limitations": [
+    "This gate does not establish a saturated HR oracle.",
+    "Oracle parity and five-percent non-inferiority cannot be claimed from it.",
+    "The HR comparison must be named resource-capped m256 HR reference."
+  ],
+  "maximum_hr_support_rollouts": 256,
+  "oracle_status": "resource_capped_unsaturated",
+  "passed": true,
+  "protocol_amendment": "artifacts/manifests/allen_cahn_oracle_resource_cap_amendment_20260827.json",
+  "protocol_amendment_sha256": "81e238476f3cee21effc9fc1f9bafbb7d8b2a34a1a55a7f4b27d77f1998c804c",
+  "representative_tasks": [
+    0,
+    2,
+    7
+  ],
+  "saturated_hr_oracle": false,
+  "schema": "blrpng_oracle_resource_capped_gate_v1",
+  "seed": 42
+}

@@ -1,0 +1,581 @@
+{
+  "bounded_20_step_numerical_gate_passed": true,
+  "candidate": {
+    "dt": 0.07,
+    "forcing": {
+      "amplitude": 0.05,
+      "phase": 0.37,
+      "spatial_wavenumbers": [
+        2,
+        2
+      ],
+      "type": "static_divergence_free_body_force"
+    },
+    "grad_div_gamma": 100.0,
+    "matched_control": "same_predictor_to_endpoint_increment",
+    "newton_predictor": "previous_physical_state_without_degradation",
+    "path_information_mask": {
+      "pressure_endpoint_discrepancy_min": 0.05,
+      "pressure_endpoint_fraction_of_state_min": 0.02,
+      "pressure_orthogonal_fraction_min": 0.03,
+      "residual_progress_max": 0.8
+    },
+    "path_target": "first_accepted_Newton_state_displacement",
+    "reynolds_center": 800,
+    "time_integrator": "BDF1"
+  },
+  "candidate_128_summary": {
+    "cases": 4,
+    "convergence_fraction": 1.0,
+    "eligible": true,
+    "endpoint_velocity_fraction_of_state": {
+      "maximum": 0.07715185185331,
+      "median": 0.07208713908543737,
+      "minimum": 0.05915192447909137,
+      "p25": 0.06765450356370803,
+      "p75": 0.07455214914754836
+    },
+    "first_endpoint_cosine": {
+      "maximum": 0.9999990987613696,
+      "median": 0.9999986114381811,
+      "minimum": 0.9999976809079505,
+      "p25": 0.9999981651305209,
+      "p75": 0.9999989469440808
+    },
+    "first_endpoint_discrepancy": {
+      "maximum": 0.0021539149316948955,
+      "median": 0.001658146267021985,
+      "minimum": 0.0013427417034015377,
+      "p25": 0.0014503868826704867,
+      "p75": 0.0019109966766365988
+    },
+    "first_orthogonal_fraction": {
+      "maximum": 0.0021535213527539916,
+      "median": 0.001657227661158394,
+      "minimum": 0.0013424315929276996,
+      "p25": 0.0014496414834024591,
+      "p75": 0.0019101882447555543
+    },
+    "first_residual_progress": {
+      "maximum": 0.2310893981724415,
+      "median": 0.22903270943915238,
+      "minimum": 0.22495029314066817,
+      "p25": 0.22705776593286603,
+      "p75": 0.23050122105413998
+    },
+    "native_fe_divergence_rms_max": 0.0004530429967385428,
+    "numerical_gate": true,
+    "path_information_gate": true,
+    "path_length_excess": {
+      "maximum": 0.0020976238256719126,
+      "median": 0.0016045209631148638,
+      "minimum": 0.0013187857448082596,
+      "p25": 0.0014067260968713136,
+      "p75": 0.0018541577404210252
+    },
+    "peak_rss_gib_max": 0.6708717346191406,
+    "pressure_endpoint_fraction_of_state": {
+      "maximum": 0.07249247284189037,
+      "median": 0.07038068858596344,
+      "minimum": 0.06711068231105421,
+      "p25": 0.06862602305283996,
+      "p75": 0.07184579861434134
+    },
+    "pressure_first_endpoint_cosine": {
+      "maximum": 0.9986038444716341,
+      "median": 0.9984782584515792,
+      "minimum": 0.9982943196937966,
+      "p25": 0.9983893534252066,
+      "p75": 0.9985525752935198
+    },
+    "pressure_first_endpoint_discrepancy": {
+      "maximum": 0.05940766861239887,
+      "median": 0.05664139414084152,
+      "minimum": 0.05320895431309823,
+      "p25": 0.05487793393179485,
+      "p75": 0.0582383130108417
+    },
+    "pressure_first_orthogonal_fraction": {
+      "maximum": 0.057636354525721675,
+      "median": 0.055217499337870096,
+      "minimum": 0.05285187977856241,
+      "p25": 0.05382533429692656,
+      "p75": 0.056622973285949604
+    },
+    "pressure_path_information_gate": true,
+    "pressure_time_error_max": 0.01494969780649909,
+    "relative_residual_max": 4.348909822824018e-10,
+    "solve_seconds_total": 90.02135460198042,
+    "time_accuracy_gate": true,
+    "velocity_path_information_gate": false,
+    "velocity_time_error_max": 0.009454946489565014,
+    "vorticity_time_error_max": 0.015542978911889075
+  },
+  "candidate_64_summary": {
+    "cases": 4,
+    "convergence_fraction": 1.0,
+    "eligible": true,
+    "endpoint_velocity_fraction_of_state": {
+      "maximum": 0.07534118118876412,
+      "median": 0.07029791337503344,
+      "minimum": 0.05767421347617539,
+      "p25": 0.0658508713516337,
+      "p75": 0.07284984737715135
+    },
+    "first_endpoint_cosine": {
+      "maximum": 0.999999073070373,
+      "median": 0.9999986217606907,
+      "minimum": 0.9999977065973609,
+      "p25": 0.9999982021614614,
+      "p75": 0.9999989253965081
+    },
+    "first_endpoint_discrepancy": {
+      "maximum": 0.0021419637649596644,
+      "median": 0.0016538022474958927,
+      "minimum": 0.0013618908906235798,
+      "p25": 0.0014653228176371089,
+      "p75": 0.0018913442175025412
+    },
+    "first_orthogonal_fraction": {
+      "maximum": 0.0021415517035399253,
+      "median": 0.0016527971376497147,
+      "minimum": 0.0013613850396337669,
+      "p25": 0.001464508142021674,
+      "p75": 0.001890421750246321
+    },
+    "first_residual_progress": {
+      "maximum": 0.21708667603360324,
+      "median": 0.2150097879141786,
+      "minimum": 0.2116138481792209,
+      "p25": 0.21348788268970026,
+      "p75": 0.2162019302347737
+    },
+    "native_fe_divergence_rms_max": 0.0031648674445395784,
+    "numerical_gate": true,
+    "path_information_gate": true,
+    "path_length_excess": {
+      "maximum": 0.002075610745661205,
+      "median": 0.0015985599605019551,
+      "minimum": 0.0013316146547288632,
+      "p25": 0.0014193490566024314,
+      "p75": 0.0018302972342480184
+    },
+    "peak_rss_gib_max": 0.4966392517089844,
+    "pressure_endpoint_fraction_of_state": {
+      "maximum": 0.0627656083238189,
+      "median": 0.054208049839108284,
+      "minimum": 0.046218712705124454,
+      "p25": 0.04707111941062843,
+      "p75": 0.06148703560526984
+    },
+    "pressure_first_endpoint_cosine": {
+      "maximum": 0.9985214934577944,
+      "median": 0.9983865082151122,
+      "minimum": 0.9982271965686803,
+      "p25": 0.998331619969975,
+      "p75": 0.998435314859312
+    },
+    "pressure_first_endpoint_discrepancy": {
+      "maximum": 0.06052339698415579,
+      "median": 0.05805836130227978,
+      "minimum": 0.05444677980673663,
+      "p25": 0.056390553236308635,
+      "p75": 0.05943953291483414
+    },
+    "pressure_first_orthogonal_fraction": {
+      "maximum": 0.05875787548987218,
+      "median": 0.05669174863155183,
+      "minimum": 0.054164475715230004,
+      "p25": 0.05563357251171576,
+      "p75": 0.05763463823688754
+    },
+    "pressure_path_information_gate": true,
+    "pressure_time_error_max": 0.01347251992791819,
+    "relative_residual_max": 1.0859293382518657e-10,
+    "solve_seconds_total": 9.20256406403496,
+    "time_accuracy_gate": true,
+    "velocity_path_information_gate": false,
+    "velocity_time_error_max": 0.009148932992799704,
+    "vorticity_time_error_max": 0.014990888588472591
+  },
+  "cross_resolution_64_to_128": [
+    {
+      "coarse_path": "artifacts/data/navier_stokes_sfepy_transient_gate/bdf1_dt007_candidate64/dt0.07_task00_initial0.pt",
+      "coarse_sha256": "de2856cf304a0f3d99f1c968ee5e7537eebf29e65eef666b45767f662bef999a",
+      "fine_path": "artifacts/data/navier_stokes_sfepy_transient_gate/bdf1_dt007_confirm128/dt0.07_task00_initial0.pt",
+      "fine_sha256": "e3d2857ace4ea134dfb5468c1b9367c1683d03354877975e42918b144aa357d0",
+      "initial_index": 0,
+      "pressure_rel_l2_by_step": [
+        0.5624127282245523,
+        0.59094081776601,
+        0.6184307459270144,
+        0.64562257736075,
+        0.6719049497820004,
+        0.696445875426926,
+        0.7182317522960884,
+        0.7360917565955746
+      ],
+      "task": 0,
+      "velocity_rel_l2_by_step": [
+        0.003866817353705424,
+        0.013432270246922924,
+        0.018960923472755544,
+        0.022349269225589045,
+        0.024643400064426384,
+        0.026342052405177688,
+        0.02765981260927002,
+        0.028688775297188975,
+        0.029474489083114286
+      ],
+      "vorticity_rel_l2_by_step": [
+        0.04746591299859208,
+        0.14990435656903553,
+        0.20070359575679592,
+        0.2252058715432045,
+        0.2368021378990915,
+        0.24177461006187137,
+        0.24301999656690862,
+        0.24201290330275066,
+        0.2396150082899812
+      ]
+    },
+    {
+      "coarse_path": "artifacts/data/navier_stokes_sfepy_transient_gate/bdf1_dt007_candidate64/dt0.07_task00_initial1.pt",
+      "coarse_sha256": "9e6a49456518cf8bfc07a7a0ba06106507b0df634c04f7beb18b983f00c1ac54",
+      "fine_path": "artifacts/data/navier_stokes_sfepy_transient_gate/bdf1_dt007_confirm128/dt0.07_task00_initial1.pt",
+      "fine_sha256": "fb3f0e39ac52cc0eb5c00eb695167db48a29aa6b8962ee88345e7f0b69fe8104",
+      "initial_index": 1,
+      "pressure_rel_l2_by_step": [
+        0.6095734144748036,
+        0.6345079967891442,
+        0.6555380665882485,
+        0.6740124195039701,
+        0.6893084565850129,
+        0.7007037729757999,
+        0.7075309007240526,
+        0.7092507358064072
+      ],
+      "task": 0,
+      "velocity_rel_l2_by_step": [
+        0.0039955641985932756,
+        0.013752167415981469,
+        0.019246920842549888,
+        0.022491832219079178,
+        0.02454809328849241,
+        0.025945492032735475,
+        0.02693404214998267,
+        0.0276372067997674,
+        0.02812476635411087
+      ],
+      "vorticity_rel_l2_by_step": [
+        0.04865481693303747,
+        0.15400369151064294,
+        0.20335660928935106,
+        0.2258836702591968,
+        0.23539634444142282,
+        0.23846401030552294,
+        0.23814616154562157,
+        0.23596472638281166,
+        0.23275678766680502
+      ]
+    },
+    {
+      "coarse_path": "artifacts/data/navier_stokes_sfepy_transient_gate/bdf1_dt007_candidate64/dt0.07_task06_initial0.pt",
+      "coarse_sha256": "bac61085662fbf1c39ed66c2100d585e3fd8532bc0c327ab58662a63afd3b64d",
+      "fine_path": "artifacts/data/navier_stokes_sfepy_transient_gate/bdf1_dt007_confirm128/dt0.07_task06_initial0.pt",
+      "fine_sha256": "109e064a05655db0888ba6c31e1e8b87dae56baee9faa7b105e6017e67759d1d",
+      "initial_index": 0,
+      "pressure_rel_l2_by_step": [
+        0.2228049422310478,
+        0.23134084474308325,
+        0.23620769029430316,
+        0.2414224997701245,
+        0.24691186310226615,
+        0.2524404429384169,
+        0.25775153640148507,
+        0.26255510423577566
+      ],
+      "task": 6,
+      "velocity_rel_l2_by_step": [
+        0.0029770780400684284,
+        0.012434416554232601,
+        0.01733758782468748,
+        0.020053489794399575,
+        0.02181504538963751,
+        0.02315321722438806,
+        0.02426238512487954,
+        0.025200740828891725,
+        0.025983234030299163
+      ],
+      "vorticity_rel_l2_by_step": [
+        0.03298714254153893,
+        0.13554350708290835,
+        0.18006270431636867,
+        0.19922166430584717,
+        0.20761408327383113,
+        0.21139295535799732,
+        0.21294862747174664,
+        0.21318771884413368,
+        0.21250420519111743
+      ]
+    },
+    {
+      "coarse_path": "artifacts/data/navier_stokes_sfepy_transient_gate/bdf1_dt007_candidate64/dt0.07_task06_initial1.pt",
+      "coarse_sha256": "06c8c769805cb4da8fe6bb67379421039f5fb8d92c2868f4e40d00cfb3338225",
+      "fine_path": "artifacts/data/navier_stokes_sfepy_transient_gate/bdf1_dt007_confirm128/dt0.07_task06_initial1.pt",
+      "fine_sha256": "30faa7c8519bd5be53c2345c932b36498e3765145af1c826e965226a0e013b94",
+      "initial_index": 1,
+      "pressure_rel_l2_by_step": [
+        0.218841984734712,
+        0.226643413070993,
+        0.23067200150210065,
+        0.2353526753107887,
+        0.24060743790540523,
+        0.24613542541060973,
+        0.25157126548561615,
+        0.25648043315053537
+      ],
+      "task": 6,
+      "velocity_rel_l2_by_step": [
+        0.0031992137217124244,
+        0.01321232690966704,
+        0.01850172097521198,
+        0.021484150435834404,
+        0.023430631768384405,
+        0.02489082574997397,
+        0.026069684787964807,
+        0.027033195351479446,
+        0.02780363905692764
+      ],
+      "vorticity_rel_l2_by_step": [
+        0.033488335802172246,
+        0.13817229640579956,
+        0.1837315867594793,
+        0.20338745882960235,
+        0.21188260146194712,
+        0.21547036469445097,
+        0.21663940349399502,
+        0.21638318111328914,
+        0.21516179007956115
+      ]
+    }
+  ],
+  "cross_resolution_summary": {
+    "pressure_final_max": 0.7360917565955746,
+    "velocity_all_steps_max": 0.029474489083114286,
+    "velocity_final_max": 0.029474489083114286,
+    "vorticity_final_max": 0.2396150082899812
+  },
+  "formal_candidate_protocol": {
+    "causal_controls": [
+      "ordinary_final_pretrain",
+      "matched_endpoint_pretrain",
+      "first_accepted_Newton_pretrain",
+      "pressure_only_Newton_pretrain"
+    ],
+    "development_gate": {
+      "dt": 0.07,
+      "resolution": 128,
+      "reynolds": [
+        600,
+        800,
+        1000
+      ],
+      "steps": 20,
+      "train_rollouts": 24,
+      "validation_rollouts": 8
+    },
+    "fairness": "Newton and endpoint controls use the identical path-information mask, initialization, batches, optimizer steps, and checkpoint rule.",
+    "source_pretrain": {
+      "boundary_amplitude_range": [
+        0.75,
+        1.25
+      ],
+      "boundary_frequencies": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "forcing_amplitude_range": [
+        0.04,
+        0.06
+      ],
+      "initial_perturbation_scale_range": [
+        0.1,
+        0.25
+      ],
+      "resolution": 256,
+      "reynolds": [
+        600,
+        800,
+        1000
+      ],
+      "steps": 20,
+      "train_rollouts": 96,
+      "validation_rollouts": 24
+    },
+    "target_query": {
+      "blind": true,
+      "initial_conditions_per_task": 8,
+      "resolutions": [
+        128,
+        256
+      ],
+      "steps": 50
+    },
+    "target_support": {
+      "adaptation_loss": "final_only_NLT",
+      "budgets": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "resolution": 64,
+      "steps": 20,
+      "use_low_resolution_path": false
+    }
+  },
+  "limitations": [
+    "The 20-step gate is based on two boundary families and two initial conditions at 64/128 resolution.",
+    "Pressure has substantially larger 64-to-128 discretization discrepancy than velocity; low-resolution pressure paths must not supervise the main model.",
+    "Path information is field-wise and intermittent; it is strong in pressure but not in velocity.",
+    "No neural operator has yet been trained on this candidate protocol.",
+    "A 256-grid transient generation benchmark and path confirmation are still required before formal source generation."
+  ],
+  "moving_force_active_fraction_32_steps": {
+    "minimum_task_active_fraction": 0.15625,
+    "pooled_active_fraction": 0.21875,
+    "rows": [
+      {
+        "active_fraction": 0.28125,
+        "active_steps": 9,
+        "discrepancy_median": 0.038958050547606544,
+        "horizon": 32,
+        "orthogonal_fraction_median": 0.03265643502078271,
+        "task": 0,
+        "total_steps": 32
+      },
+      {
+        "active_fraction": 0.15625,
+        "active_steps": 5,
+        "discrepancy_median": 0.03808429338268061,
+        "horizon": 32,
+        "orthogonal_fraction_median": 0.03402537328854746,
+        "task": 6,
+        "total_steps": 32
+      }
+    ]
+  },
+  "neural_hypotheses_not_yet_verified": [
+    "Masked pressure-path pretraining improves unseen-boundary LR-to-HR adaptation over the matched endpoint control.",
+    "The high-resolution pressure-path representation transfers despite low-resolution pressure discretization error.",
+    "The method remains stable and advantageous over 50-step autoregressive rollout."
+  ],
+  "schema": "blrpng_ns_transient_gate_freeze_v1",
+  "sources": {
+    "amplitude_periodic_long32_64": {
+      "path": "artifacts/reports/navier_stokes_sfepy_transient_gate/bdf1_dt007_periodic_long32_64.json",
+      "sha256": "abe8d292efdca26821ca45b87caa0e4242eea5335a0eeea937486b1370b64cfe"
+    },
+    "dt006_128": {
+      "path": "artifacts/reports/navier_stokes_sfepy_transient_gate/bdf1_dt006_re800_confirm128.json",
+      "sha256": "d8a44246c77d7bdef30daf60cc1dcaca2ece2a066156074b4ba79880c81be7ac"
+    },
+    "dt007_128": {
+      "path": "artifacts/reports/navier_stokes_sfepy_transient_gate/bdf1_dt007_confirm128.json",
+      "sha256": "f969c202fb4b0c88ef52e4efd82fe89d7c0d7b2a897cdf0a8f9dd68d80940d77"
+    },
+    "dt007_64": {
+      "path": "artifacts/reports/navier_stokes_sfepy_transient_gate/bdf1_dt007_candidate64.json",
+      "sha256": "a70e3c927bd9807e2e0889e1201b68b96d4f248579fc84623b4c7b015bc7b044"
+    },
+    "dt_primary_64": {
+      "path": "artifacts/reports/navier_stokes_sfepy_transient_gate/bdf1_dt_primary.json",
+      "sha256": "219b3c41f229f77021d5facffd73cdf721787f300c6de099fbcb13f970f430ac"
+    },
+    "moving_force_long32_64": {
+      "path": "artifacts/reports/navier_stokes_sfepy_transient_gate/bdf1_dt006_moving_force_long32_64.json",
+      "sha256": "51bcb806333577e0bc044499ef46d2a01fe7ef1023b12c63dc5d470a3a338ba4"
+    },
+    "no_force_64": {
+      "path": "artifacts/reports/navier_stokes_sfepy_transient_gate/bdf1_dt007_no_force64.json",
+      "sha256": "f41e26c478eab7c0a66e0e5470ccb48edfb908e538f19edfbc65f2b139488a25"
+    },
+    "re1200_64": {
+      "path": "artifacts/reports/navier_stokes_sfepy_transient_gate/bdf1_dt006_re1200.json",
+      "sha256": "bb163f24ed538843bea0fbad96212964aed0c79fe017102705d562bdf2cdea77"
+    },
+    "re1600_64": {
+      "path": "artifacts/reports/navier_stokes_sfepy_transient_gate/bdf1_dt006_re1600.json",
+      "sha256": "d7cf7774aec5f3329cdb0742ccb1f7ff18aa50261ad0b5f2fa2699c5da922249"
+    },
+    "re400_64": {
+      "path": "artifacts/reports/navier_stokes_sfepy_transient_gate/bdf1_dt006_re400.json",
+      "sha256": "63b89ee9b4d012597d7c315231ee770862126711bfc230c68a6acce954d0c134"
+    },
+    "static_long32_64": {
+      "path": "artifacts/reports/navier_stokes_sfepy_transient_gate/bdf1_dt007_long32_64.json",
+      "sha256": "1146989cee8d302d8d2ab259dc9ac2b68081877432c38ab8bcfee937f9cffbbf"
+    }
+  },
+  "static_force_active_fraction_20_steps": {
+    "minimum_task_active_fraction": 0.3499999940395355,
+    "pooled_active_fraction": 0.425,
+    "rows": [
+      {
+        "active_fraction": 0.5,
+        "active_steps": 10,
+        "discrepancy_median": 0.047468284160468485,
+        "horizon": 20,
+        "orthogonal_fraction_median": 0.0385545471913365,
+        "task": 0,
+        "total_steps": 20
+      },
+      {
+        "active_fraction": 0.3499999940395355,
+        "active_steps": 7,
+        "discrepancy_median": 0.040754004680184384,
+        "horizon": 20,
+        "orthogonal_fraction_median": 0.03412597676121043,
+        "task": 6,
+        "total_steps": 20
+      }
+    ]
+  },
+  "static_force_active_fraction_32_steps": {
+    "minimum_task_active_fraction": 0.21875,
+    "pooled_active_fraction": 0.265625,
+    "rows": [
+      {
+        "active_fraction": 0.3125,
+        "active_steps": 10,
+        "discrepancy_median": 0.03320221271012447,
+        "horizon": 32,
+        "orthogonal_fraction_median": 0.01784081084636087,
+        "task": 0,
+        "total_steps": 32
+      },
+      {
+        "active_fraction": 0.21875,
+        "active_steps": 7,
+        "discrepancy_median": 0.028301873713766374,
+        "horizon": 32,
+        "orthogonal_fraction_median": 0.017444417066603764,
+        "task": 6,
+        "total_steps": 32
+      }
+    ]
+  },
+  "status": "bounded_20_step_numerical_gate_passed",
+  "trajectory_axis": "physical_time",
+  "verified_conclusions": [
+    "Natural BDF1 velocity Newton paths remain nearly endpoint-redundant in the tested regime.",
+    "At dt=0.07 and Re=800, first-accepted pressure paths are non-collinear with matched endpoints on both 64 and 128 grids.",
+    "The dt/2 time-accuracy gate passes for the tested 8-step 64/128 rollouts and the tested 32-step 64 rollouts.",
+    "Static divergence-free forcing supplies useful early/transient pressure paths, but information decays as a rollout approaches a quasi-steady state.",
+    "Increasing Reynolds number from 800 to 1600 gives negligible extra path information and is not justified for this purpose.",
+    "The old progress-0.25 transient labels selected an almost-final state and are superseded for mechanism claims."
+  ]
+}

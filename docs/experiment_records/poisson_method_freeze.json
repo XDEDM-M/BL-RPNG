@@ -1,0 +1,47 @@
+{
+  "checkpoint_selection": "per-task 64x64 validation relL2 only",
+  "frozen": true,
+  "methods": {
+    "boundary_augmented_lr_scratch": {
+      "adapter": "full",
+      "representation": "boundary_augmented",
+      "retention": "diagnostic subset; evaluate then delete full weights",
+      "source_objective": null,
+      "target_objective": "final_only"
+    },
+    "lr_scratch": {
+      "adapter": "full",
+      "retention": "evaluate then delete full weights",
+      "source_objective": null,
+      "target_objective": "final_only"
+    },
+    "ordinary_nlt": {
+      "adapter": "nlt",
+      "source_objective": "final_only",
+      "target_objective": "final_only"
+    },
+    "path_nlt": {
+      "adapter": "nlt",
+      "source_objective": "blrpng",
+      "target_objective": "final_only"
+    }
+  },
+  "negative_control_gate": "absolute paired improvement <= 5%",
+  "passed": true,
+  "primary_contrast": "path_nlt versus ordinary_nlt",
+  "primary_query": "256x256, 16 unseen forcing fields per target boundary",
+  "primary_support_budget": 4,
+  "query_used_for_selection": false,
+  "schema": "blrpng_poisson_method_freeze_v1",
+  "seed": 42,
+  "source_checkpoints": {
+    "ordinary_nlt": {
+      "path": "artifacts/checkpoints/poisson/poisson_source_s42_final_only.inference.pt",
+      "sha256": "9bb3d44cb4c29f54339fa75b6b77f0a55c7eb53799f3519e9beda1326d014a31"
+    },
+    "path_nlt": {
+      "path": "artifacts/checkpoints/poisson/poisson_source_s42_blrpng.inference.pt",
+      "sha256": "b88cbb6baddfd507b174bdb71f15013e68dd0e1ffffe70771efe2bb08088cdcb"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-12",
+  "destination": "/gemini/code/BL-RPNG",
+  "large_local_artifacts_retained": true,
+  "operation": "same-filesystem directory rename followed by standalone git initialization",
+  "schema": "blrpng_detachment_record_v1",
+  "source": "/gemini/code/FNOtest/BL-RPNG",
+  "source_parent_head": "70455b597575ede9ccb8e6dd6f8cecd5708aa14d",
+  "source_parent_repository": "/gemini/code/FNOtest",
+  "source_parent_status_outside_blrpng": [],
+  "source_parent_tracked_blrpng_files": 68
+}

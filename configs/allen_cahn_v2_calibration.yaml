@@ -1,0 +1,75 @@
+experiment:
+  name: allen_cahn_v2_calibration
+  seed: 20260813
+  training_seed: 42
+  deterministic: true
+  artifact_dir: artifacts/experiments/allen_cahn_v2_calibration
+data:
+  equation: allen_cahn
+  representation: lifted
+  source_manifest: artifacts/manifests/allen_cahn_formal.json
+  source_blrpng_checkpoint: artifacts/checkpoints/allen_cahn_formal_a_blrpng_seed42.pt
+  source_final_checkpoint: artifacts/checkpoints/allen_cahn_formal_a_final_only_seed42.pt
+  target_boundaries: 8
+  support_initial_conditions: 8
+  validation_initial_conditions: 4
+  query_initial_conditions: 16
+  query_512_initial_conditions: 4
+  oracle_initial_conditions: 64
+  oracle_validation_initial_conditions: 8
+  support_budgets: [1, 2, 4, 8]
+  oracle_budgets: [4, 8, 16, 32, 64]
+  lr_grid: 64
+  lr_mesh: 65
+  query_grids: [128, 256]
+  query_meshes: [129, 257]
+  frozen_grid: 512
+  frozen_mesh: 513
+  train_steps: 10
+  query_steps: 50
+  dt: 0.2
+  eps: 0.03
+  gamma: 5.0
+  residual_progress_threshold: 0.25
+  storage_limit_gb: 300
+model:
+  in_channels: 4
+  out_channels: 1
+  modes1: 24
+  modes2: 24
+  width: 96
+  layers: 6
+  probe_mode: per_layer
+  field_scales: [1.0]
+training:
+  epochs: 20
+  batch_size: 4
+  lr: 0.001
+  weight_decay: 0.000001
+  lr_drop_epoch: 18
+  lr_drop_gamma: 0.2
+  path_layer: 1
+  path_gradient_ratio: 0.15
+  path_anneal_gamma: 2.0
+  commutator_weight: 0.05
+  calibration_resolution: 128
+  path_log_magnitude_weight: 0.1
+  path_epsilon: 1.0e-8
+  defect_weight: 0.0001
+  adapter:
+    strategy: lora
+    rank: 4
+    alpha: 4.0
+    train_last_blocks: 0
+statistics:
+  bootstrap_replicates: 50000
+  bootstrap_seed: 20260813
+  oracle_noninferiority_margin: 0.05
+  minimum_marginal_speedup: 10.0
+  minimum_scratch_improvement: 0.75
+  oracle_plateau_improvement: 0.01
+  required_seed_wins: 4
+resources:
+  max_new_artifacts_gb: 300
+  train_batch_256: 2
+  inference_batch_512: 1

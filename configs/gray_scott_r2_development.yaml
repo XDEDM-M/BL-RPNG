@@ -1,0 +1,74 @@
+experiment:
+  name: gray_scott_r2_development
+  seed: 42
+  split_seed: 20260904
+  deterministic: true
+  artifact_dir: artifacts/experiments/gray_scott_r2
+data:
+  equation: gray_scott
+  representation: lifted
+  pretrain_resolution: 256
+  source_train_rollouts: 100
+  source_validation_rollouts: 20
+  paired_train_rollouts: 40
+  paired_validation_rollouts: 10
+  target_tasks: 16
+  tasks_per_shift: 4
+  support_budgets: [1, 2, 4, 8]
+  target_validation_rollouts: 4
+  target_query_rollouts: 8
+  query_grids: [128, 256]
+  num_train_time_steps: 10
+  num_blind_time_steps: 50
+  dt: 1.0
+  diffusion_u: 0.00002
+  diffusion_v: 0.00001
+  feed: 0.04
+  kill: 0.06
+  target_boundary_amplitude_ood: 0.22
+  residual_progress_threshold: 0.25
+model:
+  in_channels: 12
+  out_channels: 2
+  condition_channels: 6
+  raw_condition_channels: 3
+  input_feature_mode: gray_scott_reaction
+  diffusion_u: 0.00002
+  diffusion_v: 0.00001
+  modes1: 24
+  modes2: 24
+  width: 96
+  layers: 6
+  probe_mode: per_layer
+  field_scales: [1.0, 0.25]
+training:
+  seeds: [42]
+  epochs: 20
+  batch_size: 2
+  lr: 0.001
+  weight_decay: 0.000001
+  lr_drop_epoch: 18
+  lr_drop_gamma: 0.2
+  path_layer: 1
+  path_gradient_ratio: 0.15
+  path_log_magnitude_weight: 0.1
+  path_epsilon: 1.0e-8
+  lr_scheduler: multistep
+  path_anneal_gamma: 2.0
+  commutator_weight: 0.05
+  calibration_resolutions: [128, 256]
+  commutator_rollout_steps: 2
+  defect_weight: 0.0001
+  stream_v4: true
+  ema_decay: 0.995
+  progress_interval: 1
+  recovery_interval: 5
+  adapter:
+    strategy: full
+    rank: 4
+    alpha: 4.0
+    train_last_blocks: 0
+resources:
+  max_total_artifacts_gb: 300
+  stage_budget_gb: 18
+  generation_workers: 8

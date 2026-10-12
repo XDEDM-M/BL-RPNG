@@ -1,0 +1,77 @@
+experiment:
+  name: gray_scott_confirmation
+  seed: 42
+  split_seed: 20260902
+  deterministic: true
+  prerequisite_gate: artifacts/manifests/poisson_negative_control_seed42_stage_gate.json
+  artifact_dir: artifacts/experiments/gray_scott_confirmation
+data:
+  equation: gray_scott
+  representation: lifted
+  source_train_rollouts: 500
+  source_validation_rollouts: 100
+  target_tasks: 16
+  tasks_per_shift: 4
+  support_budgets: [1, 2, 4, 8]
+  target_validation_rollouts: 4
+  target_query_rollouts: 8
+  boundary_budgets: [2, 4]
+  coarse_grid: 64
+  fine_grid: 128
+  query_grids: [128, 256]
+  frozen_grid: 512
+  coarse_mesh: 65
+  fine_mesh: 129
+  num_train_time_steps: 10
+  num_blind_time_steps: 50
+  dt: 1.0
+  diffusion_u: 0.00002
+  diffusion_v: 0.00001
+  feed: 0.04
+  kill: 0.06
+  source_boundary_frequencies: [1, 2, 3, 4]
+  target_boundary_frequencies: [5, 6, 7, 8]
+  source_boundary_amplitude: [0.06, 0.14]
+  target_boundary_amplitude_ood: 0.22
+  initial_conditions_per_boundary: 4
+  residual_progress_threshold: 0.25
+model:
+  in_channels: 9
+  out_channels: 2
+  condition_channels: 3
+  modes1: 24
+  modes2: 24
+  width: 96
+  layers: 6
+  probe_mode: per_layer
+  field_scales: [1.0, 0.25]
+training:
+  seeds: [0, 1, 2, 3, 42]
+  epochs: 20
+  batch_size: 4
+  lr: 0.001
+  weight_decay: 0.000001
+  lr_drop_epoch: 18
+  lr_drop_gamma: 0.2
+  path_layer: 1
+  path_gradient_ratio: 0.15
+  path_log_magnitude_weight: 0.1
+  path_epsilon: 1.0e-8
+  lr_scheduler: multistep
+  path_anneal_gamma: 2.0
+  commutator_weight: 0.05
+  defect_weight: 0.0001
+  calibration_resolution: 128
+  stream_v4: true
+  ema_decay: 0.995
+  progress_interval: 1
+  recovery_interval: 5
+  adapter:
+    strategy: full
+    rank: 4
+    alpha: 4.0
+    train_last_blocks: 0
+resources:
+  max_total_artifacts_gb: 300
+  stage_budget_gb: 25
+  generation_workers: 12

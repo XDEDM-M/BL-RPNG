@@ -1,0 +1,35 @@
+{
+  "multi_seed_required_for_paper_claim": true,
+  "negative_control": {
+    "absolute_path_improvement": 0.034374494786734905,
+    "maximum_expected": 0.05,
+    "passed": true
+  },
+  "next_stage": "gray_scott_seed42",
+  "ordinary_vs_converged_lr_scratch": {
+    "baseline": "lr_scratch_converged",
+    "ci95": [
+      0.9834631475019568,
+      0.9863044814806868
+    ],
+    "method": "ordinary_nlt",
+    "metric": "relative_l2",
+    "num_seed_wins": 1,
+    "paired_units": 480,
+    "relative_improvement": 0.9850113425160537,
+    "replicates": 50000,
+    "seed_wins": {
+      "42": true
+    }
+  },
+  "passed": true,
+  "primary_mean_relative_l2": {
+    "boundary_augmented_lr_scratch": 1.3482815314705172,
+    "lr_scratch_converged": 0.5473847647042324,
+    "ordinary_nlt": 0.008204562750082307,
+    "path_nlt": 0.008486590449562452
+  },
+  "schema": "blrpng_poisson_negative_control_stage_gate_v1",
+  "seed": 42,
+  "summary": "/gemini/code/FNOtest/BL-RPNG/artifacts/experiments/poisson_negative_control/seed42_summary.json"
+}

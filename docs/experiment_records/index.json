@@ -1,0 +1,46 @@
+{
+  "records": [
+    {
+      "bytes": 7101,
+      "path": "allen_cahn_current_state_seed42.json",
+      "sha256": "f967ef8e8a368bac6e1c956aa17a0d61a1b2158cfe6bd4597a98679f1f74d667"
+    },
+    {
+      "bytes": 1849,
+      "path": "allen_cahn_method_freeze.json",
+      "sha256": "a522d47c924894228de35dc669402c066f8362f7a0999046410535076210d42e"
+    },
+    {
+      "bytes": 911,
+      "path": "allen_cahn_oracle_resource_cap.json",
+      "sha256": "84fddf926355326b148e04f54ca45d1908a07a36af6e36af6a1142181db8603e"
+    },
+    {
+      "bytes": 1593,
+      "path": "allen_cahn_results_seed42.csv",
+      "sha256": "e9ac57eef9434d8299c86dbb6e9250ca48024312c26eaeaf31d30001efccc082"
+    },
+    {
+      "bytes": 5248,
+      "path": "gray_scott_seed42_stage_conclusion.json",
+      "sha256": "6de20d773dbe83d23359730cf842cc9b8b2f90d5c3262b060c9c0895e6fb0138"
+    },
+    {
+      "bytes": 20047,
+      "path": "ns_transient_numerical_gate.json",
+      "sha256": "dd916389a0f722d179cc980b0ad5b6b2eea56edb98ae0b52810fce1c2f2418fa"
+    },
+    {
+      "bytes": 1571,
+      "path": "poisson_method_freeze.json",
+      "sha256": "a63f03dd548ec881f57806983660fe6d39d686b6483f1e57909881bfb69f846a"
+    },
+    {
+      "bytes": 1026,
+      "path": "poisson_seed42_stage_gate.json",
+      "sha256": "01ceaf12b140efd968a55603f75d4a0b4b54ad84c32aff406f8581b2743d1aee"
+    }
+  ],
+  "schema": "blrpng_curated_experiment_record_index_v1",
+  "snapshot_date": "2026-10-12"
+}

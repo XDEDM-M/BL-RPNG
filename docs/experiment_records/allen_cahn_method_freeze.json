@@ -1,0 +1,38 @@
+{
+  "authorized_stage_progression": true,
+  "checkpoint_selection": "equal-weight LR seen-boundary and unseen-family validation only",
+  "hr_query_used_for_selection": false,
+  "hr_reference_claim": "resource-capped m256 HR reference",
+  "method": "BL-RPNG-NLT",
+  "oracle_gate": "artifacts/manifests/allen_cahn_oracle_resource_capped_gate.json",
+  "oracle_gate_sha256": "84fddf926355326b148e04f54ca45d1908a07a36af6e36af6a1142181db8603e",
+  "oracle_status": "resource_capped_unsaturated",
+  "passed": true,
+  "primary_endpoint": "m4, 256x256, 20-step per-rollout relative L2",
+  "saturated_hr_oracle": false,
+  "schema": "blrpng_method_freeze_gate_v1",
+  "secondary_horizon": 50,
+  "source_pretraining": "Newton path at normalized log-residual progress 0.25",
+  "source_sha256": {
+    "blind_task_manifest": "e6737e82406ed08d599b903b24726d625581051b4ea67fe49caf2f3b3cc41442",
+    "current_state": "f1679ee0daf152d6f420d88aaef41d87080800a426a22f6dbbfe921a61cfe1ce",
+    "method_contract": "f407ea1bb70a53ab2d00b253d702eb2f215a0cfc46ddcbd0aac6ed47ea7aed3c",
+    "path_pretraining_checkpoint": "ed9c0aafadf766a14b984adb7e8be32da89350a6774fc628e92920e5bafbdcf9",
+    "theory_contract": "babb1a901422ea163f4492fdbf8b3f29dac7b0357fe887e00f7b7248d8df7ca3"
+  },
+  "sources": {
+    "blind_task_manifest": "artifacts/manifests/allen_cahn_reconfirmation_tasks_20260820.json",
+    "current_state": "artifacts/reports/current_state_20260820.json",
+    "method_contract": "METHOD.md",
+    "path_pretraining_checkpoint": "artifacts/checkpoints/allen_cahn_formal_a_blrpng_seed42.pt",
+    "theory_contract": "THEORY.md"
+  },
+  "support_budgets": [
+    1,
+    2,
+    4,
+    8
+  ],
+  "target_adaptation": "NLT final-only",
+  "target_path_promotion_rule": "NLT+path remains an ablation unless it materially wins on frozen LR validation before any HR query is opened"
+}

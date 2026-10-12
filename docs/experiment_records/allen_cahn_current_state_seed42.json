@@ -1,0 +1,185 @@
+{
+  "as_of": "2026-08-31",
+  "claim_limits": {
+    "multiseed": "seed42 confirmation only; seeds 0/1/2/3 remain pending",
+    "oracle_parity": "m256 HR reference is resource-capped and unsaturated; no saturated HR-oracle parity claim is made",
+    "stage_transition": "The user explicitly waived m512/m1024 oracle continuation; this gate supports proceeding to the Poisson negative control, not oracle parity"
+  },
+  "data_efficiency_256_h20": {
+    "m1_h20": 0.0526854325334474,
+    "m2_h20": 0.05245181341342688,
+    "m4_h20": 0.05222639326402707,
+    "m4_h50": 0.06247349917900776,
+    "m8_h20": 0.05401548402587649
+  },
+  "degrading_boundary_families_over_5pct": [],
+  "frozen": true,
+  "gate_checks": {
+    "exact_boundary_trace": true,
+    "marginal_speedup_ci_lower_above_10x": true,
+    "no_more_than_one_boundary_family_degrades_over_5pct": true,
+    "path_pretraining_improvement_ci_lower_positive": true,
+    "query256_accuracy_gate_passed": true,
+    "query256_data_gate_passed": true,
+    "relative_improvement_over_lr_scratch_at_least_75pct": true
+  },
+  "method": {
+    "definition": "harmonic boundary lifting + Newton-path privileged pretraining + target-specific NLT final-only adaptation",
+    "name": "BL-RPNG-NLT",
+    "target_adaptation_choice": "NLT final-only remains frozen primary",
+    "target_variant_ci_includes_zero": {
+      "nlt_commutator": true,
+      "nlt_commutator_defect": true,
+      "nlt_path": true
+    }
+  },
+  "primary_256_h20": {
+    "family_mean_relative_l2": {
+      "amplitude_ood": {
+        "lr_scratch": 0.526436273782747,
+        "nlt": 0.06296699087470185,
+        "nlt_commutator": 0.06297962623211789,
+        "nlt_commutator_defect": 0.06298033519560704,
+        "nlt_path": 0.06294625839873336,
+        "ordinary_nlt": 0.07561439136916309
+      },
+      "high_frequency": {
+        "lr_scratch": 0.5677371168625541,
+        "nlt": 0.05608325704888555,
+        "nlt_commutator": 0.05604516175008029,
+        "nlt_commutator_defect": 0.056042375366087076,
+        "nlt_path": 0.05603516074625077,
+        "ordinary_nlt": 0.06775643386281445
+      },
+      "localized_bump": {
+        "lr_scratch": 0.5647714083082971,
+        "nlt": 0.04950176589009061,
+        "nlt_commutator": 0.049459004036543776,
+        "nlt_commutator_defect": 0.04958687847647527,
+        "nlt_path": 0.04962766145472415,
+        "ordinary_nlt": 0.05689859929443628
+      },
+      "matern_gp": {
+        "lr_scratch": 0.5754915580328089,
+        "nlt": 0.049266861546493596,
+        "nlt_commutator": 0.049258403621206516,
+        "nlt_commutator_defect": 0.04925855175461039,
+        "nlt_path": 0.04924501091591082,
+        "ordinary_nlt": 0.056047584788757376
+      },
+      "mixed_fourier": {
+        "lr_scratch": 0.5460224514943549,
+        "nlt": 0.05067164129432058,
+        "nlt_commutator": 0.05063765922386669,
+        "nlt_commutator_defect": 0.050634406737663076,
+        "nlt_path": 0.050641600150993345,
+        "ordinary_nlt": 0.05655871945928084
+      },
+      "piecewise_smooth": {
+        "lr_scratch": 0.5170769234304312,
+        "nlt": 0.044867842929670616,
+        "nlt_commutator": 0.044864273742132366,
+        "nlt_commutator_defect": 0.04486251388807432,
+        "nlt_path": 0.04485533347615274,
+        "ordinary_nlt": 0.0503224996573408
+      }
+    },
+    "lifted_lr_scratch_mean_relative_l2": 0.5495892886518664,
+    "nlt_mean_relative_l2": 0.05222639326402707,
+    "nlt_vs_lr_scratch_relative_improvement": {
+      "baseline": "lr_scratch",
+      "ci95": [
+        0.8985610113763219,
+        0.9107666453941394
+      ],
+      "method": "nlt",
+      "metric": "relative_l2",
+      "num_seed_wins": 1,
+      "paired_units": 768,
+      "relative_improvement": 0.9049719593477927,
+      "replicates": 50000,
+      "seed_wins": {
+        "42": true
+      }
+    },
+    "nlt_vs_ordinary_relative_improvement": {
+      "baseline": "ordinary_nlt",
+      "ci95": [
+        0.11884089083157182,
+        0.15533487817807182
+      ],
+      "method": "nlt",
+      "metric": "relative_l2",
+      "num_seed_wins": 1,
+      "paired_units": 768,
+      "relative_improvement": 0.1372249778387609,
+      "replicates": 50000,
+      "seed_wins": {
+        "42": true
+      }
+    },
+    "ordinary_pretrain_nlt_mean_relative_l2": 0.06053303807196534,
+    "statistical_units": 768,
+    "task_wins_for_nlt": {
+      "lr_scratch": 48,
+      "nlt_commutator": 19,
+      "nlt_commutator_defect": 19,
+      "nlt_path": 20,
+      "ordinary_nlt": 48
+    }
+  },
+  "resolution_and_horizon": {
+    "query128_h20_nlt_mean_relative_l2": 0.0444299241671009,
+    "query256_h20_nlt_mean_relative_l2": 0.05222639326402707,
+    "query256_h50_nlt_mean_relative_l2": 0.06247349917900776,
+    "query256_h50_to_h20": {
+      "baseline": "m4_h20",
+      "ci95": [
+        1.1618917486201061,
+        1.2322340791715778
+      ],
+      "method": "m4_h50",
+      "metric": "relative_l2",
+      "paired_units": 768,
+      "ratio": 1.1962055059627987,
+      "replicates": 50000
+    },
+    "query256_to_query128_error_ratio": 1.1754778844006948
+  },
+  "result_table": "artifacts/reports/current_results_20260831.csv",
+  "result_table_sha256": "e9ac57eef9434d8299c86dbb6e9250ca48024312c26eaeaf31d30001efccc082",
+  "schema": "blrpng_allen_cahn_reconfirmation_stage_v1",
+  "seed": 42,
+  "source_sha256": {
+    "artifacts/manifests/allen_cahn_reconfirmation_query_256_data_gate.json": "e042a51cf974029f0662c55de4c54fdb367d5d1d83a83d72dbc7dc9cc6c44197",
+    "artifacts/manifests/allen_cahn_reconfirmation_seed42_cost_query256_gate.json": "9453cbd8162dbcefd0e0181d5e7f34fc9d5c4d092e60e3b0cd56de2c2b33c7cd",
+    "artifacts/reports/allen_cahn_reconfirmation_seed42_query128_efficiency.json": "095c044d4ab00b188670b828b8eaa2909fe4af4fef89cea88ebf9a8da7f38fff",
+    "artifacts/reports/allen_cahn_reconfirmation_seed42_query128_h20_m4.json": "939600bd82d01a36cc6bb13e3654c5206fd57fed825a5547e566a48662c98551",
+    "artifacts/reports/allen_cahn_reconfirmation_seed42_query256_efficiency.json": "43501debde3ccf3a2aec269095aee4d14521327088c49068e72b6051c5bbdc4c",
+    "artifacts/reports/allen_cahn_reconfirmation_seed42_query256_h20_m4.json": "1f1063c771640cea8be7b00b5d4d0689ca1c1c41cb7b65b4f9237cb6b74bbc58",
+    "artifacts/reports/allen_cahn_reconfirmation_seed42_target_cost_query256.json": "274f9c0c4943f987a243e7f8ea309910dfefeb2bd1740360eb5da7db14d8b5fb"
+  },
+  "stage_passed": true,
+  "target_cost": {
+    "mean_hr_reference_setup_seconds": 19031.863056500133,
+    "mean_lr_setup_seconds": 14.097072656626546,
+    "q16_target_cost_speedup": {
+      "ci95": [
+        851.0927683613917,
+        946.3266934425858
+      ],
+      "point": 888.1299659842739,
+      "replicates": 50000
+    },
+    "setup_speedup": {
+      "ci95": [
+        1288.1524919792835,
+        1437.0187775592894
+      ],
+      "point": 1350.0578112970074,
+      "replicates": 50000
+    },
+    "shared_a_generation_timing_status": "legacy v3 A data did not record per-rollout solver timing; it is not silently assigned zero and must be instrumented prospectively",
+    "shared_pretraining_training_seconds": 3358.86772274971
+  }
+}

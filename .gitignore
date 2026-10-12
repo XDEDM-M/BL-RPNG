@@ -1,0 +1,41 @@
+artifacts/data/*
+artifacts/checkpoints/*
+artifacts/experiments/*
+artifacts/figures/*
+artifacts/manifests/*
+artifacts/reports/*
+artifacts/wandb/*
+artifacts/tmp/*
+artifacts/quarantine/*
+!artifacts/data/.gitkeep
+!artifacts/checkpoints/.gitkeep
+!artifacts/experiments/.gitkeep
+!artifacts/figures/.gitkeep
+!artifacts/manifests/.gitkeep
+!artifacts/reports/.gitkeep
+!artifacts/wandb/.gitkeep
+!artifacts/tmp/.gitkeep
+!artifacts/quarantine/.gitkeep
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+.mypy_cache/
+.ruff_cache/
+
+# Never publish numerical datasets, model weights, optimizer states or solver
+# scratch files, even if copied outside the standard artifact tree.
+*.pt
+*.pth
+*.ckpt
+*.npz
+*.npy
+*.h5
+*.hdf5
+*.zarr/
+wandb/
+
+# The parent FNOtest ignores every directory named data/. Re-include this
+# project's Python source package while keeping generated artifact data ignored.
+!blrpng/data/
+!blrpng/data/*.py

@@ -1,0 +1,32 @@
+experiment:
+  name: allen_cahn_blind_reconfirmation
+  seed: 20260820
+  training_seed: 42
+  deterministic: true
+blind_protocol:
+  families:
+    - high_frequency
+    - amplitude_ood
+    - matern_gp
+    - localized_bump
+    - mixed_fourier
+    - piecewise_smooth
+  tasks_per_family: 8
+  boundary_id_offset: 3000000
+  support_budgets: [1, 2, 4, 8]
+  support_initial_conditions: 8
+  validation_initial_conditions: 4
+  query_initial_conditions: 16
+  query_512_initial_conditions: 4
+  support_resolution: 64
+  query_resolutions: [128, 256, 512]
+  rollout_horizons: [20, 50]
+gates:
+  required_oracle_manifest: artifacts/manifests/allen_cahn_oracle_resource_capped_gate.json
+  required_method_freeze_manifest: artifacts/manifests/allen_cahn_method_freeze_gate.json
+  required_checkpoint_freeze_manifest: artifacts/manifests/allen_cahn_reconfirmation_checkpoint_freeze.json
+  required_query_protocol_freeze_manifest: artifacts/manifests/allen_cahn_reconfirmation_query_protocol_freeze.json
+  query_locked_until_gate: true
+resources:
+  max_total_artifacts_gb: 300
+  stage_budget_gb: 45

@@ -1,0 +1,66 @@
+{
+  "schema": "blrpng_ns_pimple_h3_lr_diagnostic_v1",
+  "status": "exploratory_lr_only_followup",
+  "created_utc": "2026-10-16T00:24:20+08:00",
+  "reason": "The frozen V1 H1-trained models had materially larger 20-step rollout error than teacher-forced one-step error. Allen-Cahn R2 uses fixed horizon-3 target rollout supervision. This follow-up isolates target rollout supervision while keeping the NS source checkpoints and data roles fixed.",
+  "scope": {
+    "uses_existing_source_checkpoints": true,
+    "uses_only_lr_support_and_lr_validation": true,
+    "reads_any_hr_query": false,
+    "evaluates_any_hr_query": false,
+    "sealed_hr_claim": false,
+    "purpose": "Determine whether NS-specific H3 target supervision reduces LR rollout error before designing a fresh HR query set."
+  },
+  "data": {
+    "target_tasks": [
+      "F5_dual_sin1_top080_bottom030",
+      "F5_dual_sin1_top100_bottom050",
+      "F6_left_sin1_a100",
+      "F6_left_sin1_a075"
+    ],
+    "support_per_task": 4,
+    "validation_per_task": 4,
+    "physical_steps_per_trajectory": 20,
+    "training_windows_per_trajectory": 18,
+    "horizon": 3
+  },
+  "arms": [
+    "selected_pimple_path",
+    "final_only",
+    "matched_endpoint_control",
+    "lifted_lr_scratch"
+  ],
+  "training": {
+    "transfer": {
+      "adapter": "NLT rank 4 alpha 4",
+      "optimizer": "AdamW",
+      "learning_rate": 0.001,
+      "weight_decay": 0.000001,
+      "epochs": 100,
+      "scheduler": "cosine to 0.000001",
+      "batch_size": 4,
+      "loss": "mean relative-L2 over the first three recursively predicted target states"
+    },
+    "scratch": {
+      "optimizer": "AdamW",
+      "learning_rate": 0.0001,
+      "weight_decay": 0.0001,
+      "epochs": 100,
+      "scheduler": "cosine to 0.000001",
+      "batch_size": 4,
+      "loss": "mean relative-L2 over the first three recursively predicted target states"
+    },
+    "checkpoint_selection": "best mean 20-step LR validation autoregressive relative-L2"
+  },
+  "ns_sequence_semantics": {
+    "update_at_each_rollout_step": [
+      "predicted current velocity",
+      "previous-physical-state history",
+      "current and next boundary lifts",
+      "viscosity",
+      "delta_t"
+    ],
+    "reason": "The static-condition Allen-Cahn rollout wrapper cannot be applied directly to the NS input, whose history and boundary inputs vary by step."
+  },
+  "interpretation": "This is an exploratory LR-only diagnostic informed by the frozen H1 result. It does not replace the V1 frozen HR result. Any subsequent HR confirmation must use newly generated ICs because all V1 HR queries have already been opened."
+}

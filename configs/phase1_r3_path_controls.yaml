@@ -1,0 +1,61 @@
+experiment:
+  round: R3
+  id: r3_path_mapping_and_endpoint_controls_20261013
+  description: Change path hook mapping and compare accepted path with endpoint and norm-matched direction.
+  base_training_config: configs/allen_cahn_v2_calibration.yaml
+  screen_model_seed: 42
+  support_budget: 4
+  tasks: [0, 1, 3, 5]
+  primary_selection_metric: mean_task_lr_validation_rollout_rel_l2
+  data_manifest: artifacts/manifests/phase1_development/hrdev_20261012/tasks.json
+  data_root: artifacts/data/phase1_development/hrdev_20261012_t20_ss271829
+  support_seed: 271829
+  support_index_template: "{root}/task{task:02d}_support_s{support_seed}_m{budget}.index.json"
+  validation_index_template: "{root}/task{task:02d}_validation_lr_64.index.json"
+  selection_data: "64x64 20-step LR development validation only; no HR validation/query loaded in R3 screen"
+  checkpoint: artifacts/checkpoints/phase1/R1/source_path_s42_resume_resume50.pt
+trials:
+  - id: path_l3_lr1e-3_ratio005
+    objective: blrpng_v2
+    auxiliary_target: newton_correction
+    commutator_weight: 0.0
+    lr: 0.001
+    path_gradient_ratio: 0.05
+    path_layer: 3
+    path_anneal_gamma: 2.0
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: endpoint_l3_lr1e-3_ratio005
+    objective: blrpng_v2
+    auxiliary_target: endpoint_increment
+    commutator_weight: 0.0
+    lr: 0.001
+    path_gradient_ratio: 0.05
+    path_layer: 3
+    path_anneal_gamma: 2.0
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: direction_l3_lr1e-3_ratio005
+    objective: blrpng_v2
+    auxiliary_target: endpoint_direction_path_norm
+    commutator_weight: 0.0
+    lr: 0.001
+    path_gradient_ratio: 0.05
+    path_layer: 3
+    path_anneal_gamma: 2.0
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: endpoint_l1_lr1e-3_ratio005
+    objective: blrpng_v2
+    auxiliary_target: endpoint_increment
+    commutator_weight: 0.0
+    lr: 0.001
+    path_gradient_ratio: 0.05
+    path_layer: 1
+    path_anneal_gamma: 2.0
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001

@@ -1,0 +1,23 @@
+experiment:
+  id: hr_scratch_from_zero_dev_m4_20261015
+  description: HR-resolution scratch control on the frozen Stage-2 representative support draws.
+  base_training_config: configs/allen_cahn_v2_calibration.yaml
+  task_manifest: artifacts/manifests/phase1_development/hrdev_20261012/tasks.json
+  tasks: [5, 0, 1, 3]
+  model_seed: 0
+  support_seed: 271829
+  support_budget: 4
+  support_index_template: artifacts/data/phase1_development/hrdev_20261015_hrsupport_s271829/task{task:02d}_support_hr_s271829_m4.index.json
+  validation_index_template: artifacts/data/phase1_development/hrdev_20261012/task{task:02d}_validation_hr_256.index.json
+  selection_data: independent 256x256 HR-dev validation only; no confirmation query access
+training:
+  objective: final_only
+  initialization_checkpoint: null
+  adapter_strategy: full
+  epochs: 500
+  batch_size: 2
+  lr: 0.0003
+  lr_scheduler: cosine
+  minimum_lr: 0.000001
+  weight_decay: 0.0001
+  device_physical_gpu: 1

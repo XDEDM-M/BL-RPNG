@@ -1,0 +1,246 @@
+{
+  "schema": "blrpng_phase1_hr_scratch_end_to_end_v1",
+  "date": "2026-10-15",
+  "run_summary": "results/phase1/HRSCRATCHDEV/hr_scratch_from_zero_hr256_m4_s0_ss271829/summary.json",
+  "run_descriptor_sha256": "46bc01fe4210b2df971ef280b351d96234e74852f1468bdaa1cdae7643efbdcf",
+  "protocol": {
+    "task_set": [
+      0,
+      1,
+      3,
+      5
+    ],
+    "families": [
+      "high_frequency",
+      "amplitude_ood",
+      "localized_bump",
+      "piecewise_smooth"
+    ],
+    "model_seed": 0,
+    "support_seed": 271829,
+    "support_budget": 4,
+    "hr_scratch": "random initialization, full parameter update at 256x256, 500 epochs, batch size 2, lr 3e-4, cosine schedule, weight decay 1e-4",
+    "pathsource": "seed-0 multi-boundary source pretraining, then frozen 100-epoch target LR pathsource+comm256 adaptation at 64x64; same m=4 cases; HR-dev evaluated after LR-only checkpoint selection",
+    "selection_asymmetry": "HR scratch used HR-dev validation each epoch to select the best checkpoint; pathsource selected on LR validation then was evaluated on HR-dev. This gives the direct HR baseline a selection advantage.",
+    "query_or_test_accessed": false
+  },
+  "per_task": [
+    {
+      "task": 0,
+      "family": "high_frequency",
+      "model_seed": 0,
+      "support_seed": 271829,
+      "support_budget": 4,
+      "source_m4_index_sha256": "cb66e634789b44cc11be7d58bd99bb442e60ffacd6362e1db0dd1c650974ef85",
+      "hr_support_index_sha256": "b5b841a3b6910024935b525da475615eb78a4cb4ea85e12bd83a05438f92b8d6",
+      "hr_validation_index_sha256": "2faa0874f0c00beb7c55a07f27746ecabb00a41c882ef264ae9629b67e363903",
+      "config_sha256": "46bc01fe4210b2df971ef280b351d96234e74852f1468bdaa1cdae7643efbdcf",
+      "checkpoint": "artifacts/checkpoints/phase1/HRSCRATCHDEV/hr_scratch_from_zero_hr256_m4_s0_ss271829/hr_scratch_from_zero_hr256_m4_task00_full.inference.pt",
+      "checkpoint_sha256": "aa123b064e9c6687788cbf838375a647f32d522b2e343b5f586ec34ab8a6acf7",
+      "pathsource_hrdev_reference": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task00_s0_ss271829.json",
+      "pathsource_hrdev_reference_sha256": "8eb87774c1e898ecf1abf581a176f220a4ba827ac4f13061430330fe1abcdab8",
+      "pathsource_hrdev_rel_l2": 0.06831792555749415,
+      "hr_scratch_best_rel_l2": 0.6407162357121707,
+      "hr_scratch_best_epoch": 150,
+      "hr_scratch_epochs_run": 500,
+      "scratch_over_pathsource_error_ratio": 9.378449806309835,
+      "time_to_match_pathsource_seconds": null,
+      "time_to_match_interpretation": "not reached within 500 epochs; right-censored at completed run budget",
+      "scratch_elapsed_seconds": 2375.9953780610012,
+      "scratch_gpu_hours": 0.6599987161280559,
+      "task_hr_support_solver_seconds": 105.2189614020026,
+      "query_read": false
+    },
+    {
+      "task": 1,
+      "family": "amplitude_ood",
+      "model_seed": 0,
+      "support_seed": 271829,
+      "support_budget": 4,
+      "source_m4_index_sha256": "2f90cc5632c5c1d6df6a798d2db88a9e094f6e52709dcaef9b4bfe513c4753e6",
+      "hr_support_index_sha256": "1ffea1faa7b2bcc4eca11976e10f20436291651fb08b61ef45953034d3fe351b",
+      "hr_validation_index_sha256": "558c3fc8a9218434f3747b03bae79682a746ae0e9b73051b5eeaec8beadc79f2",
+      "config_sha256": "46bc01fe4210b2df971ef280b351d96234e74852f1468bdaa1cdae7643efbdcf",
+      "checkpoint": "artifacts/checkpoints/phase1/HRSCRATCHDEV/hr_scratch_from_zero_hr256_m4_s0_ss271829/hr_scratch_from_zero_hr256_m4_task01_full.inference.pt",
+      "checkpoint_sha256": "7c36d7f9c22351194985552ceeadb5d6d8b59eab82b582773b713fded84395c5",
+      "pathsource_hrdev_reference": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task01_s0_ss271829.json",
+      "pathsource_hrdev_reference_sha256": "a90f1872108df932af526d22f5502b98588ed9cce00ba414ee6a7df6bd452eb7",
+      "pathsource_hrdev_rel_l2": 0.04473285377025604,
+      "hr_scratch_best_rel_l2": 0.300193927064538,
+      "hr_scratch_best_epoch": 159,
+      "hr_scratch_epochs_run": 500,
+      "scratch_over_pathsource_error_ratio": 6.710815469236712,
+      "time_to_match_pathsource_seconds": null,
+      "time_to_match_interpretation": "not reached within 500 epochs; right-censored at completed run budget",
+      "scratch_elapsed_seconds": 2198.803406242998,
+      "scratch_gpu_hours": 0.6107787239563883,
+      "task_hr_support_solver_seconds": 97.99027268299324,
+      "query_read": false
+    },
+    {
+      "task": 3,
+      "family": "localized_bump",
+      "model_seed": 0,
+      "support_seed": 271829,
+      "support_budget": 4,
+      "source_m4_index_sha256": "efef59e67144b17f49ae7fda8784219c5ae0e4c879a9d047bdfb99ec86be576f",
+      "hr_support_index_sha256": "edfb58f8edd4b0aec7f5397a831cbb67e49264b2860f6a99255a655fb90ec376",
+      "hr_validation_index_sha256": "e04bfdf4f4b4c6a2fa479f30a1ce053c42d882df3dc4babaafe7a9bebfe7ebc3",
+      "config_sha256": "46bc01fe4210b2df971ef280b351d96234e74852f1468bdaa1cdae7643efbdcf",
+      "checkpoint": "artifacts/checkpoints/phase1/HRSCRATCHDEV/hr_scratch_from_zero_hr256_m4_s0_ss271829/hr_scratch_from_zero_hr256_m4_task03_full.inference.pt",
+      "checkpoint_sha256": "b9b9345d2e54b482e1dcf2d5d20e8f2b90dc6173671471834d55b99acdd11f0d",
+      "pathsource_hrdev_reference": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task03_s0_ss271829.json",
+      "pathsource_hrdev_reference_sha256": "1528ddc0838c3590af9f7bd33e30532240052f188014384c386bef93b0cb8e86",
+      "pathsource_hrdev_rel_l2": 0.060216126055456703,
+      "hr_scratch_best_rel_l2": 0.4859440606553108,
+      "hr_scratch_best_epoch": 229,
+      "hr_scratch_epochs_run": 500,
+      "scratch_over_pathsource_error_ratio": 8.069998727712495,
+      "time_to_match_pathsource_seconds": null,
+      "time_to_match_interpretation": "not reached within 500 epochs; right-censored at completed run budget",
+      "scratch_elapsed_seconds": 2462.1477270720025,
+      "scratch_gpu_hours": 0.6839299241866673,
+      "task_hr_support_solver_seconds": 101.1107905630015,
+      "query_read": false
+    },
+    {
+      "task": 5,
+      "family": "piecewise_smooth",
+      "model_seed": 0,
+      "support_seed": 271829,
+      "support_budget": 4,
+      "source_m4_index_sha256": "3a8a35325729f3d8af76b5b6fa07c82a0fe8ae16c509f138ca86002e06f85bf2",
+      "hr_support_index_sha256": "4588ff283e3a3ee9a3cdc7767f430e4dff7cdd46624d4fa8402057ab6648ba45",
+      "hr_validation_index_sha256": "ca860c75b774864b30035f81786833d94e0f3cd51143713b8f8844ab5b8ce9b4",
+      "config_sha256": "46bc01fe4210b2df971ef280b351d96234e74852f1468bdaa1cdae7643efbdcf",
+      "checkpoint": "artifacts/checkpoints/phase1/HRSCRATCHDEV/hr_scratch_from_zero_hr256_m4_s0_ss271829/hr_scratch_from_zero_hr256_m4_task05_full.inference.pt",
+      "checkpoint_sha256": "c2ad3b71e7b08d9d207ed9ab508d20878b0c1d0dbfb18f7a04eac53b1a2d303d",
+      "pathsource_hrdev_reference": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task05_s0_ss271829.json",
+      "pathsource_hrdev_reference_sha256": "428089271f4347c38cbf6ffe614f94cbed0150c26efac22e2cece46e1427b186",
+      "pathsource_hrdev_rel_l2": 0.051359781785868114,
+      "hr_scratch_best_rel_l2": 0.3415592508390546,
+      "hr_scratch_best_epoch": 324,
+      "hr_scratch_epochs_run": 500,
+      "scratch_over_pathsource_error_ratio": 6.650325195365924,
+      "time_to_match_pathsource_seconds": null,
+      "time_to_match_interpretation": "not reached within 500 epochs; right-censored at completed run budget",
+      "scratch_elapsed_seconds": 2474.6264715539983,
+      "scratch_gpu_hours": 0.6873962420983328,
+      "task_hr_support_solver_seconds": 100.85069165200912,
+      "query_read": false
+    }
+  ],
+  "group_quality": {
+    "pathsource_mean_hrdev_rel_l2": 0.056156671792268756,
+    "hr_scratch_mean_of_per_task_best_hrdev_rel_l2": 0.44210336856776855,
+    "mean_error_ratio_scratch_over_pathsource": 7.872677536930423,
+    "scratch_reached_pathsource_reference_tasks": 0,
+    "task_count": 4,
+    "claim_scope": "one model seed, one support seed, four selected development families; not a multi-seed or confirmation result"
+  },
+  "measured_costs": {
+    "pathsource_source_pretraining": {
+      "report": "artifacts/reports/phase1_R1-source-path-from_scratch-s0.json",
+      "elapsed_seconds": 7445.138064083003,
+      "gpu_hours": 2.068093906689723,
+      "source_train_data": "artifacts/data/allen_cahn_formal_a_train_fine.pt",
+      "source_train_data_sha256": "a15ff301e2b5ac718f12eeb323097f8729ac451d8218d40c87ffba92c3e140cc"
+    },
+    "pathsource_target_lr_adaptation": {
+      "tasks": [
+        0,
+        1,
+        3,
+        5
+      ],
+      "per_task_reports": {
+        "0": "results/phase1/S2PILOT/pilot_pathsource_comm256-syncopt2_m4_s0_ss271829/task00.json",
+        "1": "results/phase1/S2PILOT/pilot_pathsource_comm256-syncopt2_t01t05_m4_s0_ss271829/task01.json",
+        "3": "results/phase1/S2PILOT/pilot_pathsource_comm256-syncopt2_t01t05_m4_s0_ss271829/task03.json",
+        "5": "results/phase1/S2PILOT/pilot_pathsource_comm256-syncopt2_t01t05_m4_s0_ss271829/task05.json"
+      },
+      "elapsed_gpu_seconds_sum": 1751.821953818,
+      "gpu_hours_sum": 0.4866172093938889
+    },
+    "pathsource_lr_support_generation_shared_pool": {
+      "audit": "artifacts/reports/phase1_dev_generate_support_workspace_audit.json",
+      "cases": 96,
+      "families": 6,
+      "wall_seconds": 349.9806592464447,
+      "wall_hours": 0.09721684979067909,
+      "accounting_note": "Full previously generated shared six-family, 96-case LR support pool is included; no proportional allocation to the four selected target families."
+    },
+    "hr_scratch_target_hr_support_generation": {
+      "report": "artifacts/reports/phase1_hr_scratch_data_generation_hrdev_20261015_hrsupport_s271829.json",
+      "tasks": [
+        0,
+        1,
+        3,
+        5
+      ],
+      "rollouts": 16,
+      "converged_transitions": 320,
+      "orchestration_wall_seconds": 1187.547753564686,
+      "orchestration_wall_hours": 0.32987437599019054,
+      "solver_seconds_sum": 405.17071630000646,
+      "assembly_seconds_sum": 0.30517430300096743,
+      "per_task_solver_seconds": {
+        "0": 105.2189614020026,
+        "1": 97.99027268299324,
+        "3": 101.1107905630015,
+        "5": 100.85069165200912
+      },
+      "query_used": false
+    },
+    "hr_scratch_direct_training": {
+      "gpu_hours_sum": 2.642103606369444,
+      "elapsed_task_seconds_sum": 9511.57298293,
+      "parallel_dispatch": "task03 ran on physical GPU0 concurrently with the distinct GPU1 queue; GPU1 ran tasks05,00,01 serially. Task elapsed times are summed for GPU-hours; they are not campaign wall time."
+    },
+    "unavailable_historical_costs": [
+      "Generation wall time for the cached multi-boundary HR source training dataset is not traceable in available artifacts; it is excluded, not treated as zero."
+    ],
+    "common_inference": "Both approaches deploy the same FNO model at 256x256; per-rollout HR inference cost is common and excluded from the difference."
+  },
+  "cost_comparisons": {
+    "pathsource_gpu_hours_including_one_source_pretrain_and_four_target_adaptations": 2.554711116083612,
+    "hr_scratch_gpu_hours_for_four_full_500_epoch_fits": 2.642103606369444,
+    "scratch_over_pathsource_gpu_hour_ratio": 1.0342083649832805,
+    "pathsource_serial_equivalent_hours_gpu_plus_measured_lr_generation_wall": 2.651927965874291,
+    "hr_scratch_serial_equivalent_hours_gpu_plus_measured_hr_generation_wall": 2.9719779823596344,
+    "scratch_over_pathsource_serial_equivalent_cost_ratio": 1.1206857880771393,
+    "pathsource_serial_equivalent_cost_reduction_fraction_vs_hr_scratch": 0.10768922865008446,
+    "assumption": "Serial-equivalent accounting adds measured CPU wall-hours to GPU-hours under a non-overlap, one-GPU-equivalent schedule; this is a resource-cost comparison, not observed end-to-end wall time and not equal-accuracy speedup.",
+    "equal_accuracy_speedup": "not estimable: HR scratch did not reach any matched pathsource HR-dev reference within 500 epochs; per-task TTM is right-censored/null."
+  },
+  "audit": {
+    "all_four_task_reports_present": true,
+    "all_reports_same_frozen_config": true,
+    "all_model_seeds_zero": true,
+    "all_support_seeds_271829": true,
+    "all_support_budgets_four": true,
+    "all_frozen_m4_source_indices_match": true,
+    "all_hr_support_and_validation_index_hashes_match_run_descriptor": true,
+    "all_checkpoint_hashes_match": true,
+    "all_best_epochs_match_full_500_epoch_histories": true,
+    "all_pathsource_hrdev_reference_hashes_match": true,
+    "query_or_test_accessed": false,
+    "all_time_to_match_pathsource_values_null": true,
+    "aggregation_recovery_retrained_any_model": false,
+    "aggregation_recovery_note": "Initial main runner rejected task03 on a field-name mismatch (it checked descriptor_sha256 on a task report that stores the same digest as config_sha256). The skip-path check was corrected, then the runner was rerun and verified/reused all reports without training; canonical task_results.json and summary.json were produced."
+  },
+  "official_campaign_gpu_ledger_hours_after_completion": 45.98927230444249,
+  "nominal_budget_remaining_gpu_hours": 74.0107276955575,
+  "exploration_budget_remaining_gpu_hours": 26.010727695557513,
+  "artifact_sha256s": {
+    "summary_json": "295af6b6dc80779776953eae9c8dc73e8f6b649bdcb24b76a8712c47b75a3a45",
+    "task_results_json": "70d45c7da9b0234a2355f4719726176f937f4219f89ab2a3369e4187180614c0",
+    "run_config_json": "91defa5b97232639f314d2bc55545352c2e4217ec1b4a2001f30316fc7dba9d0",
+    "hr_support_generation_report": "a72ea35d9721604f47438f1dc80c3c904739a6128a21e20d95bbaae9a7c37767"
+  },
+  "runner_source_sha256s": {
+    "initial_gpu1_runner_snapshot": "1221ae5ea0af8465a737bac1b811fb479c707a675e8e408a2ca1612a511c7822",
+    "gpu0_task03_report_runner": "0c212440909e38638c01a20629a1b7b8bdbd1eed93ecbb8a6d88f57c8474144d",
+    "current_corrected_runner_skip_check": "80a09f402ce9fcc49e145f62c136594545e44c6da288a4113b1f24d8c0cb5982"
+  }
+}

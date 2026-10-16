@@ -1,0 +1,27 @@
+experiment:
+  round: R5
+  id: ordinary_fullcomm256_lr_bracket_low_20261016
+  description: One-seed six-family low-learning-rate screen paired to the existing ordinary full-FT plus direct256 baseline brackets.
+  base_training_config: configs/allen_cahn_v2_calibration.yaml
+  screen_model_seed: 0
+  support_budget: 4
+  tasks: [0, 1, 2, 3, 4, 5]
+  primary_selection_metric: mean_task_lr_validation_rollout_rel_l2
+  data_manifest: artifacts/manifests/phase1_development/hrdev_20261012/tasks.json
+  data_root: artifacts/data/phase1_development/hrdev_20261013_firstpath_ss271829
+  support_seed: 271829
+  support_index_template: "{root}/task{task:02d}_support_s{support_seed}_m{budget}.index.json"
+  validation_index_template: "artifacts/data/phase1_development/hrdev_20261012_t20_ss271829/task{task:02d}_validation_lr_64.index.json"
+  selection_data: "64x64 20-step LR development validation only; six development boundary families; HR-dev evaluated after all six LR checkpoints are selected; no query/test access"
+trials:
+  - id: ordinary_full_comm256_lr3e-5
+    objective: commutator_only
+    initialization_checkpoint_template: artifacts/checkpoints/phase1/R1/source_final_s{seed}_scratch.pt
+    adapter_strategy: full
+    lr: 0.00003
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+    calibration_resolution: 256
+    commutator_weight: 0.05
+    commutator_rollout_steps: 2

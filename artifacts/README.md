@@ -1,5 +1,7 @@
 # Local artifact store
 
-This directory is intentionally excluded from Git except for this notice.
-Raw datasets, checkpoints, complete reports and generated figures are retained
-locally. Curated records suitable for source control are under `docs/`.
+Raw datasets, checkpoints, per-task histories, full evaluation tables, logs and
+generated figures are retained locally. A small allowlist of curated,
+human-readable experiment summaries and aggregate JSON reports is versioned
+under `artifacts/reports/`; all other artifact content remains ignored. Curated
+protocols, ledgers, decision records and project status are under `docs/`.

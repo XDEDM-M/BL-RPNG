@@ -1,0 +1,38 @@
+{
+  "schema": "blrpng_ns_pimple_rotation_source_lr_diagnostic_preregistration_v1",
+  "status": "frozen_before_training",
+  "created_local": "2026-10-16",
+  "motivation": "The frozen V1 source trajectories use top-wall horizontal motion, while F6 target tasks use left-wall vertical motion. A square cavity is invariant under orientation-preserving 90-degree rotations; exact vector rotation augmentation tests whether this geometry shift caused transfer failure.",
+  "scope": {
+    "source_train": "existing HR source-support trajectories only",
+    "source_validation": "existing independent source-split HR validation trajectories only",
+    "target_train": "existing LR target support only",
+    "target_selection": "existing four LR validation trajectories plus two fresh method V2 LR validation trajectories per task",
+    "fresh_validation_ic": "streamfunction mode pairs (2,5) and (5,2), amplitude 0.035",
+    "fresh_hr_confirmation_ic": "streamfunction mode pairs (1,5) and (5,1), amplitude 0.035; generate separately and do not read before source/target checkpoint and evaluator freeze",
+    "target_hr_queries_read_or_evaluated_before_freeze": false,
+    "existing_v1_hr_result_is_unchanged": true,
+    "sealed_confirmation_claim": false
+  },
+  "rotation": {
+    "transformations": ["0", "90_clockwise", "180", "90_counterclockwise"],
+    "selection": "one deterministic-seed random orientation per whole source trajectory per epoch; all 20 transitions in that trajectory share the same orientation",
+    "spatial_layout": "[channel,y,x] cell-centred square grid",
+    "vector_fields_rotated": ["current velocity", "physical history velocity", "current and next velocity lifts", "endpoint velocity", "selected PIMPLE correction"],
+    "coordinates": "affine coordinates are rotated with the spatial field; viscosity and delta-t remain scalar",
+    "path_labels": "selected PIMPLE first outer correction and matched endpoint labels receive the same physical vector rotation as endpoint training labels"
+  },
+  "training": {
+    "source_arms": ["selected_pimple_path", "final_only", "matched_endpoint_control"],
+    "target_scratch_control": "one lifted LR-only scratch model per task, trained on the same four support trajectories and selected on the same six LR validation trajectories",
+    "source_model_and_optimizer": "V1 6-layer width-48 FNO, AdamW lr=3e-4, weight_decay=1e-6, batch=8, 30 epochs, 2100 updates per arm",
+    "source_checkpoint_selection": "mean 20-step source-validation rollout relative-L2",
+    "target_finetuning": "NLT rank 4 alpha 4, endpoint-only LR support loss, AdamW lr=1e-3, weight_decay=1e-6, max 100 epochs, min 30, patience 12; matched scratch control uses the V1 lifted-FNO scratch optimizer schedule",
+    "target_checkpoint_selection": "mean 20-step rollout relative-L2 over the existing four plus two fresh method V2 LR validation trajectories"
+  },
+  "interpretation": {
+    "orientation_gap_reduced": "rotated-source transfer improves F6 LR confirmation mean over the corresponding original V1 source arm and closes the F5/F6 gap",
+    "pimple_guidance_supported_on_lr": "rotated selected-PIMPLE-path source arm improves over both rotated final-only and rotated matched-endpoint source arms on F5 development and F6 LR confirmation means",
+    "hr_claim": "Any HR confirmation must use the separately generated fresh method V2 HR query set after global checkpoint/evaluator freeze; no V1 HR query may be reused."
+  }
+}

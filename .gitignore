@@ -7,6 +7,8 @@ artifacts/reports/*
 artifacts/wandb/*
 artifacts/tmp/*
 artifacts/quarantine/*
+artifacts/logs/*
+artifacts/workflows/*
 !artifacts/data/.gitkeep
 !artifacts/checkpoints/.gitkeep
 !artifacts/experiments/.gitkeep
@@ -16,6 +18,29 @@ artifacts/quarantine/*
 !artifacts/wandb/.gitkeep
 !artifacts/tmp/.gitkeep
 !artifacts/quarantine/.gitkeep
+
+# Curated experiment summaries are whitelisted; raw per-run histories stay local.
+!artifacts/reports/FORMAL_SEED42_RESULTS.md
+!artifacts/reports/BOUNDARY_ADAPTATION_RESEARCH_PLAN.md
+!artifacts/reports/current_results_20260820.md
+!artifacts/reports/PHASE1_STAGE2_SUMMARY_20261015.md
+!artifacts/reports/PHASE1_R4_PATHCOMM_20261016.md
+!artifacts/reports/PHASE1_BASELINE_LR3E4_SCREEN_20261016.md
+!artifacts/reports/PHASE1_BASELINE_LR3E5_SCREEN_20261016.md
+!artifacts/reports/PHASE1_BASELINE_LR3E5_SEED1_REPLICATION_20261016.md
+!artifacts/reports/PHASE1_HR_SCRATCH_END_TO_END_20261015.md
+!artifacts/reports/PHASE1_HR_SCRATCH_M16_END_TO_END_20261016.md
+!artifacts/reports/PHASE1_HR_FULLFT_M16_EXPERT_END_TO_END_20261016.md
+!artifacts/reports/phase1_stage2_pilot_hrdev_summary_20261015.json
+!artifacts/reports/phase1_r4_pathcomm_paired_summary_20261016.json
+!artifacts/reports/phase1_r5_lr3e5_seed1_replication_summary_20261016.json
+!artifacts/reports/phase1_progress_after_seed1_hrdev_complete_20261016.json
+!artifacts/reports/phase1_progress_after_r5_complete_20261016_1355_corrected.json
+!artifacts/reports/phase1_hr_scratch_end_to_end_20261015.json
+!artifacts/reports/phase1_hr_scratch_m16_end_to_end_20261016.json
+
+# Per-task JSON histories and checkpoints are reproducible local artifacts.
+results/
 __pycache__/
 *.py[cod]
 .pytest_cache/

@@ -1,0 +1,46 @@
+experiment:
+  name: allen_cahn_phase1_r1_source_continuation
+  seed: 20261012
+  training_seed: 42
+  deterministic: true
+data:
+  equation: allen_cahn
+  representation: lifted
+  source_manifest: artifacts/manifests/allen_cahn_formal.json
+  dt: 0.2
+  eps: 0.03
+  gamma: 5.0
+model:
+  in_channels: 4
+  out_channels: 1
+  modes1: 24
+  modes2: 24
+  width: 96
+  layers: 6
+  probe_mode: per_layer
+training:
+  epochs: 60
+  minimum_epochs: 30
+  early_stopping_patience: 12
+  batch_size: 4
+  lr: 0.0001
+  optimizer_foreach: false
+  weight_decay: 0.000001
+  lr_scheduler: cosine
+  minimum_lr: 0.000001
+  lr_drop_epoch: 55
+  lr_drop_gamma: 0.2
+  recovery_interval: 10
+  progress_interval: 1
+  path_layer: 1
+  path_gradient_ratio: 0.15
+  path_log_magnitude_weight: 0.1
+  path_epsilon: 1.0e-8
+  adapter:
+    strategy: full
+data_paths:
+  train: artifacts/data/allen_cahn_formal_a_train_fine.pt
+  validation: artifacts/data/allen_cahn_formal_a_validation_fine.pt
+source_checkpoints:
+  path: artifacts/checkpoints/allen_cahn_formal_a_blrpng_seed42.pt
+  final: artifacts/checkpoints/allen_cahn_formal_a_final_only_seed42.pt

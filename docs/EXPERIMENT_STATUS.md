@@ -1,7 +1,58 @@
 # BL-RPNG experiment status
 
-Frozen project snapshot: 2026-10-12. No experiment after the transient
-Navier--Stokes numerical gate is included in this snapshot.
+Current project dashboard: 2026-10-16. The current Phase-1 follow-up and
+historical cross-PDE snapshot are separated below. The latest full study is
+reported in [`reports/PHASE1_FINAL.md`](../reports/PHASE1_FINAL.md), with
+chronology in `docs/LOG.md`, the append-only task ledger in
+`docs/EXPERIMENTS.csv`, and independent checks in `docs/agents/REVIEW.md`.
+
+## Current Phase-1 follow-up (2026-10-16)
+
+The development campaign directly tested multi-boundary path-source
+pretraining, four-rollout low-resolution adaptation on held-out boundary
+instances, and 256² high-resolution inference. A frozen six-family shortlist
+completed 108/108 LR adaptation and HR-development cells across model seeds
+`[0,1,42]`; the source/checkpoint/data seals, LR-only selection, and query flags
+were independently audited. The current confirmation query remains closed.
+
+- The path-source + direct256 consistency candidate had mean HR-dev relative
+  L2 `0.053472` across the three model seeds and six fixed development families;
+  lifted LR scratch had `0.509044`. Transfer therefore gives a large, consistent
+  improvement over scratch in this development panel.
+- The ordinary final-only source + full-FT + comm256 comparator at LR=`1e-4`
+  averaged `0.054881`, so the path-source candidate's point estimate was 2.57%
+  lower. Its paired three-seed interval includes zero; treat this as a promising
+  lead rather than a confirmed advantage.
+- Matched one-seed/four-family source comparisons favored path pretraining
+  under both direct256 adaptation (7.48% lower HR-dev error than ordinary
+  source) and H3+comm256 adaptation (8.08% lower). These are development
+  comparisons, not independent multi-seed confirmation.
+- The ordinary baseline was then tuned on the same six-family support and
+  validation protocol. LR=`3e-5` gave seed0 HR-dev `0.044725` and its
+  predeclared seed1 replication `0.044410`; the matched two-seed mean
+  `0.044568` is lower than matched ordinary LR=`1e-4` (`0.056317`) and
+  path-source C256 (`0.054183`). This shows baseline tuning materially changes
+  the ranking; do not present the earlier 2.57% edge as robust to tuning.
+- True target first-accepted-path fine-tuning was compared against endpoint,
+  endpoint-direction and final-only controls. It performed competitively but
+  did not show a repeatable path-specific gain under the current Phase-1
+  protocol. A distinct earlier frozen experiment found that, at an eight-
+  boundary budget, annealed path fine-tuning improved HR error by 3.34% over
+  same-initialization final-only and by 10.86% over ordinary pretraining;
+  this is a positive schedule-specific result, not a replication of the
+  per-target Phase-1 protocol. Details: `artifacts/reports/FORMAL_SEED42_RESULTS.md`.
+- Boundary lifting enforces the Dirichlet trace exactly. HR scratch with
+  `m=4` and `m=16`, plus source-initialized HR full-FT `m=16`, remained above
+  the matched low-resolution transfer result on the four tested tasks; these
+  finite runs are useful practical baselines, not saturated HR oracles.
+
+The complete three-method confirmation matrix, few-shot curve, expert
+saturation, complete cost break-even and full mechanism controls were not
+completed within the campaign allocation. The final report records the
+remaining evidence gap and budget without changing the positive development
+findings: [`reports/PHASE1_FINAL.md`](../reports/PHASE1_FINAL.md).
+
+## Historical frozen snapshot (2026-10-12)
 
 ## Method frozen for evaluation
 

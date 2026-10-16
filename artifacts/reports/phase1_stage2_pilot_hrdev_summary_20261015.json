@@ -1,0 +1,1405 @@
+{
+  "candidate_count": 6,
+  "created_at_local": "2026-10-15T16:29:06+0800",
+  "model_seeds": [
+    0,
+    1,
+    42
+  ],
+  "promoted_candidate": "pilot_pathsource_comm256",
+  "query_read": false,
+  "ranked_candidates": [
+    {
+      "cell_count": 18,
+      "cells": [
+        {
+          "checkpoint_sha256": "813a8490af42ffb546efd636b6b535865a33f6caadd63a04bcad5a697e665cd8",
+          "effective_trial_id": "pilot_pathsource_comm256",
+          "family": "high_frequency",
+          "lr_validation_rollout_rel_l2": 0.020945114304777235,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task00_s0_ss271829.json",
+          "report_sha256": "8eb87774c1e898ecf1abf581a176f220a4ba827ac4f13061430330fe1abcdab8",
+          "rollout_rel_l2": 0.06831792555749415,
+          "seed": 0,
+          "task": 0
+        },
+        {
+          "checkpoint_sha256": "18671f01ddd6d269bca94b38e4a84ea96c1ea8fe3fb409998e036758ce4740d1",
+          "effective_trial_id": "pilot_pathsource_comm256",
+          "family": "amplitude_ood",
+          "lr_validation_rollout_rel_l2": 0.026371586974710228,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task01_s0_ss271829.json",
+          "report_sha256": "a90f1872108df932af526d22f5502b98588ed9cce00ba414ee6a7df6bd452eb7",
+          "rollout_rel_l2": 0.04473285377025604,
+          "seed": 0,
+          "task": 1
+        },
+        {
+          "checkpoint_sha256": "4a814d7f336848588fbbc4b4bb9b2cfa547ddc2572bff8b1fe617477297b545a",
+          "effective_trial_id": "pilot_pathsource_comm256",
+          "family": "matern_gp",
+          "lr_validation_rollout_rel_l2": 0.018362553440965712,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task02_s0_ss271829.json",
+          "report_sha256": "0330a5dd119986a6de3002c9732bf06859b1e77707344bbb088a4641affea665",
+          "rollout_rel_l2": 0.04867816346231848,
+          "seed": 0,
+          "task": 2
+        },
+        {
+          "checkpoint_sha256": "d8481ef45fd1a4dee266c352c31d7f2eec27f5f1c5c9de68f605cee2060ab20a",
+          "effective_trial_id": "pilot_pathsource_comm256",
+          "family": "localized_bump",
+          "lr_validation_rollout_rel_l2": 0.02741128920461051,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task03_s0_ss271829.json",
+          "report_sha256": "1528ddc0838c3590af9f7bd33e30532240052f188014384c386bef93b0cb8e86",
+          "rollout_rel_l2": 0.060216126055456703,
+          "seed": 0,
+          "task": 3
+        },
+        {
+          "checkpoint_sha256": "d799a2ba542ffa111680d590c1b64fff992eb829fe3bbfdcf686bbb502f79e56",
+          "effective_trial_id": "pilot_pathsource_comm256",
+          "family": "mixed_fourier",
+          "lr_validation_rollout_rel_l2": 0.02047436482389458,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task04_s0_ss271829.json",
+          "report_sha256": "dfcad03eaae228089394458e1984993313c6e22e061f9855cebcd2a29b14c73e",
+          "rollout_rel_l2": 0.07086401911219582,
+          "seed": 0,
+          "task": 4
+        },
+        {
+          "checkpoint_sha256": "70ec5111122f443a7c471f46b02a5ecf3076b0c4a08ab08b38ec21ad82fe7b8b",
+          "effective_trial_id": "pilot_pathsource_comm256",
+          "family": "piecewise_smooth",
+          "lr_validation_rollout_rel_l2": 0.022568277700338514,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task05_s0_ss271829.json",
+          "report_sha256": "428089271f4347c38cbf6ffe614f94cbed0150c26efac22e2cece46e1427b186",
+          "rollout_rel_l2": 0.051359781785868114,
+          "seed": 0,
+          "task": 5
+        },
+        {
+          "checkpoint_sha256": "3e7b882b0dfd35a78435fd698d4259200d909f8022ab4fcb20987f7f998ce093",
+          "effective_trial_id": "pilot_pathsource_comm256-recovery1",
+          "family": "high_frequency",
+          "lr_validation_rollout_rel_l2": 0.022703295084647832,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256-recovery1_task00_s1_ss271829.json",
+          "report_sha256": "7000f552fc43bdf4d09171822f5e3d990519c1b3d17d6aacf25ffa3cef7dbef8",
+          "rollout_rel_l2": 0.05184648805297911,
+          "seed": 1,
+          "task": 0
+        },
+        {
+          "checkpoint_sha256": "20453e2e6e86dd9af4689e0cd65b0ae9451eb53c802dde22324791fe9f3c5cab",
+          "effective_trial_id": "pilot_pathsource_comm256-recovery1",
+          "family": "amplitude_ood",
+          "lr_validation_rollout_rel_l2": 0.028957645321497697,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256-recovery1_task01_s1_ss271829.json",
+          "report_sha256": "cded7609683488749551f7fb781110651da42a3f4952f7a7af515b8d7f387b05",
+          "rollout_rel_l2": 0.02836940110428259,
+          "seed": 1,
+          "task": 1
+        },
+        {
+          "checkpoint_sha256": "2e1fc54846039b03a44588c059af1b1aee208cea85b5a851411c929f054d65ad",
+          "effective_trial_id": "pilot_pathsource_comm256-recovery1",
+          "family": "matern_gp",
+          "lr_validation_rollout_rel_l2": 0.018329907397856005,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256-recovery1_task02_s1_ss271829.json",
+          "report_sha256": "e4e564117003c757e1b29d24a7ccad1bd407709d598c847e3bc45062394b95ea",
+          "rollout_rel_l2": 0.047545823128893966,
+          "seed": 1,
+          "task": 2
+        },
+        {
+          "checkpoint_sha256": "7233316559c23a5cba404328184feed0c59f40eb9e29b0b479f858551121b918",
+          "effective_trial_id": "pilot_pathsource_comm256-recovery1",
+          "family": "localized_bump",
+          "lr_validation_rollout_rel_l2": 0.024261602887418122,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256-recovery1_task03_s1_ss271829.json",
+          "report_sha256": "eee88a1f76d73e602d85ae7980542be51c9ef768cc348b63c8d3ccc34f06404e",
+          "rollout_rel_l2": 0.06014428554335609,
+          "seed": 1,
+          "task": 3
+        },
+        {
+          "checkpoint_sha256": "59938695faad84952a230e8f3869ef0abcf4f5498849d6d7e604bd68727ecb51",
+          "effective_trial_id": "pilot_pathsource_comm256-recovery1",
+          "family": "mixed_fourier",
+          "lr_validation_rollout_rel_l2": 0.01917676677694544,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256-recovery1_task04_s1_ss271829.json",
+          "report_sha256": "8307948270bf74b5bec5b952b21ab4cf0be58089452bbe461de0d2e50e976e17",
+          "rollout_rel_l2": 0.06478832211578264,
+          "seed": 1,
+          "task": 4
+        },
+        {
+          "checkpoint_sha256": "70c8993a9c61e81244997d34b09126f19c87c6372b7106f041f505efaccaa177",
+          "effective_trial_id": "pilot_pathsource_comm256-recovery1",
+          "family": "piecewise_smooth",
+          "lr_validation_rollout_rel_l2": 0.02028974962304346,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256-recovery1_task05_s1_ss271829.json",
+          "report_sha256": "aeeea1db98d0ffcf6aa15a1af097d7bc63506093eb70aae2510fd072435df3c6",
+          "rollout_rel_l2": 0.05333419754169882,
+          "seed": 1,
+          "task": 5
+        },
+        {
+          "checkpoint_sha256": "b509fddf77fc258c951ef8c13f0aff8a65a1351fff5f9df47e6bee34286990ad",
+          "effective_trial_id": "pilot_pathsource_comm256",
+          "family": "high_frequency",
+          "lr_validation_rollout_rel_l2": 0.02009191609104164,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task00_s42_ss271829.json",
+          "report_sha256": "dd702203e559d78bceb3590311afa7a38dafb0d8c72336d5ec5cfe7eb9552b0c",
+          "rollout_rel_l2": 0.05040006737690419,
+          "seed": 42,
+          "task": 0
+        },
+        {
+          "checkpoint_sha256": "7f0f9b43c6fabbc4e3f9ce8c01a02b744307cbee26b132078b66bd475947dfcd",
+          "effective_trial_id": "pilot_pathsource_comm256",
+          "family": "amplitude_ood",
+          "lr_validation_rollout_rel_l2": 0.022276101034367456,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task01_s42_ss271829.json",
+          "report_sha256": "7b9e6f58bf7aa9c482354d461c83e333453ecff3cc79cb027ecf4d8eba99ebf0",
+          "rollout_rel_l2": 0.03249549272004515,
+          "seed": 42,
+          "task": 1
+        },
+        {
+          "checkpoint_sha256": "ebd5a92c20d88d0870482caae4a4a2b6fc042c39f6690e739d515ff6f33e69b5",
+          "effective_trial_id": "pilot_pathsource_comm256",
+          "family": "matern_gp",
+          "lr_validation_rollout_rel_l2": 0.018359358637826517,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task02_s42_ss271829.json",
+          "report_sha256": "07dad86f8709a0a07b8dc870964fe5dd52671998af48415d076887d9eaf9246b",
+          "rollout_rel_l2": 0.05191226308234036,
+          "seed": 42,
+          "task": 2
+        },
+        {
+          "checkpoint_sha256": "27197461904483dde7b7ac6e4d130cf1ba73b19602a4dee9ee9af86b16c1e6ba",
+          "effective_trial_id": "pilot_pathsource_comm256",
+          "family": "localized_bump",
+          "lr_validation_rollout_rel_l2": 0.018155600654426965,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task03_s42_ss271829.json",
+          "report_sha256": "0c53d0b145231318565a8683f0cc6c60cf7a632096adb7177315b0df9d6f8a44",
+          "rollout_rel_l2": 0.058069980225991455,
+          "seed": 42,
+          "task": 3
+        },
+        {
+          "checkpoint_sha256": "0b640e3209b443492da54a77b3ebf53530c8ea43887a40c3a4b1a750d6543365",
+          "effective_trial_id": "pilot_pathsource_comm256",
+          "family": "mixed_fourier",
+          "lr_validation_rollout_rel_l2": 0.01762385983020067,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task04_s42_ss271829.json",
+          "report_sha256": "1be7f5a23bfdc0d0554cef5712c391d9d34aa1aa5f915dca6e17ad3dde36a864",
+          "rollout_rel_l2": 0.06614272901788354,
+          "seed": 42,
+          "task": 4
+        },
+        {
+          "checkpoint_sha256": "84781a8794e5c6d6231666efde0da8e65727d9a00b89efa545f072f5ff79e8f6",
+          "effective_trial_id": "pilot_pathsource_comm256",
+          "family": "piecewise_smooth",
+          "lr_validation_rollout_rel_l2": 0.020054568050545646,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task05_s42_ss271829.json",
+          "report_sha256": "f42690ff4761f5fdd12bf0e2043afcada85b9dee739a123de2a880a09e92af82",
+          "rollout_rel_l2": 0.05327967384364456,
+          "seed": 42,
+          "task": 5
+        }
+      ],
+      "mean_by_boundary_family": {
+        "amplitude_ood": 0.035199249198194595,
+        "high_frequency": 0.05685482699579248,
+        "localized_bump": 0.059476797274934746,
+        "matern_gp": 0.04937874989118427,
+        "mixed_fourier": 0.06726502341528734,
+        "piecewise_smooth": 0.05265788439040383
+      },
+      "mean_by_model_seed": {
+        "0": 0.05736147829059821,
+        "1": 0.05100475291449888,
+        "42": 0.05205003437780154
+      },
+      "mean_hr_dev_rollout_rel_l2": 0.05347208852763286,
+      "model_config_sha256_by_seed": {
+        "0": "ae6835e2f416f47750a59b39b860bbc47f7470024d4f8037a9d0a436fd301437",
+        "1": "ae925727bb047bf8f73d13ae98d3bffbeb48317b16ef2c5aab2f78619448b84b",
+        "42": "f4385b3e80369e35c68aa7194c70b570755ef72761f3c3d0c01464fda689d979"
+      },
+      "model_seeds": [
+        0,
+        1,
+        42
+      ],
+      "support_budget": 4,
+      "support_seed": 271829,
+      "trial_id": "pilot_pathsource_comm256",
+      "worst_task_mean_hr_dev_rollout_rel_l2": 0.06726502341528734
+    },
+    {
+      "cell_count": 18,
+      "cells": [
+        {
+          "checkpoint_sha256": "37422c96bcff9040c418edb6711d0ea6be29dd4eec2ae19971e7f942f620e7af",
+          "effective_trial_id": "pilot_pathsource_endpoint_ratio015-retry1",
+          "family": "high_frequency",
+          "lr_validation_rollout_rel_l2": 0.021029376593651252,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_ratio015-retry1_task00_s0_ss271829.json",
+          "report_sha256": "d52e3e90f18f164c03c48626bcb5cf3c542acc634e6d6569c76227986d4e0f00",
+          "rollout_rel_l2": 0.07033837074413896,
+          "seed": 0,
+          "task": 0
+        },
+        {
+          "checkpoint_sha256": "aeec4c17e054ec04f886bb04f1df94a1cb40c09a1afa0f52eab17f2c4fdcad0a",
+          "effective_trial_id": "pilot_pathsource_endpoint_ratio015-retry1",
+          "family": "amplitude_ood",
+          "lr_validation_rollout_rel_l2": 0.026970080763567238,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_ratio015-retry1_task01_s0_ss271829.json",
+          "report_sha256": "556ef5bd8dbb3539679f437564181e88db359c8fcd4b2f93c1c6f90fcaf9f9a8",
+          "rollout_rel_l2": 0.03644409663975239,
+          "seed": 0,
+          "task": 1
+        },
+        {
+          "checkpoint_sha256": "6c3b65229ee77f41297ce9ffd7c1e691c0339da1c8c0a113c3a2185a482191eb",
+          "effective_trial_id": "pilot_pathsource_endpoint_ratio015-retry1",
+          "family": "matern_gp",
+          "lr_validation_rollout_rel_l2": 0.018283999743289314,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_ratio015-retry1_task02_s0_ss271829.json",
+          "report_sha256": "20c2dbfddb677c27f7d00ee9290659a7a32b62f55e96f1cc01dd929f7bc5804e",
+          "rollout_rel_l2": 0.04363818471319974,
+          "seed": 0,
+          "task": 2
+        },
+        {
+          "checkpoint_sha256": "b3aeb99384db858a5407e4b8d358560c746cf4956db2d2df3da7fa68c5d404f7",
+          "effective_trial_id": "pilot_pathsource_endpoint_ratio015-retry1",
+          "family": "localized_bump",
+          "lr_validation_rollout_rel_l2": 0.02726411233306862,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_ratio015-retry1_task03_s0_ss271829.json",
+          "report_sha256": "0807abfc5cdaad3a9c25003f0d455ca02471b1ffdb547e99d9b6b6a4f687cdda",
+          "rollout_rel_l2": 0.0626031718798913,
+          "seed": 0,
+          "task": 3
+        },
+        {
+          "checkpoint_sha256": "93568d168b2e51620700d7908ccaf437e682e0aabf1fe922f550fa4ff5c4b895",
+          "effective_trial_id": "pilot_pathsource_endpoint_ratio015-retry1",
+          "family": "mixed_fourier",
+          "lr_validation_rollout_rel_l2": 0.01989566074335016,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_ratio015-retry1_task04_s0_ss271829.json",
+          "report_sha256": "06489e0808c351fc80bcdddb263f00d9b8acdd657a32c62e723897b8adc79fc6",
+          "rollout_rel_l2": 0.07369661123957486,
+          "seed": 0,
+          "task": 4
+        },
+        {
+          "checkpoint_sha256": "e6554da549d62d53d12ad05a98779d4e633efe6a4f6baa56750bf912685470a9",
+          "effective_trial_id": "pilot_pathsource_endpoint_ratio015-retry1",
+          "family": "piecewise_smooth",
+          "lr_validation_rollout_rel_l2": 0.021945668960688638,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_ratio015-retry1_task05_s0_ss271829.json",
+          "report_sha256": "4cabe2ac2e7c037eca02ecce35cb200eac28e5f569002168e57f2a5c8992cb9e",
+          "rollout_rel_l2": 0.051531319250352675,
+          "seed": 0,
+          "task": 5
+        },
+        {
+          "checkpoint_sha256": "9324cc44f542b9a959469f272a6f923ae5a3663d9f345bf38cb1ff2a3f271a7c",
+          "effective_trial_id": "pilot_pathsource_endpoint_ratio015-retry1",
+          "family": "high_frequency",
+          "lr_validation_rollout_rel_l2": 0.0219273999275174,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_ratio015-retry1_task00_s1_ss271829.json",
+          "report_sha256": "7fbc628de337c8281c90959939e1bd8e543cda4fbb0a0dce93f08a53ace1bf4d",
+          "rollout_rel_l2": 0.06462379486765712,
+          "seed": 1,
+          "task": 0
+        },
+        {
+          "checkpoint_sha256": "d260614c6fec7cb1a8eaf010450455c49f2abd3ff3b88810802fd05a0af94f82",
+          "effective_trial_id": "pilot_pathsource_endpoint_ratio015-retry1",
+          "family": "amplitude_ood",
+          "lr_validation_rollout_rel_l2": 0.029363005328923462,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_ratio015-retry1_task01_s1_ss271829.json",
+          "report_sha256": "b972b8931a794d4353d3e1f4f959a849efa559a9e014812715142e50ee0d5c87",
+          "rollout_rel_l2": 0.031922378554008896,
+          "seed": 1,
+          "task": 1
+        },
+        {
+          "checkpoint_sha256": "4e27e730cee971a8182ad40ce23dca54e9c5b032966182c2d8ab6aea70378511",
+          "effective_trial_id": "pilot_pathsource_endpoint_ratio015-retry1",
+          "family": "matern_gp",
+          "lr_validation_rollout_rel_l2": 0.018380045209778473,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_ratio015-retry1_task02_s1_ss271829.json",
+          "report_sha256": "887423ce1ec90a3a80aed4260874ee8a6399a705079fdfd7a5e232fe823e4340",
+          "rollout_rel_l2": 0.039823964133393015,
+          "seed": 1,
+          "task": 2
+        },
+        {
+          "checkpoint_sha256": "494f42dcce1f1c86f59802320487d8043ee789081ffed881aea27e0691ef3871",
+          "effective_trial_id": "pilot_pathsource_endpoint_ratio015-retry1",
+          "family": "localized_bump",
+          "lr_validation_rollout_rel_l2": 0.023912198352627458,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_ratio015-retry1_task03_s1_ss271829.json",
+          "report_sha256": "5f161bc2d6bbf04910279ad76ebaa81ba0d0bc102a5c91ec69ee92850e13a830",
+          "rollout_rel_l2": 0.06320777466753498,
+          "seed": 1,
+          "task": 3
+        },
+        {
+          "checkpoint_sha256": "b7e2152421cba81ac91fb6b08e4b50f1030b248617f262183877937971341764",
+          "effective_trial_id": "pilot_pathsource_endpoint_ratio015-retry1",
+          "family": "mixed_fourier",
+          "lr_validation_rollout_rel_l2": 0.018857211479917167,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_ratio015-retry1_task04_s1_ss271829.json",
+          "report_sha256": "c5e2526bcc92dc54b41b504ab929683a781ee746f1300fae1b930555eaa805dc",
+          "rollout_rel_l2": 0.0694595282082446,
+          "seed": 1,
+          "task": 4
+        },
+        {
+          "checkpoint_sha256": "79e409e497aab4ba971e0063bf1f303cce6089f3a8b84d25f327625df9238a74",
+          "effective_trial_id": "pilot_pathsource_endpoint_ratio015-retry1",
+          "family": "piecewise_smooth",
+          "lr_validation_rollout_rel_l2": 0.019657496188301593,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_ratio015-retry1_task05_s1_ss271829.json",
+          "report_sha256": "951b9c9af5b0bb84d37758b38d237d3b375415faa796492029f2999921c70650",
+          "rollout_rel_l2": 0.050006814696826045,
+          "seed": 1,
+          "task": 5
+        },
+        {
+          "checkpoint_sha256": "d5df01af48d94cf0338907486aa067a505d0240c41b1c611ad33c880e52cb43f",
+          "effective_trial_id": "pilot_pathsource_endpoint_ratio015-retry1",
+          "family": "high_frequency",
+          "lr_validation_rollout_rel_l2": 0.019298135174904016,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_ratio015-retry1_task00_s42_ss271829.json",
+          "report_sha256": "8dfe032505fbe6536e962f72e06c0d08d90a3e1bb8c77f6a3ff58bf88860cc7a",
+          "rollout_rel_l2": 0.058629482006654146,
+          "seed": 42,
+          "task": 0
+        },
+        {
+          "checkpoint_sha256": "dd71201e27a20e2abc95c64dc7cae15ec9422778387f0b5cd21136b6f4ecbbdf",
+          "effective_trial_id": "pilot_pathsource_endpoint_ratio015-retry1",
+          "family": "amplitude_ood",
+          "lr_validation_rollout_rel_l2": 0.022194927372038365,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_ratio015-retry1_task01_s42_ss271829.json",
+          "report_sha256": "b6baeab9e3c42d5bb8a2429de25d36dde6bae31eb10f20306a01f4852bd377e7",
+          "rollout_rel_l2": 0.03418647790094838,
+          "seed": 42,
+          "task": 1
+        },
+        {
+          "checkpoint_sha256": "f75fd4e88013fba918828c089984d440e95ff86915bf4526373f867a091ecb00",
+          "effective_trial_id": "pilot_pathsource_endpoint_ratio015-retry1",
+          "family": "matern_gp",
+          "lr_validation_rollout_rel_l2": 0.018241798283997922,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_ratio015-retry1_task02_s42_ss271829.json",
+          "report_sha256": "39fa29be5dcc5e080466d6da1e085c18b2532f23f765d3b35687cd5fa3616f17",
+          "rollout_rel_l2": 0.03962511124555022,
+          "seed": 42,
+          "task": 2
+        },
+        {
+          "checkpoint_sha256": "9ad500ef3618885bfc5a92e4be4a5416c3d0f0e6d944b18c2bbeacc18e96c77c",
+          "effective_trial_id": "pilot_pathsource_endpoint_ratio015-retry1",
+          "family": "localized_bump",
+          "lr_validation_rollout_rel_l2": 0.0180602902721148,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_ratio015-retry1_task03_s42_ss271829.json",
+          "report_sha256": "24385b547b8d3029ae4763eca80f2306efd50a00c53a259fa241695e10ed1e8e",
+          "rollout_rel_l2": 0.05867712239269167,
+          "seed": 42,
+          "task": 3
+        },
+        {
+          "checkpoint_sha256": "d37f03bfcf7dacdc591e05ecd15653504177016b9a85efca625d814249490f5d",
+          "effective_trial_id": "pilot_pathsource_endpoint_ratio015-retry1",
+          "family": "mixed_fourier",
+          "lr_validation_rollout_rel_l2": 0.017688813427230343,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_ratio015-retry1_task04_s42_ss271829.json",
+          "report_sha256": "aad5a03452cd5075be98ce8132212cb90ddec1c9709b999a1adf1f7f68c7509d",
+          "rollout_rel_l2": 0.07340560505399481,
+          "seed": 42,
+          "task": 4
+        },
+        {
+          "checkpoint_sha256": "26de5a3c595bdd280808a6eb78df9cd8f2cde3992892af3504b45b8d09b2269c",
+          "effective_trial_id": "pilot_pathsource_endpoint_ratio015-retry1",
+          "family": "piecewise_smooth",
+          "lr_validation_rollout_rel_l2": 0.019811998296063393,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_ratio015-retry1_task05_s42_ss271829.json",
+          "report_sha256": "ebac9f520259106ad6a9161fce9c50a24db30e2c810f45e569d391dd4e04c62e",
+          "rollout_rel_l2": 0.05064142132177949,
+          "seed": 42,
+          "task": 5
+        }
+      ],
+      "mean_by_boundary_family": {
+        "amplitude_ood": 0.03418431769823656,
+        "high_frequency": 0.06453054920615008,
+        "localized_bump": 0.06149602298003931,
+        "matern_gp": 0.041029086697380986,
+        "mixed_fourier": 0.07218724816727141,
+        "piecewise_smooth": 0.05072651842298607
+      },
+      "mean_by_model_seed": {
+        "0": 0.056375292411151655,
+        "1": 0.05317404252127744,
+        "42": 0.05252753665360312
+      },
+      "mean_hr_dev_rollout_rel_l2": 0.05402562386201074,
+      "model_config_sha256_by_seed": {
+        "0": "23a7ae5919dc49a1dca8da342bc87a5acaeff149fd66e62503690654cc0cbe6c",
+        "1": "184e20452054a6ede4c73fba4db2dbb81a9f596c45303e5250de4971d757867d",
+        "42": "793eb3fae73ad7969f43d2228d52bb9b2580506b09e4afe6ce04404d64b8e80b"
+      },
+      "model_seeds": [
+        0,
+        1,
+        42
+      ],
+      "support_budget": 4,
+      "support_seed": 271829,
+      "trial_id": "pilot_pathsource_endpoint_ratio015",
+      "worst_task_mean_hr_dev_rollout_rel_l2": 0.07218724816727141
+    },
+    {
+      "cell_count": 18,
+      "cells": [
+        {
+          "checkpoint_sha256": "45a32ff2563cf4eb2f67e0b14100f634b7ec9402967815b771c503b269ac2ed7",
+          "effective_trial_id": "pilot_pathsource_firstpath_ratio015",
+          "family": "high_frequency",
+          "lr_validation_rollout_rel_l2": 0.021023234463064002,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_firstpath_ratio015_task00_s0_ss271829.json",
+          "report_sha256": "30b276aadf22b11892a595cf0dab1e7b936fab757fb18a274142aba136b6c802",
+          "rollout_rel_l2": 0.07055151835083961,
+          "seed": 0,
+          "task": 0
+        },
+        {
+          "checkpoint_sha256": "2d14b5dc346aaaf5723def633c065f2909912df73e1ac55829ecff79f27aac8a",
+          "effective_trial_id": "pilot_pathsource_firstpath_ratio015",
+          "family": "amplitude_ood",
+          "lr_validation_rollout_rel_l2": 0.027059846417978404,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_firstpath_ratio015_task01_s0_ss271829.json",
+          "report_sha256": "2e558a7763de66900befec1fd4465dabb5b11d60af91bb819083735b0c83a2f8",
+          "rollout_rel_l2": 0.03636807719012722,
+          "seed": 0,
+          "task": 1
+        },
+        {
+          "checkpoint_sha256": "60d94e200812b55e6562250a80812b475b54f7cd4d6440f0db00738af90407e8",
+          "effective_trial_id": "pilot_pathsource_firstpath_ratio015",
+          "family": "matern_gp",
+          "lr_validation_rollout_rel_l2": 0.018328954561729918,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_firstpath_ratio015_task02_s0_ss271829.json",
+          "report_sha256": "2b2ca72ab20d3076aa22529e9bce00d500cb536c00174c93aef02ee2fcdc1424",
+          "rollout_rel_l2": 0.043462313781492415,
+          "seed": 0,
+          "task": 2
+        },
+        {
+          "checkpoint_sha256": "8456ed1adf86d26eab8527881ce7c467506eb0f3dd81bd4d544685eb890c9ac3",
+          "effective_trial_id": "pilot_pathsource_firstpath_ratio015",
+          "family": "localized_bump",
+          "lr_validation_rollout_rel_l2": 0.027136980375507845,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_firstpath_ratio015_task03_s0_ss271829.json",
+          "report_sha256": "f18056a6930e07bc6d475fd52edd71794b071d1cdd6ae82f859f500db6db06a0",
+          "rollout_rel_l2": 0.06262425014283508,
+          "seed": 0,
+          "task": 3
+        },
+        {
+          "checkpoint_sha256": "21cbb9b16767859a178754acca0e6ef53990d7eccc3eecb2a30b811912f9196f",
+          "effective_trial_id": "pilot_pathsource_firstpath_ratio015",
+          "family": "mixed_fourier",
+          "lr_validation_rollout_rel_l2": 0.019998141383985056,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_firstpath_ratio015_task04_s0_ss271829.json",
+          "report_sha256": "96fe53856c3429cb08cf98aeff5f0df644f2e77c7e2b97433693962fcbdd3b7a",
+          "rollout_rel_l2": 0.07360942685045302,
+          "seed": 0,
+          "task": 4
+        },
+        {
+          "checkpoint_sha256": "0affb9bdf659bfc2e5b127e5bfe190abfb6fbf398aef2cbbfe966781119c493a",
+          "effective_trial_id": "pilot_pathsource_firstpath_ratio015",
+          "family": "piecewise_smooth",
+          "lr_validation_rollout_rel_l2": 0.021951104881009088,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_firstpath_ratio015_task05_s0_ss271829.json",
+          "report_sha256": "de76b2efe6309e8f550ebbd86218a1eabdc53af782ac6c0e628039b96a779568",
+          "rollout_rel_l2": 0.051409284712281074,
+          "seed": 0,
+          "task": 5
+        },
+        {
+          "checkpoint_sha256": "50d36526ff85250e6e133194a57e83d95be37297c7f0b6ea005ab7b0c4aafd3f",
+          "effective_trial_id": "pilot_pathsource_firstpath_ratio015",
+          "family": "high_frequency",
+          "lr_validation_rollout_rel_l2": 0.021914835734060036,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_firstpath_ratio015_task00_s1_ss271829.json",
+          "report_sha256": "feaa45c5e7d8890e4fd36c82d95f48ea5d0a49f20a9c89788030e37efbd65e3d",
+          "rollout_rel_l2": 0.06388716897927224,
+          "seed": 1,
+          "task": 0
+        },
+        {
+          "checkpoint_sha256": "cda0f44ae4e902dddb8d8617929b91e288137acce3e63ffa6b3cdfca60d0db79",
+          "effective_trial_id": "pilot_pathsource_firstpath_ratio015",
+          "family": "amplitude_ood",
+          "lr_validation_rollout_rel_l2": 0.02885228703962639,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_firstpath_ratio015_task01_s1_ss271829.json",
+          "report_sha256": "c67f79116afcb48e7d1c9740fbd13500ce4d5191ac31a9ec7a95659b8f616692",
+          "rollout_rel_l2": 0.03386715033557266,
+          "seed": 1,
+          "task": 1
+        },
+        {
+          "checkpoint_sha256": "5de2554b32f3e494140f39f9e18daade2588201b1db002fab98ac3d5362ed4d4",
+          "effective_trial_id": "pilot_pathsource_firstpath_ratio015",
+          "family": "matern_gp",
+          "lr_validation_rollout_rel_l2": 0.018432301451684906,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_firstpath_ratio015_task02_s1_ss271829.json",
+          "report_sha256": "43b700a95465073f498870798a09df7e123017059d80890dcb82683788b6a819",
+          "rollout_rel_l2": 0.03988492819480598,
+          "seed": 1,
+          "task": 2
+        },
+        {
+          "checkpoint_sha256": "faf4260a7794c29f9881945faf4232bca2b9ae4e334c83dad27074e8a0d4c72e",
+          "effective_trial_id": "pilot_pathsource_firstpath_ratio015",
+          "family": "localized_bump",
+          "lr_validation_rollout_rel_l2": 0.02389806782011874,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_firstpath_ratio015_task03_s1_ss271829.json",
+          "report_sha256": "2caf26db895e77b7a25c4dd768b4c5d008a721dfe8bd54db5237e0100e1cb9d9",
+          "rollout_rel_l2": 0.06314323596889153,
+          "seed": 1,
+          "task": 3
+        },
+        {
+          "checkpoint_sha256": "cce346c82b920d91c7da3f408c780111b5d0e533b2aac5505bd7e3fb2d2f2d87",
+          "effective_trial_id": "pilot_pathsource_firstpath_ratio015",
+          "family": "mixed_fourier",
+          "lr_validation_rollout_rel_l2": 0.018917416827753185,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_firstpath_ratio015_task04_s1_ss271829.json",
+          "report_sha256": "5221d8a1e8db8ed0f35028218f16269351b6181589bb6aa5f1774ca1c8eb5c1e",
+          "rollout_rel_l2": 0.0703705196385272,
+          "seed": 1,
+          "task": 4
+        },
+        {
+          "checkpoint_sha256": "2e70c9e4325f43bdcd8ffef4a1eb02c83e8aa240bcc1d0246739e5b7f021a661",
+          "effective_trial_id": "pilot_pathsource_firstpath_ratio015",
+          "family": "piecewise_smooth",
+          "lr_validation_rollout_rel_l2": 0.019671181181911378,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_firstpath_ratio015_task05_s1_ss271829.json",
+          "report_sha256": "b37f5f2c059bc5740e58631130a2d452f1970a1bedcca2374f8683cc46680a81",
+          "rollout_rel_l2": 0.04982854215195402,
+          "seed": 1,
+          "task": 5
+        },
+        {
+          "checkpoint_sha256": "4de613e60eeb25fda4252877ad702811530f6055bb37095d6d86ff06edb94d6f",
+          "effective_trial_id": "pilot_pathsource_firstpath_ratio015",
+          "family": "high_frequency",
+          "lr_validation_rollout_rel_l2": 0.019179031945532186,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_firstpath_ratio015_task00_s42_ss271829.json",
+          "report_sha256": "9add18dace8f0594111d7423c7b3746d48e49f813d06bf3d591b21c4ebc9a09c",
+          "rollout_rel_l2": 0.0572790447040461,
+          "seed": 42,
+          "task": 0
+        },
+        {
+          "checkpoint_sha256": "392f4319137c5b204297931ec18819dc395489118463a25446d224d6ee09696e",
+          "effective_trial_id": "pilot_pathsource_firstpath_ratio015",
+          "family": "amplitude_ood",
+          "lr_validation_rollout_rel_l2": 0.022204238391714176,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_firstpath_ratio015_task01_s42_ss271829.json",
+          "report_sha256": "daa7ada0684562826271562b064aea55e988444af3ee787819a35fc10eca17b1",
+          "rollout_rel_l2": 0.03424066676525399,
+          "seed": 42,
+          "task": 1
+        },
+        {
+          "checkpoint_sha256": "3cc042bc034c7249a3590accde5167d61f4ec9eb29ddb64913b0348292d80379",
+          "effective_trial_id": "pilot_pathsource_firstpath_ratio015",
+          "family": "matern_gp",
+          "lr_validation_rollout_rel_l2": 0.018384904286358507,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_firstpath_ratio015_task02_s42_ss271829.json",
+          "report_sha256": "d21c053f67229751ab2179910fd74ebb8351eb59b114200e6d2f259a6b0b10ad",
+          "rollout_rel_l2": 0.039796000474598255,
+          "seed": 42,
+          "task": 2
+        },
+        {
+          "checkpoint_sha256": "ae8722693e3c02ff08d40f23133304789f64079ba0f4074f6f2f364309e8710a",
+          "effective_trial_id": "pilot_pathsource_firstpath_ratio015",
+          "family": "localized_bump",
+          "lr_validation_rollout_rel_l2": 0.01810272845905274,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_firstpath_ratio015_task03_s42_ss271829.json",
+          "report_sha256": "a9500de018dde5b52dda3cd3176f7441329b15e83908a08b8a476296ab7b21ed",
+          "rollout_rel_l2": 0.058727542788255954,
+          "seed": 42,
+          "task": 3
+        },
+        {
+          "checkpoint_sha256": "9669a7cf7cebb2acfc603ddd131d7047d58c6e566cec40f3b6ee367b52682452",
+          "effective_trial_id": "pilot_pathsource_firstpath_ratio015",
+          "family": "mixed_fourier",
+          "lr_validation_rollout_rel_l2": 0.017651276278775187,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_firstpath_ratio015_task04_s42_ss271829.json",
+          "report_sha256": "139d5dd22d2c895c3c4ceee92065e673b975766589ddcb382fe824c887e24c0f",
+          "rollout_rel_l2": 0.07365110637620091,
+          "seed": 42,
+          "task": 4
+        },
+        {
+          "checkpoint_sha256": "47459e60c7d277570950a73356a7f75013aa9d8161a843601841df66bc7bfa50",
+          "effective_trial_id": "pilot_pathsource_firstpath_ratio015",
+          "family": "piecewise_smooth",
+          "lr_validation_rollout_rel_l2": 0.01976290743332356,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_firstpath_ratio015_task05_s42_ss271829.json",
+          "report_sha256": "95fe0d07a952c0619fc913c17046e7282fdec3a6b004b2c42ce5d639958d8f95",
+          "rollout_rel_l2": 0.05098935971036554,
+          "seed": 42,
+          "task": 5
+        }
+      ],
+      "mean_by_boundary_family": {
+        "amplitude_ood": 0.034825298096984626,
+        "high_frequency": 0.06390591067805265,
+        "localized_bump": 0.06149834296666085,
+        "matern_gp": 0.04104774748363221,
+        "mixed_fourier": 0.07254368428839371,
+        "piecewise_smooth": 0.05074239552486689
+      },
+      "mean_by_model_seed": {
+        "0": 0.056337478504671405,
+        "1": 0.05349692421150395,
+        "42": 0.05244728680312013
+      },
+      "mean_hr_dev_rollout_rel_l2": 0.054093896506431816,
+      "model_config_sha256_by_seed": {
+        "0": "b1860dd5b5eb4d209961b1ce7d097e9fd9a46e07277e3f9752e2c37133a89068",
+        "1": "f34459a281f3bb43354555f21e049034dbb1cbd0adb2f5a157ed71b7ec51d085",
+        "42": "b6b531a61924013f09dba19ecd71ef3ce812eef004d9b563e9560cf4317ed977"
+      },
+      "model_seeds": [
+        0,
+        1,
+        42
+      ],
+      "support_budget": 4,
+      "support_seed": 271829,
+      "trial_id": "pilot_pathsource_firstpath_ratio015",
+      "worst_task_mean_hr_dev_rollout_rel_l2": 0.07254368428839371
+    },
+    {
+      "cell_count": 18,
+      "cells": [
+        {
+          "checkpoint_sha256": "ea52bd23b5bf329316c9a0c3b631537d5900e8416ee9b8a96b1171c81a00c97b",
+          "effective_trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+          "family": "high_frequency",
+          "lr_validation_rollout_rel_l2": 0.02102799912681803,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_direction_ratio015_task00_s0_ss271829.json",
+          "report_sha256": "90c7d9427f4a5c8cf2f7d32789798fe7d60f490c887de7a0b8d8ea7298b2ba31",
+          "rollout_rel_l2": 0.07051781101617961,
+          "seed": 0,
+          "task": 0
+        },
+        {
+          "checkpoint_sha256": "2a7a2e093e9fcf70dfbf2276cb2f9230487f483d1a48264b8be981a3ee22c634",
+          "effective_trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+          "family": "amplitude_ood",
+          "lr_validation_rollout_rel_l2": 0.026972036302322526,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_direction_ratio015_task01_s0_ss271829.json",
+          "report_sha256": "4648bb7f5bdf078a3a13c7fe0fc5022e5dc36125ad6afc3c14cab1ca6626c53f",
+          "rollout_rel_l2": 0.036396089463960384,
+          "seed": 0,
+          "task": 1
+        },
+        {
+          "checkpoint_sha256": "1c8d47dc9e8195bdba4043de774f41fcaaa034464aebb0db5bca4aa9feafb58f",
+          "effective_trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+          "family": "matern_gp",
+          "lr_validation_rollout_rel_l2": 0.01826768302707933,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_direction_ratio015_task02_s0_ss271829.json",
+          "report_sha256": "48092c435280bd15b5f2cad1c7278ab5c53d201455bb511c7c1f893215592d87",
+          "rollout_rel_l2": 0.0438640893669799,
+          "seed": 0,
+          "task": 2
+        },
+        {
+          "checkpoint_sha256": "9e2c299bf4f20890fbf7f12a91ac707907bcb1ffd3348468f5834d584c357ecf",
+          "effective_trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+          "family": "localized_bump",
+          "lr_validation_rollout_rel_l2": 0.027177954529179264,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_direction_ratio015_task03_s0_ss271829.json",
+          "report_sha256": "a82affb9e5f58f4ffb41b804d923a5b59aebc0e515ee6a9af2b4c851adcae0cb",
+          "rollout_rel_l2": 0.06260616725776344,
+          "seed": 0,
+          "task": 3
+        },
+        {
+          "checkpoint_sha256": "f6fe63754f9a1cb70dc7d34c7c8c6f2d697f24dd5c8e90723049dc6f294fcfd5",
+          "effective_trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+          "family": "mixed_fourier",
+          "lr_validation_rollout_rel_l2": 0.01984961821581237,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_direction_ratio015_task04_s0_ss271829.json",
+          "report_sha256": "dea40774f5d0827f92fb60919f8fed85fc2f2f7b30542d35dd90e473fa87d6c9",
+          "rollout_rel_l2": 0.0729327388922684,
+          "seed": 0,
+          "task": 4
+        },
+        {
+          "checkpoint_sha256": "9995ceeb37ad9968f8e83f864f7822492650bc06f3814dcf59bbea824c380d77",
+          "effective_trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+          "family": "piecewise_smooth",
+          "lr_validation_rollout_rel_l2": 0.021935163642046975,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_direction_ratio015_task05_s0_ss271829.json",
+          "report_sha256": "61d6b83bec9912bbf4357cc446acc8cdefb9af775f14ed0ea48cb56f7e7dae5a",
+          "rollout_rel_l2": 0.051483527617529036,
+          "seed": 0,
+          "task": 5
+        },
+        {
+          "checkpoint_sha256": "ab5891a7d4716175675322776a4037c1dc8f5f9fc9bf10798cdc5160d302e90e",
+          "effective_trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+          "family": "high_frequency",
+          "lr_validation_rollout_rel_l2": 0.021965420164633542,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_direction_ratio015_task00_s1_ss271829.json",
+          "report_sha256": "a81d3de2bcd897dff095e39958e9ea18a3099f6337bdb0bbb9c1b6454cdb6574",
+          "rollout_rel_l2": 0.06429290372179822,
+          "seed": 1,
+          "task": 0
+        },
+        {
+          "checkpoint_sha256": "ba8206a94a89227b22d64b49a732404060c1a09eeda733b0928df5f702746eb7",
+          "effective_trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+          "family": "amplitude_ood",
+          "lr_validation_rollout_rel_l2": 0.029615376034053044,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_direction_ratio015_task01_s1_ss271829.json",
+          "report_sha256": "20f68c8afea4ebcd91e59a82c2f727d606bd964225a1aaf31494be34c7b0e173",
+          "rollout_rel_l2": 0.03424541846616194,
+          "seed": 1,
+          "task": 1
+        },
+        {
+          "checkpoint_sha256": "2728303f67ad46f8d0a8ca557c59e6f20241b2efc2a19d1cee4a37c7df11e99a",
+          "effective_trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+          "family": "matern_gp",
+          "lr_validation_rollout_rel_l2": 0.018404978775652125,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_direction_ratio015_task02_s1_ss271829.json",
+          "report_sha256": "929644dadcd4be004fd5d08cb7fe53a058bb50caa847fb1762b9c6724d85f206",
+          "rollout_rel_l2": 0.03997252780245617,
+          "seed": 1,
+          "task": 2
+        },
+        {
+          "checkpoint_sha256": "b577ff83a87c438e00ce7e61d470745d202315898c1f30cedad4d300b5054174",
+          "effective_trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+          "family": "localized_bump",
+          "lr_validation_rollout_rel_l2": 0.023910165659617632,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_direction_ratio015_task03_s1_ss271829.json",
+          "report_sha256": "ce2832b36e5da22d1165119612c55f9685bfada30b4d534c6e93fcaba4b02aeb",
+          "rollout_rel_l2": 0.06319108781171963,
+          "seed": 1,
+          "task": 3
+        },
+        {
+          "checkpoint_sha256": "805f11fa6a5c1b9fb7b41dccf4a6fc22607c8511112f7ba8d7fea13b51e346a1",
+          "effective_trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+          "family": "mixed_fourier",
+          "lr_validation_rollout_rel_l2": 0.01907313209376298,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_direction_ratio015_task04_s1_ss271829.json",
+          "report_sha256": "47c48473400525d9a21b037d82572dc83cc4a04dc58e8c2dca0acfbd5f3f36ff",
+          "rollout_rel_l2": 0.06965420317137613,
+          "seed": 1,
+          "task": 4
+        },
+        {
+          "checkpoint_sha256": "a61eafee985a8a50ee64bf8a33f9e287e0c50cedeb3ac035b8038302f1917a23",
+          "effective_trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+          "family": "piecewise_smooth",
+          "lr_validation_rollout_rel_l2": 0.019670388905797156,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_direction_ratio015_task05_s1_ss271829.json",
+          "report_sha256": "4e71894ae7392999139ebcff65bc883748471eaac9ef65daaceb44a2e84b4ae9",
+          "rollout_rel_l2": 0.04997960886685179,
+          "seed": 1,
+          "task": 5
+        },
+        {
+          "checkpoint_sha256": "f6a3b901966ef5954d16b46d066bf570761e2a2784ea8b0c4671307b1e62599e",
+          "effective_trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+          "family": "high_frequency",
+          "lr_validation_rollout_rel_l2": 0.01931037536705844,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_direction_ratio015_task00_s42_ss271829.json",
+          "report_sha256": "f433d406cf80045cf4c3b6c95438f0e970b1f763273876160e1de0741d49011a",
+          "rollout_rel_l2": 0.05936411373550072,
+          "seed": 42,
+          "task": 0
+        },
+        {
+          "checkpoint_sha256": "2ccc277a4cfdbc818484ba4b1ca2b8acf19d74f0617c407cc2d3203eec11236b",
+          "effective_trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+          "family": "amplitude_ood",
+          "lr_validation_rollout_rel_l2": 0.022171943279681725,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_direction_ratio015_task01_s42_ss271829.json",
+          "report_sha256": "b1d3c4ed38d4326a0afc8882674f39bca701fd3db8fc5e6f05525f9541986148",
+          "rollout_rel_l2": 0.03422165156807751,
+          "seed": 42,
+          "task": 1
+        },
+        {
+          "checkpoint_sha256": "ca9fa0842dc14d086c96a4f35802edcf089840f8e5543f81eafdb96a092632a2",
+          "effective_trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+          "family": "matern_gp",
+          "lr_validation_rollout_rel_l2": 0.01836009811377153,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_direction_ratio015_task02_s42_ss271829.json",
+          "report_sha256": "6d58d88aebd0ea4132dfc6c4dfd0f1c9b492cea58bfe3b6b1a1a447ed5864583",
+          "rollout_rel_l2": 0.03973617276642472,
+          "seed": 42,
+          "task": 2
+        },
+        {
+          "checkpoint_sha256": "818a40ff02780b8be8c1c58c80d1db23da4ab5be036779b4681813058005c144",
+          "effective_trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+          "family": "localized_bump",
+          "lr_validation_rollout_rel_l2": 0.01811464493512176,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_direction_ratio015_task03_s42_ss271829.json",
+          "report_sha256": "83cc28debe8c9ce42dec564b32337590dbd5e5d2f02f58e56910aa29785f699e",
+          "rollout_rel_l2": 0.058989339962136,
+          "seed": 42,
+          "task": 3
+        },
+        {
+          "checkpoint_sha256": "510c22e3930146b1e925f66ce94e8f93c5644576fc1c37b0451735a5fafc87ca",
+          "effective_trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+          "family": "mixed_fourier",
+          "lr_validation_rollout_rel_l2": 0.01772086954442784,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_direction_ratio015_task04_s42_ss271829.json",
+          "report_sha256": "0194feeb357e05e8794d516bfd7fb5a55ce016cfff9653677a10ceaf2f960c56",
+          "rollout_rel_l2": 0.07377707117702811,
+          "seed": 42,
+          "task": 4
+        },
+        {
+          "checkpoint_sha256": "fa3c3d1ed30b0b9266601d5fbcd094f40825c242ece67224cb64ba8b0e23568b",
+          "effective_trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+          "family": "piecewise_smooth",
+          "lr_validation_rollout_rel_l2": 0.01979651855072007,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_endpoint_direction_ratio015_task05_s42_ss271829.json",
+          "report_sha256": "353688906537fb1ad285483fe6f01ac4b3332e1017554c58755abb532ce9c79a",
+          "rollout_rel_l2": 0.05091928585898131,
+          "seed": 42,
+          "task": 5
+        }
+      ],
+      "mean_by_boundary_family": {
+        "amplitude_ood": 0.03495438649939995,
+        "high_frequency": 0.06472494282449286,
+        "localized_bump": 0.06159553167720636,
+        "matern_gp": 0.04119092997862026,
+        "mixed_fourier": 0.07212133774689088,
+        "piecewise_smooth": 0.05079414078112071
+      },
+      "mean_by_model_seed": {
+        "0": 0.056300070602446795,
+        "1": 0.05355595830672732,
+        "42": 0.052834605844691386
+      },
+      "mean_hr_dev_rollout_rel_l2": 0.054230211584621844,
+      "model_config_sha256_by_seed": {
+        "0": "e4120b80882086cd2d7d3f66c71e799d305e8bd7cbef8a283af9ad0427057e1a",
+        "1": "84599639a828797ea19cbbdc58c7845a10f8dd478c96d7bdee69a0afdddd27cb",
+        "42": "5fd467564e57a4f85f21d1cd264e6a1970e5243f31030989d49448758354a170"
+      },
+      "model_seeds": [
+        0,
+        1,
+        42
+      ],
+      "support_budget": 4,
+      "support_seed": 271829,
+      "trial_id": "pilot_pathsource_endpoint_direction_ratio015",
+      "worst_task_mean_hr_dev_rollout_rel_l2": 0.07212133774689088
+    },
+    {
+      "cell_count": 18,
+      "cells": [
+        {
+          "checkpoint_sha256": "bf99b7c1344cba93e291effb2e8dd9dcc8da660ba78b65c929e18f834a0ecbf3",
+          "effective_trial_id": "pilot_ordinary_full_comm256",
+          "family": "high_frequency",
+          "lr_validation_rollout_rel_l2": 0.043375408137217165,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_ordinary_full_comm256_task00_s0_ss271829.json",
+          "report_sha256": "3dbf9260ae1ec1a9ae6e0be486e35d4aa61452510cf5090a332a9066f4a23b26",
+          "rollout_rel_l2": 0.07271281073335557,
+          "seed": 0,
+          "task": 0
+        },
+        {
+          "checkpoint_sha256": "e9eb5f815516e4aeedbe794b9f0d49a0e3e7807e402d975117b2ad9c27ee1154",
+          "effective_trial_id": "pilot_ordinary_full_comm256",
+          "family": "amplitude_ood",
+          "lr_validation_rollout_rel_l2": 0.04804766704328358,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_ordinary_full_comm256_task01_s0_ss271829.json",
+          "report_sha256": "e7eecde9f81443389ee2b97e1e3ca4ba9621eb107983b8dc6f8ca0a1bca4567f",
+          "rollout_rel_l2": 0.048056444781832394,
+          "seed": 0,
+          "task": 1
+        },
+        {
+          "checkpoint_sha256": "5417da137c780e076d2323f0045f1d77c225159f2b5ae40d45e9a10305a7b6b4",
+          "effective_trial_id": "pilot_ordinary_full_comm256",
+          "family": "matern_gp",
+          "lr_validation_rollout_rel_l2": 0.03322085277177393,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_ordinary_full_comm256_task02_s0_ss271829.json",
+          "report_sha256": "c80f6e8d073061690d82b198a0b5fc2a02f37d733fa6b4e13bf410c0ec3a0d1e",
+          "rollout_rel_l2": 0.0417717567528598,
+          "seed": 0,
+          "task": 2
+        },
+        {
+          "checkpoint_sha256": "425aea9c9f8b2259c9523285e0b9b0d123bf641d4f44995ded3c7a1995efaeb3",
+          "effective_trial_id": "pilot_ordinary_full_comm256",
+          "family": "localized_bump",
+          "lr_validation_rollout_rel_l2": 0.03694563896860927,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_ordinary_full_comm256_task03_s0_ss271829.json",
+          "report_sha256": "a3662a201e564b9913cf849ac14839f9df5c1500560e00312c882b1124056b41",
+          "rollout_rel_l2": 0.06366512620588766,
+          "seed": 0,
+          "task": 3
+        },
+        {
+          "checkpoint_sha256": "d3905f60c8ceb351699458c39c9edd9daf3b009c3fa55ce1faa748ee6894830f",
+          "effective_trial_id": "pilot_ordinary_full_comm256",
+          "family": "mixed_fourier",
+          "lr_validation_rollout_rel_l2": 0.04212977890856564,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_ordinary_full_comm256_task04_s0_ss271829.json",
+          "report_sha256": "c9fd370fca2551194c4b68ac2dc36fe4655a85496b15647b413120f6ff3a1bf1",
+          "rollout_rel_l2": 0.08776810296112672,
+          "seed": 0,
+          "task": 4
+        },
+        {
+          "checkpoint_sha256": "8c66b7041ecab63a74455c531624ce5f98515316c78bf79b9ad52a70ef452c34",
+          "effective_trial_id": "pilot_ordinary_full_comm256",
+          "family": "piecewise_smooth",
+          "lr_validation_rollout_rel_l2": 0.03767341610509903,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_ordinary_full_comm256_task05_s0_ss271829.json",
+          "report_sha256": "3a96e6a2f99aa7670a6a3abfe7643d5db180b476f83325a10a3fab45227c0e39",
+          "rollout_rel_l2": 0.04268694879719988,
+          "seed": 0,
+          "task": 5
+        },
+        {
+          "checkpoint_sha256": "6e7fac8511e3312e3c17f228683e213318e7ba650c98b7f60d9d998a142f4e9b",
+          "effective_trial_id": "pilot_ordinary_full_comm256-recovery1",
+          "family": "high_frequency",
+          "lr_validation_rollout_rel_l2": 0.037029018078465016,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_ordinary_full_comm256-recovery1_task00_s1_ss271829.json",
+          "report_sha256": "0e325ea3273f8b9410399cd1b4ffde0e07b51bcdb94501db8eabe51022f33aaa",
+          "rollout_rel_l2": 0.049243947479408225,
+          "seed": 1,
+          "task": 0
+        },
+        {
+          "checkpoint_sha256": "1a830a06bbd53b0926093de0171e0a180701e5618949e978bd362405169a168f",
+          "effective_trial_id": "pilot_ordinary_full_comm256-recovery1",
+          "family": "amplitude_ood",
+          "lr_validation_rollout_rel_l2": 0.04584431579569354,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_ordinary_full_comm256-recovery1_task01_s1_ss271829.json",
+          "report_sha256": "115fecb80e0772abd3046edcd836a5b2269f10b756b9779c9fec8ab323ffd2f9",
+          "rollout_rel_l2": 0.04480050294660031,
+          "seed": 1,
+          "task": 1
+        },
+        {
+          "checkpoint_sha256": "cefb76fe1ac0047c22b58719d82c6dd72f840b5db344931a3587d3015cd7367c",
+          "effective_trial_id": "pilot_ordinary_full_comm256-recovery1",
+          "family": "matern_gp",
+          "lr_validation_rollout_rel_l2": 0.037664393603336066,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_ordinary_full_comm256-recovery1_task02_s1_ss271829.json",
+          "report_sha256": "d11f29ec68f3f321f58460b70ae1faf1f6eb1646b932c65fd86f7d794cb3bdd7",
+          "rollout_rel_l2": 0.04595282793743536,
+          "seed": 1,
+          "task": 2
+        },
+        {
+          "checkpoint_sha256": "ac4b7d589130890244fafc9add592b55be9eec7a31bb7d631e70aebbf0db6c1b",
+          "effective_trial_id": "pilot_ordinary_full_comm256-recovery1",
+          "family": "localized_bump",
+          "lr_validation_rollout_rel_l2": 0.03923030801233836,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_ordinary_full_comm256-recovery1_task03_s1_ss271829.json",
+          "report_sha256": "720eff692588ccfae8188e2524237f0f95d6fc748c811d1056f41cacdca6025b",
+          "rollout_rel_l2": 0.05564400716684759,
+          "seed": 1,
+          "task": 3
+        },
+        {
+          "checkpoint_sha256": "74e3457e36339d12ab5a00f53e8b202ce40d037b56da98656b293ca83df4e108",
+          "effective_trial_id": "pilot_ordinary_full_comm256-recovery1",
+          "family": "mixed_fourier",
+          "lr_validation_rollout_rel_l2": 0.03224590989993885,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_ordinary_full_comm256-recovery1_task04_s1_ss271829.json",
+          "report_sha256": "deca39db594afe54c8679d726824d192abbc76f18272466538629943a4f7c993",
+          "rollout_rel_l2": 0.0709846303681843,
+          "seed": 1,
+          "task": 4
+        },
+        {
+          "checkpoint_sha256": "09e809f5672e6e3261e0049203b69f43599bbef438cfabd9b8836dcfb121de2d",
+          "effective_trial_id": "pilot_ordinary_full_comm256-recovery1",
+          "family": "piecewise_smooth",
+          "lr_validation_rollout_rel_l2": 0.0464307967456989,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_ordinary_full_comm256-recovery1_task05_s1_ss271829.json",
+          "report_sha256": "8a52457d865bf79c6f5497658d114db77655576257928548f076c1cb381c04b2",
+          "rollout_rel_l2": 0.052516101952642204,
+          "seed": 1,
+          "task": 5
+        },
+        {
+          "checkpoint_sha256": "214fbae4f929e6d99e3abef55beb341b3082ce6a78b569b96f30212ef01af0f6",
+          "effective_trial_id": "pilot_ordinary_full_comm256",
+          "family": "high_frequency",
+          "lr_validation_rollout_rel_l2": 0.03901536189951003,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_ordinary_full_comm256_task00_s42_ss271829.json",
+          "report_sha256": "dd0a8ee12437696ff1a631f28af597b123a894f1bc865d961d750e63302c8132",
+          "rollout_rel_l2": 0.0691655074362643,
+          "seed": 42,
+          "task": 0
+        },
+        {
+          "checkpoint_sha256": "188d68b572d930eb43ab2b1e44fe7fd47a94f29a2056094a782cf5be15a28799",
+          "effective_trial_id": "pilot_ordinary_full_comm256",
+          "family": "amplitude_ood",
+          "lr_validation_rollout_rel_l2": 0.03721491385367699,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_ordinary_full_comm256_task01_s42_ss271829.json",
+          "report_sha256": "c14d12171d3472310552bed8603cf36d5894290a02b99c1f3f107c42021d7638",
+          "rollout_rel_l2": 0.03871779927285388,
+          "seed": 42,
+          "task": 1
+        },
+        {
+          "checkpoint_sha256": "8eec47d58fe9fcca83395b0b2d148df536e08000018e77eb8442c07738ae8df9",
+          "effective_trial_id": "pilot_ordinary_full_comm256",
+          "family": "matern_gp",
+          "lr_validation_rollout_rel_l2": 0.03063805974670686,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_ordinary_full_comm256_task02_s42_ss271829.json",
+          "report_sha256": "b5bdb9127cf75206e8609c891331d87e8b889bb8889351cbc260744ff42427e9",
+          "rollout_rel_l2": 0.0362392196431756,
+          "seed": 42,
+          "task": 2
+        },
+        {
+          "checkpoint_sha256": "6ccd51a5a7358b61cd8961d16931ffa185e0226e6874daba1c4177635e2a08db",
+          "effective_trial_id": "pilot_ordinary_full_comm256",
+          "family": "localized_bump",
+          "lr_validation_rollout_rel_l2": 0.03111072158790194,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_ordinary_full_comm256_task03_s42_ss271829.json",
+          "report_sha256": "827c741d98925659f4c3d37a6daa6aeb11e014f2c1516c15f6579bc5661f01ca",
+          "rollout_rel_l2": 0.049139127263333644,
+          "seed": 42,
+          "task": 3
+        },
+        {
+          "checkpoint_sha256": "e1e966363bdca05f5660ef2319ca4ed94e0989039218e42d6853effb00933aef",
+          "effective_trial_id": "pilot_ordinary_full_comm256",
+          "family": "mixed_fourier",
+          "lr_validation_rollout_rel_l2": 0.036433897406095636,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_ordinary_full_comm256_task04_s42_ss271829.json",
+          "report_sha256": "8525d181e262674d52d463cb12305facc1560bfc590afb51858c4e8274ecc909",
+          "rollout_rel_l2": 0.06979085286147893,
+          "seed": 42,
+          "task": 4
+        },
+        {
+          "checkpoint_sha256": "0b3be685ab8ce079fb7f04353df3dd111026a822f65272ae5281c5fda77a07cc",
+          "effective_trial_id": "pilot_ordinary_full_comm256",
+          "family": "piecewise_smooth",
+          "lr_validation_rollout_rel_l2": 0.04209210922126658,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_ordinary_full_comm256_task05_s42_ss271829.json",
+          "report_sha256": "96cb6d3a8b1a02a133c95c280a8fbd4920453e857fe400d927bda6b7cbd67e29",
+          "rollout_rel_l2": 0.04900537998182699,
+          "seed": 42,
+          "task": 5
+        }
+      ],
+      "mean_by_boundary_family": {
+        "amplitude_ood": 0.04385824900042886,
+        "high_frequency": 0.06370742188300937,
+        "localized_bump": 0.05614942021202296,
+        "matern_gp": 0.04132126811115692,
+        "mixed_fourier": 0.07618119539692998,
+        "piecewise_smooth": 0.04806947691055636
+      },
+      "mean_by_model_seed": {
+        "0": 0.059443531705377,
+        "1": 0.053190336308519666,
+        "42": 0.05200964774315555
+      },
+      "mean_hr_dev_rollout_rel_l2": 0.0548811719190174,
+      "model_config_sha256_by_seed": {
+        "0": "4212a85d0cd7ecb8bf50481719e0f02f5cd0028318a6828c8735259e9e6cf75f",
+        "1": "7d2d087dcd907b102e421a1f0e0ef949fa5f57df12a7479e616a09bdfecc6ae2",
+        "42": "6245028ee807d5293cbd91637378efe9ea93825a98e6a05e4537a7bfafcb0978"
+      },
+      "model_seeds": [
+        0,
+        1,
+        42
+      ],
+      "support_budget": 4,
+      "support_seed": 271829,
+      "trial_id": "pilot_ordinary_full_comm256",
+      "worst_task_mean_hr_dev_rollout_rel_l2": 0.07618119539692998
+    },
+    {
+      "cell_count": 18,
+      "cells": [
+        {
+          "checkpoint_sha256": "0b8b1e01160a9b95f065c96de9f36799eec7460f3c57f9e797ced763fa4af1af",
+          "effective_trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+          "family": "high_frequency",
+          "lr_validation_rollout_rel_l2": 0.5183544095605612,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_lifted_scratch_lr3e-4_cos500_wd1e-4_task00_s0_ss271829.json",
+          "report_sha256": "70734a757d5b881a54787716d5262c5eab11ad868328fc2f262355d366473730",
+          "rollout_rel_l2": 0.6697698941454291,
+          "seed": 0,
+          "task": 0
+        },
+        {
+          "checkpoint_sha256": "ed150465059cdab3a7b74cd9081353694c34d027bf3736f46ca6f2478c45ee4a",
+          "effective_trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+          "family": "amplitude_ood",
+          "lr_validation_rollout_rel_l2": 0.35054539432749154,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_lifted_scratch_lr3e-4_cos500_wd1e-4_task01_s0_ss271829.json",
+          "report_sha256": "4387d457ed5b1e3f698c8d2c757224bd0b81ed18cb95534be3db534c63061788",
+          "rollout_rel_l2": 0.33047000360675155,
+          "seed": 0,
+          "task": 1
+        },
+        {
+          "checkpoint_sha256": "f4e9812893b9510015e26f7e2b9abdbe4e843f136969b1f231e2b63d65c4f133",
+          "effective_trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+          "family": "matern_gp",
+          "lr_validation_rollout_rel_l2": 0.42498989533632997,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_lifted_scratch_lr3e-4_cos500_wd1e-4_task02_s0_ss271829.json",
+          "report_sha256": "95209121b11042314eca94410c23b42ec088228c780aec861ecd3b2d2b4ad12c",
+          "rollout_rel_l2": 0.5299495751038193,
+          "seed": 0,
+          "task": 2
+        },
+        {
+          "checkpoint_sha256": "ddcc889b41f4f4aab14e26371fa9c7c8aabc59e83994dc419096735503b477a7",
+          "effective_trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+          "family": "localized_bump",
+          "lr_validation_rollout_rel_l2": 0.40812839162535963,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_lifted_scratch_lr3e-4_cos500_wd1e-4_task03_s0_ss271829.json",
+          "report_sha256": "f903f0d453024f337bc7acef1df34ae6f225c32a730e3c51af267cf8e1081f2c",
+          "rollout_rel_l2": 0.6230598598718644,
+          "seed": 0,
+          "task": 3
+        },
+        {
+          "checkpoint_sha256": "68037e03e6ba6f12b2b98c5cfc8db1d493c377acd50825c579419f27e1a951ce",
+          "effective_trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+          "family": "mixed_fourier",
+          "lr_validation_rollout_rel_l2": 0.47162601209711286,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_lifted_scratch_lr3e-4_cos500_wd1e-4_task04_s0_ss271829.json",
+          "report_sha256": "ec9c9721acb75e36db2ff673287e5046287d552b7cfbb3343d8a9f651abd3d15",
+          "rollout_rel_l2": 0.4320600505918264,
+          "seed": 0,
+          "task": 4
+        },
+        {
+          "checkpoint_sha256": "3740ac51af82ea08459c93de46c8553f93afc73169b8b24870f9b1f979ae9c99",
+          "effective_trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+          "family": "piecewise_smooth",
+          "lr_validation_rollout_rel_l2": 0.3926094122696667,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_lifted_scratch_lr3e-4_cos500_wd1e-4_task05_s0_ss271829.json",
+          "report_sha256": "fd49f2c7982c1d975f3bfeadcae96de1d2601871229870f8023a3cd0958779e2",
+          "rollout_rel_l2": 0.396171026211232,
+          "seed": 0,
+          "task": 5
+        },
+        {
+          "checkpoint_sha256": "44aa0bf670e52d7bd0dc6da4f7ce9d2f854761b6423ac7fa6308c80df16521bc",
+          "effective_trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+          "family": "high_frequency",
+          "lr_validation_rollout_rel_l2": 0.538656096253544,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_lifted_scratch_lr3e-4_cos500_wd1e-4_task00_s1_ss271829.json",
+          "report_sha256": "64325276a7d35fb436ed9070b60bde0b32d33cdb91fdfd1cee37dbdc6efe7492",
+          "rollout_rel_l2": 0.6881405521184205,
+          "seed": 1,
+          "task": 0
+        },
+        {
+          "checkpoint_sha256": "310e8b90deab8f6170ed475a984a88b0d5f8653561c0be781862d74c0bb7598d",
+          "effective_trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+          "family": "amplitude_ood",
+          "lr_validation_rollout_rel_l2": 0.39302051290869716,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_lifted_scratch_lr3e-4_cos500_wd1e-4_task01_s1_ss271829.json",
+          "report_sha256": "3c7da64c5a11846056d8793387bb425c4b31e8533af48dff78998329d0233a60",
+          "rollout_rel_l2": 0.3519534300547093,
+          "seed": 1,
+          "task": 1
+        },
+        {
+          "checkpoint_sha256": "7af2e1812c6315d19bc8cf8e1456e1e2023709eca70a7de595e6c0a451dc4940",
+          "effective_trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+          "family": "matern_gp",
+          "lr_validation_rollout_rel_l2": 0.47480814876034855,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_lifted_scratch_lr3e-4_cos500_wd1e-4_task02_s1_ss271829.json",
+          "report_sha256": "989408ef6583fb42822ae6441607f4bd1cd19a2e98b54279b1024024ecf069ca",
+          "rollout_rel_l2": 0.5576997387222946,
+          "seed": 1,
+          "task": 2
+        },
+        {
+          "checkpoint_sha256": "006f03ff203cda98a5e2c25b88a198486e21c539d4c402e6e359f943b189748b",
+          "effective_trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+          "family": "localized_bump",
+          "lr_validation_rollout_rel_l2": 0.4102996719069779,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_lifted_scratch_lr3e-4_cos500_wd1e-4_task03_s1_ss271829.json",
+          "report_sha256": "b1a9e4640088c91d65c1a48b90e6a15e1752d1f2395697452597944fcf37b814",
+          "rollout_rel_l2": 0.6265703742392361,
+          "seed": 1,
+          "task": 3
+        },
+        {
+          "checkpoint_sha256": "781c518bf95e06b33ed543929ad824eef81249965039d19ef6b4ddedf663f8ba",
+          "effective_trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+          "family": "mixed_fourier",
+          "lr_validation_rollout_rel_l2": 0.545446345442906,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_lifted_scratch_lr3e-4_cos500_wd1e-4_task04_s1_ss271829.json",
+          "report_sha256": "70037e8c618eac6df24e6704d098538abaf329128ba05f75c83d5c556cbfede8",
+          "rollout_rel_l2": 0.45822514351457355,
+          "seed": 1,
+          "task": 4
+        },
+        {
+          "checkpoint_sha256": "66c7098b7d2a643d24b42d31cda7697192e88d750d0231754da2b882b9255958",
+          "effective_trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+          "family": "piecewise_smooth",
+          "lr_validation_rollout_rel_l2": 0.4020296030677855,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_lifted_scratch_lr3e-4_cos500_wd1e-4_task05_s1_ss271829.json",
+          "report_sha256": "758fd795bedc8b9f4c67d397920e2d8ca98eda2ff0733d5fcc5fa7d9df5ee11b",
+          "rollout_rel_l2": 0.40266487076878543,
+          "seed": 1,
+          "task": 5
+        },
+        {
+          "checkpoint_sha256": "acd6abfb8ee26e1a53099177986a4f22bedadcec0ec14bf02bb336a7ba1c3da3",
+          "effective_trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+          "family": "high_frequency",
+          "lr_validation_rollout_rel_l2": 0.5476257042959333,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_lifted_scratch_lr3e-4_cos500_wd1e-4_task00_s42_ss271829.json",
+          "report_sha256": "ba85e205ec28fb57fbc2001b046566e9fa474a47f7f8e50833d4d3dd525f6ef0",
+          "rollout_rel_l2": 0.7063614048995078,
+          "seed": 42,
+          "task": 0
+        },
+        {
+          "checkpoint_sha256": "2e13092029a05b84210d5c1ba304b53eb43e7a8be80655e6758a9468d3a06c3b",
+          "effective_trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+          "family": "amplitude_ood",
+          "lr_validation_rollout_rel_l2": 0.3805401546414942,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_lifted_scratch_lr3e-4_cos500_wd1e-4_task01_s42_ss271829.json",
+          "report_sha256": "561da3af77befb77301d743714ee04e2249a7112005dd648c5628247230b7305",
+          "rollout_rel_l2": 0.32819711575284605,
+          "seed": 42,
+          "task": 1
+        },
+        {
+          "checkpoint_sha256": "dafbbfddd421d4901eb3b39cf7115486cdb1cd82930ce828af8f9ba673af9fe4",
+          "effective_trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+          "family": "matern_gp",
+          "lr_validation_rollout_rel_l2": 0.4615624018013478,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_lifted_scratch_lr3e-4_cos500_wd1e-4_task02_s42_ss271829.json",
+          "report_sha256": "381198722727a27dd17f1a2535f58296e6c5d72f460589a104eca669acd42b45",
+          "rollout_rel_l2": 0.5760512866079808,
+          "seed": 42,
+          "task": 2
+        },
+        {
+          "checkpoint_sha256": "348da0b57747d0cb0bcbab6fa25d553d603cde4446cf41fe4d2628fed23a3188",
+          "effective_trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+          "family": "localized_bump",
+          "lr_validation_rollout_rel_l2": 0.3996937176212669,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_lifted_scratch_lr3e-4_cos500_wd1e-4_task03_s42_ss271829.json",
+          "report_sha256": "bd31ac7b276fb9bf5bd21e50773c0754d9401231093450686319fe36e037e108",
+          "rollout_rel_l2": 0.6291702192276716,
+          "seed": 42,
+          "task": 3
+        },
+        {
+          "checkpoint_sha256": "dd6cecb7e26320cb0a43f1b101ce84aec495eba8aeb7f0e66572ea928710d965",
+          "effective_trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+          "family": "mixed_fourier",
+          "lr_validation_rollout_rel_l2": 0.541567012714222,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_lifted_scratch_lr3e-4_cos500_wd1e-4_task04_s42_ss271829.json",
+          "report_sha256": "6d02623474c333354b2690beaa76ce6ba07bda88f1d02b8b19b1c22c2accb728",
+          "rollout_rel_l2": 0.4331653806380928,
+          "seed": 42,
+          "task": 4
+        },
+        {
+          "checkpoint_sha256": "82256f607e69f5a352034de01c06fa1c42c7416b9983ba76eeb9d7e63683213c",
+          "effective_trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+          "family": "piecewise_smooth",
+          "lr_validation_rollout_rel_l2": 0.4049696068279445,
+          "report": "artifacts/reports/phase1_hrdev_evaluations/pilot_lifted_scratch_lr3e-4_cos500_wd1e-4_task05_s42_ss271829.json",
+          "report_sha256": "84cd2976c661069d7df7b584f6cc32ef868aa8be96f8c4091bb378e39d291683",
+          "rollout_rel_l2": 0.42310465481132264,
+          "seed": 42,
+          "task": 5
+        }
+      ],
+      "mean_by_boundary_family": {
+        "amplitude_ood": 0.3368735164714356,
+        "high_frequency": 0.6880906170544524,
+        "localized_bump": 0.6262668177795907,
+        "matern_gp": 0.5545668668113649,
+        "mixed_fourier": 0.44115019158149754,
+        "piecewise_smooth": 0.40731351726378007
+      },
+      "mean_by_model_seed": {
+        "0": 0.49691340158848724,
+        "1": 0.5142090182363366,
+        "42": 0.5160083436562369
+      },
+      "mean_hr_dev_rollout_rel_l2": 0.5090435878270202,
+      "model_config_sha256_by_seed": {
+        "0": "661b7f2bd2e5948b3237f13e6e514f5e53fa2183e9edfcf1db46865220fc0d06",
+        "1": "5cfb4fbf6bc9d0d149759ecc65442c18db1015044738b171c7279247e3dfdf51",
+        "42": "951c3efa147710e4fbb6708366a8dabde4a502e6492f32d1e12bafdba42739ea"
+      },
+      "model_seeds": [
+        0,
+        1,
+        42
+      ],
+      "support_budget": 4,
+      "support_seed": 271829,
+      "trial_id": "pilot_lifted_scratch_lr3e-4_cos500_wd1e-4",
+      "worst_task_mean_hr_dev_rollout_rel_l2": 0.6880906170544524
+    }
+  ],
+  "reports_root": "artifacts/reports/phase1_hrdev_evaluations",
+  "schema": "blrpng_phase1_hrdev_promotion_summary_v1",
+  "selection": "unweighted mean of all six boundary-family HR-development validation rollout relative-L2 values across each candidate's fixed model seeds; worst-family mean is a tie-break/diagnostic",
+  "support_budget": 4,
+  "support_seed": 271829,
+  "within_task_checkpoint_selection_used_hr": false
+}

@@ -1,0 +1,86 @@
+experiment:
+  round: S2PILOT
+  id: stage2_six_family_three_seed_shortlist_20261014
+  description: Six-family, three-seed development pilot for the HR-pretrain to few-shot LR adaptation to HR inference pipeline.
+  base_training_config: configs/allen_cahn_v2_calibration.yaml
+  screen_model_seed: 42
+  support_budget: 4
+  tasks: [0, 1, 2, 3, 4, 5]
+  primary_selection_metric: mean_task_lr_validation_rollout_rel_l2
+  data_manifest: artifacts/manifests/phase1_development/hrdev_20261012/tasks.json
+  data_root: artifacts/data/phase1_development/hrdev_20261013_firstpath_ss271829
+  support_seed: 271829
+  support_index_template: "{root}/task{task:02d}_support_s{support_seed}_m{budget}.index.json"
+  validation_index_template: "artifacts/data/phase1_development/hrdev_20261012_t20_ss271829/task{task:02d}_validation_lr_64.index.json"
+  selection_data: "64x64 20-step LR validation only; six development boundary families; HR-dev evaluated after all LR checkpoint selection; no query/test access"
+trials:
+  - id: pilot_pathsource_comm256
+    objective: commutator_only
+    initialization_checkpoint_template: artifacts/checkpoints/phase1/R1/source_path_s{seed}_scratch.pt
+    adapter_strategy: nlt
+    lr: 0.001
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+    calibration_resolution: 256
+    commutator_weight: 0.05
+    commutator_rollout_steps: 2
+  - id: pilot_pathsource_firstpath_ratio015
+    objective: blrpng_v2
+    initialization_checkpoint_template: artifacts/checkpoints/phase1/R1/source_path_s{seed}_scratch.pt
+    adapter_strategy: nlt
+    auxiliary_target: newton_correction_first
+    commutator_weight: 0.0
+    lr: 0.001
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+    path_gradient_ratio: 0.15
+    path_layer: 1
+    path_anneal_gamma: 2.0
+  - id: pilot_pathsource_endpoint_ratio015
+    objective: blrpng_v2
+    initialization_checkpoint_template: artifacts/checkpoints/phase1/R1/source_path_s{seed}_scratch.pt
+    adapter_strategy: nlt
+    auxiliary_target: endpoint_increment
+    commutator_weight: 0.0
+    lr: 0.001
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+    path_gradient_ratio: 0.15
+    path_layer: 1
+    path_anneal_gamma: 2.0
+  - id: pilot_pathsource_endpoint_direction_ratio015
+    objective: blrpng_v2
+    initialization_checkpoint_template: artifacts/checkpoints/phase1/R1/source_path_s{seed}_scratch.pt
+    adapter_strategy: nlt
+    auxiliary_target: endpoint_direction_first_norm
+    commutator_weight: 0.0
+    lr: 0.001
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+    path_gradient_ratio: 0.15
+    path_layer: 1
+    path_anneal_gamma: 2.0
+  - id: pilot_ordinary_full_comm256
+    objective: commutator_only
+    initialization_checkpoint_template: artifacts/checkpoints/phase1/R1/source_final_s{seed}_scratch.pt
+    adapter_strategy: full
+    lr: 0.0001
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+    calibration_resolution: 256
+    commutator_weight: 0.05
+    commutator_rollout_steps: 2
+  - id: pilot_lifted_scratch_lr3e-4_cos500_wd1e-4
+    objective: final_only
+    initialization_checkpoint: null
+    adapter_strategy: full
+    lr: 0.0003
+    epochs: 500
+    scheduler: cosine
+    minimum_lr: 0.000001
+    weight_decay: 0.0001

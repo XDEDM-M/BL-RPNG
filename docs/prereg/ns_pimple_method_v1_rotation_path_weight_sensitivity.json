@@ -1,0 +1,34 @@
+{
+  "schema": "blrpng_ns_pimple_rotation_path_weight_sensitivity_prereg_v1",
+  "experiment_id": "NS-PIMPLE-ROTATION-PATH-WEIGHT-SENSITIVITY-20261016",
+  "status": "registered_before_weight_sensitivity_training",
+  "created_utc": "2026-10-16T03:46:41+00:00",
+  "hypothesis": "The default 0.05 path-gradient ratio may be too weak for the PIMPLE supervision to affect the adapted model; stronger ratios may help if the selected solver signal is useful.",
+  "fixed_source": "The same frozen rotation-augmented selected_pimple_path source checkpoint used in the prior F5 target adaptation screen.",
+  "tasks": [
+    "F5_dual_sin1_top080_bottom030",
+    "F5_dual_sin1_top100_bottom050"
+  ],
+  "target_support": "The same four LR support trajectories per task.",
+  "target_validation": "The same six LR validation trajectories per task; checkpoint selection remains LR-only.",
+  "arms": {
+    "final_only": "Existing frozen final-only target adaptation checkpoint from the rotation source run.",
+    "selected_pimple_path": "BL-RPNG safe objective with selected PIMPLE correction and path-gradient ratios 0.20 and 0.50.",
+    "matched_endpoint_control": "Same objective and ratios, replacing the selected path correction by endpoint direction scaled to the selected correction norm."
+  },
+  "training": {
+    "adaptation": "NLT rank 4, alpha 4",
+    "optimizer": "AdamW lr=1e-3 weight_decay=1e-6",
+    "batch_size": 4,
+    "maximum_epochs": 100,
+    "minimum_epochs": 30,
+    "early_stopping_patience": 12,
+    "checkpoint_selection": "mean 20-step LR autoregressive relative-L2"
+  },
+  "development_gate": "After all checkpoints are frozen, evaluate both ratios on the four existing F5 HR development queries. Promote a ratio to new F6 confirmation only if the PIMPLE-path arm beats both the same-ratio matched control and final-only by at least 1% in mean, and is no worse than either control on each F5 task.",
+  "prohibitions": [
+    "No F6 HR query fields may be read for this experiment, including V1 or V2 queries.",
+    "Do not change the registered ratios, architecture, optimizer, or decision rule after training begins.",
+    "F5 HR results are development only; any paper claim requires new independently generated F6 HR queries."
+  ]
+}

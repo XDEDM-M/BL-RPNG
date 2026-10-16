@@ -1,0 +1,316 @@
+experiment:
+  round: R1
+  id: r1_lr_adaptation_screen_20261013
+  description: >-
+    Tune path-pretrained, ordinary-transfer, and lifted LR-scratch adaptation.
+    Screen on four representative families; finalists cover all six families.
+    Selection uses only LR validation rollouts; no HR query is read.
+  base_training_config: configs/allen_cahn_v2_calibration.yaml
+  screen_model_seed: 42
+  support_budget: 4
+  tasks: [0, 1, 3, 5]
+  primary_selection_metric: mean_task_lr_validation_rollout_rel_l2
+  data_manifest: artifacts/manifests/phase1_development/hrdev_20261012/tasks.json
+  data_root: artifacts/data/phase1_development/hrdev_20261012_t20_ss271829
+  support_seed: 271829
+  support_index_template: "{root}/task{task:02d}_support_s{support_seed}_m{budget}.index.json"
+  validation_index_template: "{root}/task{task:02d}_validation_lr_64.index.json"
+  selection_data: "64x64 20-step LR development validation only; no HR validation/query loaded in R1 screen"
+  checkpoint: artifacts/checkpoints/phase1/R1/source_path_s42_resume_resume50.pt
+trials:
+  # Shared final-only tuning range for the direct adaptation baseline.
+  - id: final_lr1e-4_cosine100
+    objective: final_only
+    lr: 0.0001
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: final_lr3e-4_cosine100
+    objective: final_only
+    lr: 0.0003
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: final_lr1e-3_cosine100
+    objective: final_only
+    lr: 0.001
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: final_lr1e-4_multistep100
+    objective: final_only
+    lr: 0.0001
+    epochs: 100
+    scheduler: multistep
+    lr_drop_epoch: 80
+    lr_drop_gamma: 0.2
+  - id: final_lr3e-4_multistep100
+    objective: final_only
+    lr: 0.0003
+    epochs: 100
+    scheduler: multistep
+    lr_drop_epoch: 80
+    lr_drop_gamma: 0.2
+  - id: final_lr1e-3_multistep100
+    objective: final_only
+    lr: 0.001
+    epochs: 100
+    scheduler: multistep
+    lr_drop_epoch: 80
+    lr_drop_gamma: 0.2
+  - id: final_lr1e-4_cosine50
+    objective: final_only
+    lr: 0.0001
+    epochs: 50
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: final_lr3e-4_cosine50
+    objective: final_only
+    lr: 0.0003
+    epochs: 50
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: final_lr1e-3_cosine50
+    objective: final_only
+    lr: 0.001
+    epochs: 50
+    scheduler: cosine
+    minimum_lr: 0.000001
+  # Fair ordinary-transfer baseline, independently tuned on the same LR
+  # support/validation tasks. The promoted final-only source is fixed after
+  # the source HR validation comparison.
+  - id: ordinary_lr1e-4_cosine100
+    objective: final_only
+    initialization_checkpoint: artifacts/checkpoints/phase1/R1/source_final_s42_resume.pt
+    lr: 0.0001
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: ordinary_lr3e-4_cosine100
+    objective: final_only
+    initialization_checkpoint: artifacts/checkpoints/phase1/R1/source_final_s42_resume.pt
+    lr: 0.0003
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: ordinary_lr1e-3_cosine100
+    objective: final_only
+    initialization_checkpoint: artifacts/checkpoints/phase1/R1/source_final_s42_resume.pt
+    lr: 0.001
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: ordinary_lr1e-4_multistep100
+    objective: final_only
+    initialization_checkpoint: artifacts/checkpoints/phase1/R1/source_final_s42_resume.pt
+    lr: 0.0001
+    epochs: 100
+    scheduler: multistep
+    lr_drop_epoch: 80
+    lr_drop_gamma: 0.2
+  - id: ordinary_lr3e-4_multistep100
+    objective: final_only
+    initialization_checkpoint: artifacts/checkpoints/phase1/R1/source_final_s42_resume.pt
+    lr: 0.0003
+    epochs: 100
+    scheduler: multistep
+    lr_drop_epoch: 80
+    lr_drop_gamma: 0.2
+  - id: ordinary_lr1e-3_multistep100
+    objective: final_only
+    initialization_checkpoint: artifacts/checkpoints/phase1/R1/source_final_s42_resume.pt
+    lr: 0.001
+    epochs: 100
+    scheduler: multistep
+    lr_drop_epoch: 80
+    lr_drop_gamma: 0.2
+  - id: ordinary_lr1e-4_cosine50
+    objective: final_only
+    initialization_checkpoint: artifacts/checkpoints/phase1/R1/source_final_s42_resume.pt
+    lr: 0.0001
+    epochs: 50
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: ordinary_lr3e-4_cosine50
+    objective: final_only
+    initialization_checkpoint: artifacts/checkpoints/phase1/R1/source_final_s42_resume.pt
+    lr: 0.0003
+    epochs: 50
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: ordinary_lr1e-3_cosine50
+    objective: final_only
+    initialization_checkpoint: artifacts/checkpoints/phase1/R1/source_final_s42_resume.pt
+    lr: 0.001
+    epochs: 50
+    scheduler: cosine
+    minimum_lr: 0.000001
+  # Lifted LR scratch receives the same LR/scheduler grid and the same target
+  # validation selection rule; it trains the full operator from random init.
+  - id: scratch_lr1e-4_cosine100
+    objective: final_only
+    initialization_checkpoint: null
+    adapter_strategy: full
+    lr: 0.0001
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: scratch_lr3e-4_cosine100
+    objective: final_only
+    initialization_checkpoint: null
+    adapter_strategy: full
+    lr: 0.0003
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: scratch_lr1e-3_cosine100
+    objective: final_only
+    initialization_checkpoint: null
+    adapter_strategy: full
+    lr: 0.001
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: scratch_lr1e-4_multistep100
+    objective: final_only
+    initialization_checkpoint: null
+    adapter_strategy: full
+    lr: 0.0001
+    epochs: 100
+    scheduler: multistep
+    lr_drop_epoch: 80
+    lr_drop_gamma: 0.2
+  - id: scratch_lr3e-4_multistep100
+    objective: final_only
+    initialization_checkpoint: null
+    adapter_strategy: full
+    lr: 0.0003
+    epochs: 100
+    scheduler: multistep
+    lr_drop_epoch: 80
+    lr_drop_gamma: 0.2
+  - id: scratch_lr1e-3_multistep100
+    objective: final_only
+    initialization_checkpoint: null
+    adapter_strategy: full
+    lr: 0.001
+    epochs: 100
+    scheduler: multistep
+    lr_drop_epoch: 80
+    lr_drop_gamma: 0.2
+  - id: scratch_lr1e-4_cosine50
+    objective: final_only
+    initialization_checkpoint: null
+    adapter_strategy: full
+    lr: 0.0001
+    epochs: 50
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: scratch_lr3e-4_cosine50
+    objective: final_only
+    initialization_checkpoint: null
+    adapter_strategy: full
+    lr: 0.0003
+    epochs: 50
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: scratch_lr1e-3_cosine50
+    objective: final_only
+    initialization_checkpoint: null
+    adapter_strategy: full
+    lr: 0.001
+    epochs: 50
+    scheduler: cosine
+    minimum_lr: 0.000001
+  # Real target path fine-tuning: the auxiliary labels are the accepted Newton
+  # state displacements stored in the target LR support shards.
+  - id: path_lr1e-4_ratio005
+    objective: blrpng_v2
+    commutator_weight: 0.0
+    lr: 0.0001
+    path_gradient_ratio: 0.05
+    path_layer: 1
+    path_anneal_gamma: 2.0
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: path_lr1e-4_ratio015
+    objective: blrpng_v2
+    commutator_weight: 0.0
+    lr: 0.0001
+    path_gradient_ratio: 0.15
+    path_layer: 1
+    path_anneal_gamma: 2.0
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: path_lr1e-4_ratio030
+    objective: blrpng_v2
+    commutator_weight: 0.0
+    lr: 0.0001
+    path_gradient_ratio: 0.3
+    path_layer: 1
+    path_anneal_gamma: 2.0
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: path_lr3e-4_ratio005
+    objective: blrpng_v2
+    commutator_weight: 0.0
+    lr: 0.0003
+    path_gradient_ratio: 0.05
+    path_layer: 1
+    path_anneal_gamma: 2.0
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: path_lr3e-4_ratio015
+    objective: blrpng_v2
+    commutator_weight: 0.0
+    lr: 0.0003
+    path_gradient_ratio: 0.15
+    path_layer: 1
+    path_anneal_gamma: 2.0
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: path_lr3e-4_ratio030
+    objective: blrpng_v2
+    commutator_weight: 0.0
+    lr: 0.0003
+    path_gradient_ratio: 0.3
+    path_layer: 1
+    path_anneal_gamma: 2.0
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: path_lr1e-3_ratio005
+    objective: blrpng_v2
+    commutator_weight: 0.0
+    lr: 0.001
+    path_gradient_ratio: 0.05
+    path_layer: 1
+    path_anneal_gamma: 2.0
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: path_lr1e-3_ratio015
+    objective: blrpng_v2
+    commutator_weight: 0.0
+    lr: 0.001
+    path_gradient_ratio: 0.15
+    path_layer: 1
+    path_anneal_gamma: 2.0
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+  - id: path_lr1e-3_ratio030
+    objective: blrpng_v2
+    commutator_weight: 0.0
+    lr: 0.001
+    path_gradient_ratio: 0.3
+    path_layer: 1
+    path_anneal_gamma: 2.0
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001

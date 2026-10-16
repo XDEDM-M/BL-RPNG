@@ -112,7 +112,8 @@ def projected_rollout_index(
         current = torch.stack([payload["trajectory"][0] for payload in payloads]).to(device)
         lift = torch.stack([payload["boundary_lift"] for payload in payloads]).to(device)
         mask = torch.stack([payload["constraint_mask"] for payload in payloads]).to(device)
-        batch_errors = [[] for _ in payloads]
+        batch_error_tensors = []
+        batch_mse_tensors = []
         for step in range(steps):
             conditions = torch.stack([
                 value[step] if value.ndim == 4 else value
@@ -123,12 +124,21 @@ def projected_rollout_index(
             errors = (per_sample_field_relative_l2(prediction, target).mean(dim=1)
                       if field_balanced else per_sample_relative_l2(prediction, target))
             mses = torch.mean((prediction - target) ** 2, dim=(1, 2, 3))
-            for local in range(len(payloads)):
-                value = float(errors[local])
-                batch_errors[local].append(value); step_errors.append(value)
-                mse_values.append(float(mses[local]))
+            batch_error_tensors.append(errors)
+            batch_mse_tensors.append(mses)
             current = prediction
-        rollout_errors.extend(sum(values) / max(len(values), 1) for values in batch_errors)
+        # Keep errors on-device through the rollout. Reading each sample and
+        # each step with float(tensor) caused one CUDA synchronization per
+        # value (up to 320 synchronizations for eight 20-step LR rollouts).
+        # A single batched transfer preserves the original per-value float32
+        # values and the same Python accumulation/order used in the report.
+        error_values = torch.stack(batch_error_tensors).detach().cpu().tolist()
+        mse_step_values = torch.stack(batch_mse_tensors).detach().cpu().tolist()
+        for local in range(len(payloads)):
+            values = [step_values[local] for step_values in error_values]
+            rollout_errors.append(sum(values) / max(len(values), 1))
+        step_errors.extend(value for step_values in error_values for value in step_values)
+        mse_values.extend(value for step_values in mse_step_values for value in step_values)
         initial_ids.extend(int(payload["ids"]["initial_condition_id"]) for payload in payloads)
     return {
         "rollout_rel_l2": float(sum(rollout_errors) / max(len(rollout_errors), 1)),

@@ -8,9 +8,9 @@ Boundary-Lifted Newton Path Fine-Tuning）是一个独立研究项目，用于�
 ## 独立性与环境
 
 本项目不 import 原 `FNOtest` 的 `models/`、`scripts/`、`train_sufno.py` 或
-`rollout_utils.py`，也不使用软/硬链接。所有生成物只能写入
-`BL-RPNG/artifacts/`；路径守卫会拒绝逃逸路径。旧式嵌套checkout仍会审计外层
-worktree；独立checkout不依赖任何父级Git仓库。
+`rollout_utils.py`，也不使用软/硬链接。生成数据、模型和求解器临时文件写入
+`artifacts/`，逐任务训练输出写入本地 `results/`；项目路径守卫拒绝写出项目根目录。
+旧式嵌套checkout仍会审计外层 worktree；独立checkout不依赖任何父级Git仓库。
 
 不修改 Conda 环境。训练父进程使用 `fnotest`，求解 worker 由父进程调用已有
 `sfepy_env`，只输出临时 `.npz + JSON`，再由 `fnotest` Python 转换为 `.pt`。
@@ -30,12 +30,21 @@ python -m pytest tests
 共享 `fnotest` 环境没有第三方 `pytest`，项目内的 `pytest.py` 是只依赖标准库
 `unittest` 的兼容入口，因此上述命令无需安装包，也不会改变环境。
 
-## 冻结快照
+## 当前实验快照（2026-10-16）
 
-本仓库当前停止在2026-10-12的研究快照，不包含新的训练实验。论文结论边界、
-各PDE进度和未验证假设统一见 [`docs/EXPERIMENT_STATUS.md`](docs/EXPERIMENT_STATUS.md)。
-Git只保存源码、配置、测试、精选冻结JSON/CSV和代表性PNG；约217 GiB的原始
-数据与模型参数保留在本机 `artifacts/`，并由 `.gitignore` 强制排除。详细策略见
+Phase-1 已完成多边界路径预训练、未见边界 LR 适配、256² HR-dev 推理的
+三种子/六边界开发矩阵、目标路径与 endpoint 对照、HR 专家比较，以及普通
+迁移基线的学习率搜索和 seed1 复现。当前最强的正向信号是预训练迁移显著优于
+低分辨率 scratch；路径源候选在开发矩阵中排名第一，但相对充分调优的普通迁移
+基线优势仍未确认。完整结果、实验过程、结论边界和预算状态见
+[`docs/EXPERIMENT_STATUS.md`](docs/EXPERIMENT_STATUS.md)、
+[`reports/PHASE1_FINAL.md`](reports/PHASE1_FINAL.md)、
+[`docs/LOG.md`](docs/LOG.md) 和 [`docs/STATE.md`](docs/STATE.md)。
+
+早期冻结的 Allen–Cahn seed-42 query 结果保留为独立历史评测；它未用于本轮
+基线调优。当前新确认 query 仍关闭。Git 版本控制保留源码、配置、脚本、实验卡、
+追加式 ledger、结论报告及精选汇总 JSON；逐任务训练历史、原始 PDE 数据、模型
+参数和优化器状态保留在本地 `results/` 与 `artifacts/`。详细策略见
 [`docs/REPOSITORY_SCOPE.md`](docs/REPOSITORY_SCOPE.md)。
 
 ## 方法

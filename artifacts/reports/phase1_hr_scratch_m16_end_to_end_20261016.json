@@ -1,0 +1,201 @@
+{
+  "artifact_sha256s": {
+    "run_config": "d49db8887504bf16beeb7c979f2d2f0554a1dcd96d90f1cd481d8705e4a89b10",
+    "run_summary": "593129804951dee0bcaa5b45e8f9f9efde25ba1a58e0a02598ac58b4af9fa625",
+    "support_generation_report": "6d419ea0741beb7a8648553067b7c1698757ae0ac65f1053a7ac61913d2d9b1d",
+    "task_results": "a181880c1d8923d0eb177964618f3097a87e7b1a82811ea8f416f1f15129d308"
+  },
+  "audit": {
+    "aggregate_pass": true,
+    "all_four_runs_have_500_history_rows": true,
+    "all_four_task_reports_present": true,
+    "best_epoch_matches_full_history": true,
+    "checkpoint_hashes_match_reports": true,
+    "hr_support_generation_all_converged": true,
+    "path_reference_report_hashes_recorded": true,
+    "query_or_test_accessed": false,
+    "support_and_validation_index_hashes_recorded_in_task_reports": true
+  },
+  "baseline_context": {
+    "ordinary_nonpath_lr_nlt_seed42_four_task_mean": 0.06219576909206807,
+    "path_source_lr_nlt_seed42_four_task_mean": 0.04856130354164634,
+    "stronger_ordinary_full_plus_comm256_three_seed_six_family": {
+      "note": "Three crossed model seeds and six development families; the paired seed interval reported in STATE crosses zero.",
+      "ordinary_full_comm256_three_seed_six_family_mean": 0.054881171919,
+      "ordinary_relative_excess_over_path_percent": 2.635175528330014,
+      "path_comm256_three_seed_six_family_mean": 0.05347208852763286
+    }
+  },
+  "config": "configs/phase1_hr_scratch_m16_dev.yaml",
+  "config_sha256": "df7303d38ec840dd84b9ff3ce230dab64766ec35f869368336071666ea5d127b",
+  "cost_comparisons": {
+    "accounting_assumption": "Serial-equivalent resource-hours add CPU wall hours to GPU hours under a one-GPU-equivalent, non-overlap schedule. This is not observed campaign wall time. Shared LR-pool cost is charged in full.",
+    "including_one_time_path_source_pretraining_gpu_hours": 2.554711116083612,
+    "including_one_time_path_source_pretraining_resource_hours_gpu_plus_cpu_wall": 2.651927965874291,
+    "scratch_over_path_resource_ratio_including_one_time_pretrain": 3.779740066302948,
+    "target_only_path_resource_hours_gpu_plus_cpu_wall": 0.583834059184568,
+    "target_only_scratch_over_path_gpu_hours_ratio": 17.866159405047416,
+    "target_only_scratch_over_path_resource_ratio": 17.168574234199593,
+    "target_only_scratch_resource_hours_gpu_plus_cpu_wall": 10.023598385564334
+  },
+  "date": "2026-10-16",
+  "group_quality": {
+    "hr_scratch_m16_mean_of_taskwise_best_hrdev_rel_l2": 0.16426903249230235,
+    "hr_scratch_m4_previous_mean_hrdev_rel_l2": 0.44210336856776855,
+    "path_relative_error_reduction_vs_scratch_percent": 65.81420676785183,
+    "path_source_lr_nlt_mean_hrdev_rel_l2": 0.056156671792268756,
+    "relative_error_reduction_m16_vs_m4_scratch_percent": 62.84375008847686,
+    "scope": "One model seed, one support seed, four selected development families; not multi-seed confirmation or evidence of global optimizer convergence.",
+    "scratch_over_path_ratio_of_means": 2.925191740350213,
+    "tasks_reaching_path_reference": 0,
+    "time_to_match": "right-censored after 500 epochs for all four tasks; finite equal-accuracy speedup cannot be calculated"
+  },
+  "measured_costs": {
+    "hr_scratch_m16_target_training_gpu_hours": 8.693980632270556,
+    "hr_scratch_target_hr_label_generation": {
+      "all_converged": true,
+      "cpu_wall_hours": 1.3296177532937792,
+      "cpu_wall_seconds_including_packaging": 4786.623911857605,
+      "report": "artifacts/reports/phase1_hr_scratch_data_generation_hrdev_20261015_hrsupport_m16_s271829.json",
+      "report_sha256": "6d419ea0741beb7a8648553067b7c1698757ae0ac65f1053a7ac61913d2d9b1d",
+      "rollouts": 64,
+      "solver_seconds_sum": 1609.028743789917,
+      "transitions": 1280
+    },
+    "ordinary_nonpath_lr_nlt_seed42_four_task_context": {
+      "gpu_hours_target_adaptation": 0.07808001499083338,
+      "hrdev_mean": 0.06219576909206807,
+      "ordinary_target_gpu_cost_fraction_vs_path": 0.1578428655459327,
+      "path_error_reduction_vs_ordinary_percent": 21.921853768282386,
+      "path_source_same_seed42_hrdev_mean": 0.04856130354164634,
+      "path_source_same_seed42_target_adaptation_gpu_hours": 0.49466926947111134,
+      "scope": "Same four tasks, m=4, support seed; seed42 only. Supporting context, not matched to the new seed0 scratch run."
+    },
+    "path_source_lr_nlt_target_adaptation_gpu_hours_seed0": 0.4866172093938889,
+    "path_source_pretraining_one_time": {
+      "data_generation_history": "Source training dataset generation time is not traceable in available artifacts; excluded rather than treated as zero.",
+      "gpu_hours": 2.068093906689723,
+      "report": "artifacts/reports/phase1_R1-source-path-from_scratch-s0.json"
+    },
+    "path_source_shared_lr_support_generation": {
+      "accounting_note": "Entire shared six-family pool charged; no proportional allocation to these four tasks.",
+      "cases": 96,
+      "cpu_wall_hours": 0.09721684979067909,
+      "cpu_wall_seconds": 349.9806592464447,
+      "families": 6,
+      "report": "artifacts/reports/phase1_dev_generate_support_workspace_audit.json"
+    }
+  },
+  "per_task": [
+    {
+      "family": "high_frequency",
+      "hr_scratch_best_epoch": 364,
+      "hr_scratch_best_hrdev_rel_l2": 0.1587605033768341,
+      "hr_scratch_final_epoch_rel_l2": 0.16254888672847298,
+      "hr_scratch_task_report": "results/phase1/HRSCRATCHM16/hr_scratch_from_zero_hr256_m16_s0_ss271829/task00.json",
+      "hr_scratch_task_report_sha256": "7c73787a0e2bd5feddcae9e7c1dfc675e266ca4f0dc20d5eb37bfc79a75857fc",
+      "path_reference_report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task00_s0_ss271829.json",
+      "path_reference_report_sha256": "8eb87774c1e898ecf1abf581a176f220a4ba827ac4f13061430330fe1abcdab8",
+      "path_source_lr_nlt_hrdev_rel_l2": 0.06831792555749415,
+      "scratch_checkpoint": "artifacts/checkpoints/phase1/HRSCRATCHM16/hr_scratch_from_zero_hr256_m16_s0_ss271829/hr_scratch_from_zero_hr256_m16_task00_full.inference.pt",
+      "scratch_checkpoint_sha256": "2856b4fe4f4ece63739431d0bfbc2af5c7fadc01d530a4d5acab15b0f4c51577",
+      "scratch_gpu_hours": 2.0570140668427768,
+      "scratch_over_path_error_ratio": 2.323848420181119,
+      "support_budget_hr_scratch": 16,
+      "support_budget_path_lr": 4,
+      "task": 0,
+      "task_audit_pass": true,
+      "time_to_match_interpretation": "not reached within the completed 500-epoch schedule; right-censored",
+      "time_to_match_seconds": null
+    },
+    {
+      "family": "amplitude_ood",
+      "hr_scratch_best_epoch": 416,
+      "hr_scratch_best_hrdev_rel_l2": 0.0955920296953991,
+      "hr_scratch_final_epoch_rel_l2": 0.09693536814302207,
+      "hr_scratch_task_report": "results/phase1/HRSCRATCHM16/hr_scratch_from_zero_hr256_m16_s0_ss271829/task01.json",
+      "hr_scratch_task_report_sha256": "8a2da6cb777f091f6dad49afaa8879da0fe1fb9e79a8944fd9ec18ce980c561f",
+      "path_reference_report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task01_s0_ss271829.json",
+      "path_reference_report_sha256": "a90f1872108df932af526d22f5502b98588ed9cce00ba414ee6a7df6bd452eb7",
+      "path_source_lr_nlt_hrdev_rel_l2": 0.04473285377025604,
+      "scratch_checkpoint": "artifacts/checkpoints/phase1/HRSCRATCHM16/hr_scratch_from_zero_hr256_m16_s0_ss271829/hr_scratch_from_zero_hr256_m16_task01_full.inference.pt",
+      "scratch_checkpoint_sha256": "3e946e6e54e52a5c0d2c39f166edf70e5e7809e477fea75760369f423bf9c0f1",
+      "scratch_gpu_hours": 2.0513671777391673,
+      "scratch_over_path_error_ratio": 2.136953528302738,
+      "support_budget_hr_scratch": 16,
+      "support_budget_path_lr": 4,
+      "task": 1,
+      "task_audit_pass": true,
+      "time_to_match_interpretation": "not reached within the completed 500-epoch schedule; right-censored",
+      "time_to_match_seconds": null
+    },
+    {
+      "family": "localized_bump",
+      "hr_scratch_best_epoch": 491,
+      "hr_scratch_best_hrdev_rel_l2": 0.30002690374385566,
+      "hr_scratch_final_epoch_rel_l2": 0.300297031365335,
+      "hr_scratch_task_report": "results/phase1/HRSCRATCHM16/hr_scratch_from_zero_hr256_m16_s0_ss271829/task03.json",
+      "hr_scratch_task_report_sha256": "01729fd3ba7e4e20e7cfcaa703ad0d1e42512dd57c3ea67d9903be06eac5c299",
+      "path_reference_report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task03_s0_ss271829.json",
+      "path_reference_report_sha256": "1528ddc0838c3590af9f7bd33e30532240052f188014384c386bef93b0cb8e86",
+      "path_source_lr_nlt_hrdev_rel_l2": 0.060216126055456703,
+      "scratch_checkpoint": "artifacts/checkpoints/phase1/HRSCRATCHM16/hr_scratch_from_zero_hr256_m16_s0_ss271829/hr_scratch_from_zero_hr256_m16_task03_full.inference.pt",
+      "scratch_checkpoint_sha256": "421164b77cdfadcb5477681348d426df4c55ae50f8b03d39e161fe8c22ccd934",
+      "scratch_gpu_hours": 2.040270794074721,
+      "scratch_over_path_error_ratio": 4.982500924545405,
+      "support_budget_hr_scratch": 16,
+      "support_budget_path_lr": 4,
+      "task": 3,
+      "task_audit_pass": true,
+      "time_to_match_interpretation": "not reached within the completed 500-epoch schedule; right-censored",
+      "time_to_match_seconds": null
+    },
+    {
+      "family": "piecewise_smooth",
+      "hr_scratch_best_epoch": 442,
+      "hr_scratch_best_hrdev_rel_l2": 0.10269669315312056,
+      "hr_scratch_final_epoch_rel_l2": 0.10292531622108073,
+      "hr_scratch_task_report": "results/phase1/HRSCRATCHM16/hr_scratch_from_zero_hr256_m16_s0_ss271829/task05.json",
+      "hr_scratch_task_report_sha256": "da9671c71c8134f3124b313fc003cf8f374902e08e3018f7b0bc1cf55ce2d1d0",
+      "path_reference_report": "artifacts/reports/phase1_hrdev_evaluations/pilot_pathsource_comm256_task05_s0_ss271829.json",
+      "path_reference_report_sha256": "428089271f4347c38cbf6ffe614f94cbed0150c26efac22e2cece46e1427b186",
+      "path_source_lr_nlt_hrdev_rel_l2": 0.051359781785868114,
+      "scratch_checkpoint": "artifacts/checkpoints/phase1/HRSCRATCHM16/hr_scratch_from_zero_hr256_m16_s0_ss271829/hr_scratch_from_zero_hr256_m16_task05_full.inference.pt",
+      "scratch_checkpoint_sha256": "d9313f714f5dfdf91eb8392a6124d8b0b1dc1d92b1a8f91ef5fe3241d38e2793",
+      "scratch_gpu_hours": 2.5453285936138896,
+      "scratch_over_path_error_ratio": 1.9995547017954434,
+      "support_budget_hr_scratch": 16,
+      "support_budget_path_lr": 4,
+      "task": 5,
+      "task_audit_pass": true,
+      "time_to_match_interpretation": "not reached within the completed 500-epoch schedule; right-censored",
+      "time_to_match_seconds": null
+    }
+  ],
+  "protocol": {
+    "checkpoint_selection": "HR scratch selected the best independent HR-dev checkpoint across the 500-epoch trajectory; path-source checkpoints were selected using LR validation then evaluated on HR-dev. This favors HR scratch selection.",
+    "families": [
+      "high_frequency",
+      "amplitude_ood",
+      "localized_bump",
+      "piecewise_smooth"
+    ],
+    "hr_scratch": "random initialization; full FNO update; 256x256 HR; final-only loss; 500 cosine epochs; batch=2; lr=3e-4; min_lr=1e-6; weight_decay=1e-4",
+    "hr_scratch_support_budget": 16,
+    "model_seed": 0,
+    "path_support_budget_lr": 4,
+    "query_or_test_accessed": false,
+    "support_budget_comparison": "HR scratch uses 16 target HR rollouts per task, 4x the path route m=4 support count; cost/quality frontier, not label-matched ablation.",
+    "support_seed": 271829,
+    "task_set": [
+      0,
+      1,
+      3,
+      5
+    ]
+  },
+  "run_descriptor_sha256": "3f3721161a72b101de038feab6089caee2158691bac3a441d9f720078cc5a1aa",
+  "run_summary": "results/phase1/HRSCRATCHM16/hr_scratch_from_zero_hr256_m16_s0_ss271829/summary.json",
+  "run_summary_sha256": "593129804951dee0bcaa5b45e8f9f9efde25ba1a58e0a02598ac58b4af9fa625",
+  "schema": "blrpng_phase1_hr_scratch_m16_end_to_end_v1"
+}

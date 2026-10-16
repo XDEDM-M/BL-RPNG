@@ -17,10 +17,24 @@ from blrpng.paths import (
     sha256_json,
     write_json,
 )
+from blrpng.solvers.progress import (
+    LOG_DENOMINATOR_FLOOR,
+    NONZERO_STEP_NORM_THRESHOLD,
+    RESIDUAL_FLOOR,
+    replay_progress_selection,
+)
+from blrpng.utils import atomic_torch_save
 
 
 INDEX_SCHEMA = "blrpng_shard_index_v4"
 SHARD_SCHEMA = "blrpng_rollout_v4"
+
+FIRST_NEWTON_LABEL_KEYS = {
+    "newton_correction_first",
+    "residual_progress_first",
+    "valid_correction_mask_first",
+    "selected_newton_state_index_first",
+}
 
 
 def _grid(resolution: int, dtype: torch.dtype = torch.float32) -> torch.Tensor:
@@ -74,13 +88,181 @@ def validate_shard(payload: dict[str, Any]) -> dict[str, Any]:
         predictor_endpoint = payload["predictor_endpoint_increment"]
         if tuple(predictor_endpoint.shape) != (steps, fields, height, width):
             raise ValueError("predictor_endpoint_increment must match newton_correction shape.")
-    if "accepted_newton_residuals" in payload:
+    if "newton_correction_p075" in payload and tuple(
+        payload["newton_correction_p075"].shape
+    ) != (steps, fields, height, width):
+        raise ValueError("newton_correction_p075 must match newton_correction shape.")
+    first_present = FIRST_NEWTON_LABEL_KEYS & set(payload)
+    if first_present and first_present != FIRST_NEWTON_LABEL_KEYS:
+        raise ValueError("First Newton label fields must be present as an all-or-none group.")
+    if first_present:
+        if tuple(payload["newton_correction_first"].shape) != (
+            steps, fields, height, width
+        ):
+            raise ValueError("newton_correction_first must match newton_correction shape.")
+        for key in ("residual_progress_first", "valid_correction_mask_first"):
+            if tuple(payload[key].shape) != (steps, 1):
+                raise ValueError(f"{key} must have shape [T,1].")
+    for key in (
+        "selected_newton_state_index",
+        "selected_newton_state_index_first",
+        "selected_newton_state_index_p075",
+    ):
+        if key in payload:
+            if tuple(payload[key].shape) != (steps,):
+                raise ValueError(f"{key} must contain one raw-trace ordinal per step.")
+            ordinals = payload[key].to(torch.int64)
+            if torch.any(ordinals < -1):
+                raise ValueError(f"{key} contains an invalid negative ordinal.")
+            counts = payload.get("meta", {}).get("nonlinear_iterations")
+            if counts is not None:
+                maximum = torch.tensor(counts, dtype=torch.int64)
+                if torch.any(ordinals > maximum):
+                    raise ValueError(f"{key} exceeds the recorded accepted-state count.")
+    legacy_evidence_keys = {
+        "accepted_newton_residuals", "accepted_newton_counts"
+    }
+    evidence_keys = legacy_evidence_keys | {"accepted_newton_step_norms"}
+    evidence_present = "accepted_newton_step_norms" in payload
+    if evidence_present and not evidence_keys.issubset(payload):
+        raise ValueError("Newton selection evidence must be present as an all-or-none group.")
+    if first_present and not evidence_present:
+        raise ValueError("First Newton labels require the complete replay evidence group.")
+    if "newton_path_selection" in payload.get("meta", {}) and not evidence_present:
+        raise ValueError("Newton selection metadata requires the complete replay evidence group.")
+    legacy_present = legacy_evidence_keys & set(payload)
+    if legacy_present and legacy_present != legacy_evidence_keys:
+        raise ValueError("Legacy Newton residual evidence requires residuals and counts.")
+    if legacy_present:
+        legacy_histories = payload["accepted_newton_residuals"]
+        legacy_trace_counts = payload["accepted_newton_counts"]
+        if legacy_histories.ndim != 2 or legacy_histories.shape[0] != steps:
+            raise ValueError("accepted_newton_residuals must have shape [T,K].")
+        if tuple(legacy_trace_counts.shape) != (steps,):
+            raise ValueError("accepted_newton_counts must have shape [T].")
+    replay_pass_count = 0
+    if evidence_present:
         histories = payload["accepted_newton_residuals"]
-        counts = payload.get("accepted_newton_counts")
+        step_norms = payload["accepted_newton_step_norms"]
+        if payload["accepted_newton_counts"].dtype not in {torch.int16, torch.int32, torch.int64}:
+            raise ValueError("Newton selection trace counts must have integer dtype.")
+        counts = payload["accepted_newton_counts"].to(torch.int64)
+        if histories.dtype != torch.float64 or step_norms.dtype != torch.float64:
+            raise ValueError("Newton residual and step-norm evidence must use float64.")
         if histories.ndim != 2 or histories.shape[0] != steps:
             raise ValueError("accepted_newton_residuals must have shape [T,K].")
-        if counts is None or tuple(counts.shape) != (steps,):
+        if tuple(step_norms.shape) != tuple(histories.shape):
+            raise ValueError("accepted_newton_step_norms must match residual history shape.")
+        if tuple(counts.shape) != (steps,):
             raise ValueError("accepted_newton_counts must have shape [T].")
+        width = int(histories.shape[1])
+        if torch.any(counts < 1) or torch.any(counts > width):
+            raise ValueError("accepted_newton_counts must lie in [1,K].")
+        if torch.any(histories < 0.0) or torch.any(step_norms < 0.0):
+            raise ValueError("Newton residual and step-norm evidence must be non-negative.")
+        if torch.any(step_norms[:, 0] != 0.0):
+            raise ValueError("Newton step-norm evidence must be zero at raw trace index zero.")
+        for step in range(steps):
+            count = int(counts[step])
+            if torch.any(histories[step, count:] != 0.0) or torch.any(
+                step_norms[step, count:] != 0.0
+            ):
+                raise ValueError("Newton selection evidence padding must be exactly zero.")
+        selection = payload.get("meta", {}).get("newton_path_selection")
+        if not isinstance(selection, dict) or selection.get("schema") != (
+            "blrpng_newton_selection_evidence_v1"
+        ):
+            raise ValueError("Newton selection evidence requires schema v1 metadata.")
+        expected_constants = {
+            "residual_floor": RESIDUAL_FLOOR,
+            "log_denominator_floor": LOG_DENOMINATOR_FLOOR,
+            "nonzero_step_norm_threshold": NONZERO_STEP_NORM_THRESHOLD,
+        }
+        for key, expected in expected_constants.items():
+            if float(selection.get(key, float("nan"))) != expected:
+                raise ValueError(f"Newton selection metadata has unexpected {key}.")
+        if selection.get("fallback") != "last_nonzero_candidate":
+            raise ValueError("Newton selection metadata has an unknown fallback rule.")
+        if selection.get("full_node_states_retained") is not False or selection.get(
+            "evidence_scope"
+        ) != "selection_replay_not_field_trajectory_reconstruction":
+            raise ValueError(
+                "Newton evidence must state that full node trajectories are not retained."
+            )
+        thresholds = selection.get("thresholds")
+        if not isinstance(thresholds, list) or len(thresholds) != 2:
+            raise ValueError("Newton selection evidence requires two thresholds.")
+        first_threshold = selection.get("first_selection_threshold")
+        if first_present:
+            if first_threshold is None or float(first_threshold) != 0.0:
+                raise ValueError(
+                    "First Newton labels require first_selection_threshold=0.0."
+                )
+        elif first_threshold is not None:
+            raise ValueError(
+                "first_selection_threshold metadata requires the complete first-label group."
+            )
+        replay_fields = [
+            (
+                float(thresholds[0]),
+                "selected_newton_state_index",
+                "residual_progress",
+                "valid_correction_mask",
+            ),
+            (
+                float(thresholds[1]),
+                "selected_newton_state_index_p075",
+                "residual_progress_p075",
+                "valid_correction_mask_p075",
+            ),
+        ]
+        if first_present:
+            replay_fields.insert(
+                0,
+                (
+                    0.0,
+                    "selected_newton_state_index_first",
+                    "residual_progress_first",
+                    "valid_correction_mask_first",
+                ),
+            )
+        required_replay = {name for row in replay_fields for name in row[1:]}
+        required_replay.add("newton_correction_p075")
+        missing_replay = required_replay - set(payload)
+        if missing_replay:
+            raise ValueError(
+                f"Newton selection evidence lacks replay fields: {sorted(missing_replay)}"
+            )
+        for threshold, index_key, progress_key, valid_key in replay_fields:
+            indices = payload[index_key].reshape(steps).to(torch.int64)
+            progresses = payload[progress_key].reshape(steps).to(torch.float64)
+            valid = payload[valid_key].reshape(steps).bool()
+            for step in range(steps):
+                count = int(counts[step])
+                replayed = replay_progress_selection(
+                    histories[step, :count].cpu().numpy(),
+                    step_norms[step, :count].cpu().numpy(),
+                    threshold,
+                )
+                if int(indices[step]) != replayed[0] or bool(valid[step]) != replayed[2]:
+                    raise ValueError(
+                        f"Newton selection replay mismatch for {index_key} at step {step}."
+                    )
+                if abs(float(progresses[step]) - replayed[1]) > 5e-7:
+                    raise ValueError(
+                        f"Newton progress replay mismatch for {progress_key} at step {step}."
+                    )
+                if (int(indices[step]) == -1) != (not bool(valid[step])):
+                    raise ValueError("Invalid Newton selections must use ordinal -1 exactly.")
+                replay_pass_count += 1
+        legacy_counts = payload.get("meta", {}).get("nonlinear_iterations")
+        if legacy_counts is None or len(legacy_counts) != steps or any(
+            int(legacy_counts[step]) != int(counts[step]) - 1
+            for step in range(steps)
+        ):
+            raise ValueError(
+                "Legacy nonlinear_iterations must equal raw trace count minus one."
+            )
     if "path_information_mask" in payload:
         information_mask = payload["path_information_mask"]
         if tuple(information_mask.shape) != tuple(payload["valid_correction_mask"].shape):
@@ -90,11 +272,19 @@ def validate_shard(payload: dict[str, Any]) -> dict[str, Any]:
         float((trajectory[0][mask] - payload["boundary_values"][mask]).abs().max()) if mask.any() else 0.0,
         float((payload["boundary_lift"][mask] - payload["boundary_values"][mask]).abs().max()) if mask.any() else 0.0,
         float(correction[:, mask].abs().max()) if mask.any() else 0.0,
+        float(payload["newton_correction_first"][:, mask].abs().max())
+        if mask.any() and "newton_correction_first" in payload else 0.0,
+        float(payload["newton_correction_p075"][:, mask].abs().max())
+        if mask.any() and "newton_correction_p075" in payload else 0.0,
         float(payload["endpoint_increment"][:, mask].abs().max())
         if mask.any() and "endpoint_increment" in payload else 0.0,
         float(payload["predictor_endpoint_increment"][:, mask].abs().max())
         if mask.any() and "predictor_endpoint_increment" in payload else 0.0,
     )
+    if first_present and mask.any() and torch.any(
+        payload["newton_correction_first"][:, mask] != 0.0
+    ):
+        raise ValueError("newton_correction_first must have exactly zero boundary trace.")
     if not all(
         torch.isfinite(value).all()
         for value in payload.values()
@@ -104,6 +294,7 @@ def validate_shard(payload: dict[str, Any]) -> dict[str, Any]:
     return {
         "steps": int(steps), "fields": int(fields), "resolution": int(height),
         "trace_error_max": trace_error,
+        "newton_selection_replay_pass_count": replay_pass_count,
     }
 
 
@@ -199,11 +390,28 @@ class RolloutShardDataset(Dataset):
         }
         for key in ("case_id", "pair_id", "boundary_id", "initial_condition_id", "rollout_id", "target_task_id"):
             sample[key] = torch.tensor(int(ids[key]), dtype=torch.long)
+        for key in ("support_seed", "support_rank"):
+            if key in ids:
+                sample[key] = torch.tensor(int(ids[key]), dtype=torch.long)
         sample["fidelity"] = torch.tensor(int(payload["meta"]["fidelity"]), dtype=torch.int8)
         sample["solver_converged"] = torch.tensor(bool(payload["meta"].get("solver_converged", True)))
         sample["num_newton_iters"] = torch.tensor(
             int(payload["meta"].get("nonlinear_iterations", [0] * (step + 1))[step]), dtype=torch.int16
         )
+        for key in (
+            "selected_newton_state_index",
+            "selected_newton_state_index_first",
+            "selected_newton_state_index_p075",
+        ):
+            if key in payload:
+                sample[key] = payload[key][step]
+        for key in (
+            "newton_correction_first",
+            "residual_progress_first",
+            "valid_correction_mask_first",
+        ):
+            if key in payload:
+                sample[key] = payload[key][step]
         return sample
 
 
@@ -252,7 +460,11 @@ def convert_v3_to_v4(
             "ids": {
                 key: int(bundle.tensors[key][first])
                 for key in ("case_id", "pair_id", "boundary_id", "initial_condition_id", "rollout_id")
-            } | {"target_task_id": task_id},
+            } | {"target_task_id": task_id} | {
+                key: int(bundle.tensors[key][first])
+                for key in ("support_seed", "support_rank")
+                if key in bundle.tensors
+            },
             "meta": {
                 "equation": bundle.meta["equation"], "role": role,
                 "resolution": int(bundle.tensors["y"].shape[-1]),
@@ -264,11 +476,12 @@ def convert_v3_to_v4(
                 "source_v3_sha256": sha256_file(resolve_in_project(source_path)),
             },
         }
+        for key in ("selected_newton_state_index", "selected_newton_state_index_p075"):
+            if key in bundle.tensors:
+                payload[key] = bundle.tensors[key][indices].to(torch.int16).contiguous()
         validate_shard(payload)
         shard_path = ensure_artifact_path(shard_dir / f"rollout_{rollout_id:06d}.pt")
-        temporary = ensure_artifact_path(shard_path.with_suffix(".partial"))
-        torch.save(payload, temporary)
-        temporary.replace(shard_path)
+        atomic_torch_save(payload, shard_path)
         rows.append({
             "path": _relative(shard_path), "sha256": sha256_file(shard_path),
             "steps": len(indices), "target_task_id": task_id,
@@ -293,6 +506,39 @@ def write_v4_rollouts_from_arrays(
     source_sha256: str,
 ) -> list[dict[str, Any]]:
     """Write factorized shards directly from one solver-worker chunk."""
+    evidence_keys = {
+        "accepted_newton_residuals",
+        "accepted_newton_step_norms",
+        "accepted_newton_counts",
+    }
+    legacy_evidence = {"accepted_newton_residuals", "accepted_newton_counts"}
+    legacy_present = legacy_evidence & set(arrays)
+    if legacy_present and legacy_present != legacy_evidence:
+        raise ValueError("Legacy Newton residual arrays require residuals and counts.")
+    evidence_present = "accepted_newton_step_norms" in arrays
+    if evidence_present and not evidence_keys.issubset(arrays):
+        raise ValueError("Newton selection evidence arrays must be all present or all absent.")
+    if evidence_present and "newton_path_selection" not in meta:
+        raise ValueError("Newton selection evidence arrays require selection metadata.")
+    if "newton_path_selection" in meta and not evidence_present:
+        raise ValueError("Newton selection metadata requires complete evidence arrays.")
+    first_present = FIRST_NEWTON_LABEL_KEYS & set(arrays)
+    if first_present and first_present != FIRST_NEWTON_LABEL_KEYS:
+        raise ValueError("First Newton label arrays must be all present or all absent.")
+    first_threshold = meta.get("newton_path_selection", {}).get(
+        "first_selection_threshold"
+    )
+    if first_present:
+        if not evidence_present:
+            raise ValueError("First Newton labels require complete replay evidence arrays.")
+        if first_threshold is None or float(first_threshold) != 0.0:
+            raise ValueError(
+                "First Newton labels require first_selection_threshold=0.0."
+            )
+    elif first_threshold is not None:
+        raise ValueError(
+            "first_selection_threshold metadata requires complete first-label arrays."
+        )
     directory = ensure_artifact_path(shard_dir)
     directory.mkdir(parents=True, exist_ok=True)
     groups: dict[int, list[int]] = {}
@@ -320,7 +566,11 @@ def write_v4_rollouts_from_arrays(
             "ids": {
                 key: int(arrays[key][first])
                 for key in ("case_id", "pair_id", "boundary_id", "initial_condition_id", "rollout_id")
-            } | {"target_task_id": int(target_task_by_boundary[boundary_id])},
+            } | {"target_task_id": int(target_task_by_boundary[boundary_id])} | {
+                key: int(arrays[key][first])
+                for key in ("support_seed", "support_rank")
+                if key in arrays
+            },
             "meta": {
                 "equation": meta["equation"], "role": role,
                 "resolution": int(arrays["y"].shape[-1]),
@@ -329,6 +579,12 @@ def write_v4_rollouts_from_arrays(
                 "field_scales": meta.get("field_scales", [1.0] * fields),
                 "solver_converged": bool(arrays["solver_converged"][indices].all()),
                 "nonlinear_iterations": [int(v) for v in arrays["num_newton_iters"][indices]],
+                "solver_newton_iterations": [
+                    int(v)
+                    for v in arrays.get(
+                        "solver_newton_iterations", arrays["num_newton_iters"]
+                    )[indices]
+                ],
                 "solver_timing": [float(v) for v in arrays.get("solver_seconds", torch.zeros(len(arrays["y"])))[indices]],
                 "assembly_time": float(arrays.get("assembly_seconds", torch.zeros(len(arrays["y"])))[indices].sum()),
                 "linear_iterations": [0] * len(indices),
@@ -336,18 +592,47 @@ def write_v4_rollouts_from_arrays(
                 "source_sha256": source_sha256,
             },
         }
+        if "selected_newton_state_index_semantics" in meta:
+            payload["meta"]["selected_newton_state_index_semantics"] = str(
+                meta["selected_newton_state_index_semantics"]
+            )
+        if "newton_path_selection" in meta:
+            payload["meta"]["newton_path_selection"] = dict(meta["newton_path_selection"])
+        for key in (
+            "selected_newton_state_index",
+            "selected_newton_state_index_first",
+            "selected_newton_state_index_p075",
+        ):
+            if key in arrays:
+                payload[key] = arrays[key][indices].to(torch.int16).contiguous()
+        for key in evidence_keys:
+            if key in arrays:
+                payload[key] = arrays[key][indices].contiguous()
+        for key in (
+            "newton_correction_first",
+            "newton_correction_p075",
+            "residual_progress_first",
+            "residual_progress_p075",
+            "valid_correction_mask_first",
+            "valid_correction_mask_p075",
+        ):
+            if key in arrays:
+                payload[key] = arrays[key][indices].contiguous()
         if "condition_fields" in arrays:
             payload["condition_fields"] = arrays["condition_fields"][first].clone()
         validate_shard(payload)
         shard_path = ensure_artifact_path(directory / f"rollout_{rollout_id:06d}.pt")
-        temporary = ensure_artifact_path(shard_path.with_suffix(".partial"))
-        torch.save(payload, temporary)
-        temporary.replace(shard_path)
+        atomic_torch_save(payload, shard_path)
+        validate_shard(torch.load(shard_path, map_location="cpu", weights_only=False))
         rows.append({
             "path": _relative(shard_path), "sha256": sha256_file(shard_path),
             "steps": len(indices), "target_task_id": int(target_task_by_boundary[boundary_id]),
             "boundary_id": boundary_id, "initial_condition_id": int(arrays["initial_condition_id"][first]),
             "role": role, "resolution": int(arrays["y"].shape[-1]),
+        } | {
+            key: int(arrays[key][first])
+            for key in ("support_seed", "support_rank")
+            if key in arrays
         })
     return rows
 

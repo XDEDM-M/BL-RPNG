@@ -17,6 +17,7 @@ from torch.utils.data import DataLoader, Dataset, Sampler
 from blrpng.data.lifting import harmonic_lift
 from blrpng.data.schema import DatasetBundle, load_dataset
 from blrpng.data.shards import RolloutShardDataset, materialize_index
+from blrpng.data.rollout_windows import RolloutWindowDataset
 from blrpng.evaluation.rollout import projected_rollout, projected_rollout_index
 from blrpng.models.fno import DirichletOperator, build_model
 from blrpng.paths import ensure_artifact_path, resolve_in_project, sha256_file, write_json
@@ -28,6 +29,7 @@ from blrpng.training.losses import (
     per_sample_field_relative_l2,
 )
 from blrpng.training.physics import relative_defect_loss, restriction_commutator_loss
+from blrpng.training.rollout_supervision import supervised_rollout_loss
 from blrpng.utils import atomic_torch_save, set_seed, state_dict_sha256
 
 
@@ -230,7 +232,26 @@ def _train_batch(
         final_loss = per_sample_relative_l2(prediction, batch["y"]).mean()
     else:
         raise ValueError(f'Unknown final loss: {final_metric}')
-    metrics = {"final_loss": float(final_loss.detach())}
+    # Keep scalar diagnostics on the accelerator until the epoch is complete.
+    # Converting each value to Python here synchronizes CUDA once per metric,
+    # which stalls the repeated LR adaptation loop without affecting gradients.
+    metrics = {"final_loss": final_loss.detach()}
+    rollout_horizon = int(training_config.get("rollout_horizon", 1))
+    if rollout_horizon < 1:
+        raise ValueError("training.rollout_horizon must be positive")
+    if rollout_horizon > 1:
+        if final_metric != "joint_relative_l2":
+            raise ValueError("multi-step supervised training currently requires joint_relative_l2")
+        active_horizon = rollout_horizon
+        if bool(training_config.get("rollout_curriculum", False)):
+            active_horizon = min(rollout_horizon, 1 + int(epoch_progress * rollout_horizon))
+        final_loss = supervised_rollout_loss(
+            model, batch, prediction, horizon=active_horizon,
+            loss_function=lambda pred, target: per_sample_relative_l2(pred, target).mean(),
+        )
+        metrics.update({"one_step_final_loss": metrics["final_loss"],
+                        "final_loss": final_loss.detach(),
+                        "supervised_rollout_horizon": float(active_horizon)})
     if prediction.shape[1] == 3 and (
         float(training_config.get("vorticity_weight", 0.0)) > 0.0
         or float(training_config.get("divergence_weight", 0.0)) > 0.0
@@ -258,15 +279,18 @@ def _train_batch(
         )
         metrics.update(
             {
-                "vorticity_loss": float(vorticity_loss.detach()),
-                "divergence_loss": float(divergence_loss.detach()),
-                "final_loss_with_flow_regularizers": float(final_loss.detach()),
+                "vorticity_loss": vorticity_loss.detach(),
+                "divergence_loss": divergence_loss.detach(),
+                "final_loss_with_flow_regularizers": final_loss.detach(),
             }
         )
     fine_prediction = None
     fine_previous = None
     fine_conditions = None
-    if objective in {"blrpng_v2", "blrpng_plus", "commutator_only", "pino"}:
+    needs_cross_resolution = objective in {"blrpng_plus", "pino"} or float(
+        training_config.get("commutator_weight", 0.05)
+    ) > 0.0
+    if objective in {"blrpng_v2", "blrpng_plus", "commutator_only", "pino"} and needs_cross_resolution:
         fields = model.config.out_channels
         coarse_resolution = int(batch["x"].shape[-1])
         configured = training_config.get("calibration_resolutions")
@@ -296,7 +320,9 @@ def _train_batch(
                 batch["x"][:, :fields], size=(resolution, resolution),
                 mode="bilinear", align_corners=True,
             )
-            fine_lift = _exact_refined_lift(batch["boundary_lift"], resolution)
+            fine_lift = batch.get(f"refined_boundary_lift_{resolution}")
+            if fine_lift is None:
+                fine_lift = _exact_refined_lift(batch["boundary_lift"], resolution)
             fine_mask = torch.zeros_like(fine_lift, dtype=torch.bool)
             for channel in range(fields):
                 active = torch.nonzero(constrained_channels[:, channel], as_tuple=False).flatten()
@@ -325,7 +351,7 @@ def _train_batch(
                 fine_prediction, predictions[previous_resolution], field_scales=scales
             )
             commutators.append(value)
-            metrics[f"commutator_{previous_resolution}_to_{resolution}"] = float(value.detach())
+            metrics[f"commutator_{previous_resolution}_to_{resolution}"] = value.detach()
             previous_resolution = resolution
 
         rollout_steps = int(training_config.get("commutator_rollout_steps", 1))
@@ -348,7 +374,7 @@ def _train_batch(
                     commutators.append(value)
                     metrics[
                         f"commutator_step{rollout_step + 1}_{previous_resolution}_to_{resolution}"
-                    ] = float(value.detach())
+                    ] = value.detach()
                 previous_resolution = resolution
             previous_states = predictions
             predictions = next_predictions
@@ -356,7 +382,7 @@ def _train_batch(
         fine_previous = previous_states[resolutions[-1]]
         commutator = torch.stack(commutators).mean()
         final_loss = final_loss + float(training_config.get("commutator_weight", 0.05)) * commutator
-        metrics["commutator_loss"] = float(commutator.detach())
+        metrics["commutator_loss"] = commutator.detach()
     defect_loss = final_loss.detach().new_zeros(())
     if objective in {"blrpng_plus", "pino"}:
         equation_parameters = dict(training_config["equation_parameters"])
@@ -369,7 +395,7 @@ def _train_batch(
             equation_parameters,
         )
         final_loss = final_loss + float(training_config.get("defect_weight", 1e-4)) * defect_loss
-        metrics["defect_loss"] = float(defect_loss.detach())
+        metrics["defect_loss"] = defect_loss.detach()
     if objective in {"final_only", "commutator_only", "pino"}:
         return final_loss, {**metrics, "path_loss": 0.0, "gradient_ratio": 0.0}
 
@@ -426,19 +452,86 @@ def _train_batch(
     }:
         raise ValueError(f"Unknown training objective: {objective}")
     auxiliary_target = str(training_config.get('auxiliary_target', 'newton_correction'))
+    correction_valid_mask = batch["valid_correction_mask"]
     if auxiliary_target == 'newton_correction':
         correction_target = batch['newton_correction']
+    elif auxiliary_target == 'newton_correction_first':
+        if 'newton_correction_first' not in batch or 'valid_correction_mask_first' not in batch:
+            raise ValueError('First accepted-path supervision requires genuine saved first-path labels.')
+        correction_target = batch['newton_correction_first']
+        correction_valid_mask = batch['valid_correction_mask_first']
     elif auxiliary_target == 'endpoint_increment':
         correction_target = batch.get(
             'endpoint_increment',
             batch['y'] - batch['x'][:, :model.config.out_channels],
         )
+    elif auxiliary_target == 'endpoint_direction_path_norm':
+        # Matched endpoint-direction control: retain only the endpoint
+        # direction, while matching each accepted path label's scale. The
+        # per-example scale uses training/support labels only.
+        path_target = batch['newton_correction']
+        endpoint_target = batch.get(
+            'endpoint_increment',
+            batch['y'] - batch['x'][:, :model.config.out_channels],
+        )
+        scales = batch.get('field_scales')
+        if scales is not None:
+            scales = scales.to(path_target)
+            if scales.ndim == 1:
+                scales = scales.view(1, -1, 1, 1)
+            elif scales.ndim == 2:
+                scales = scales[:, :, None, None]
+            else:
+                raise ValueError('field_scales must have shape [C] or [B,C].')
+            path_for_norm = path_target / scales
+            endpoint_for_norm = endpoint_target / scales
+        else:
+            path_for_norm = path_target
+            endpoint_for_norm = endpoint_target
+        path_norm = path_for_norm.flatten(1).norm(dim=1)
+        endpoint_norm = endpoint_for_norm.flatten(1).norm(dim=1)
+        scale = path_norm / endpoint_norm.clamp_min(
+            float(training_config['path_epsilon'])
+        )
+        correction_target = endpoint_target * scale[:, None, None, None]
+    elif auxiliary_target == 'endpoint_direction_first_norm':
+        # R3 first-accepted-path control. Match the endpoint direction to the
+        # scale of the first accepted cumulative displacement, using only the
+        # target LR support labels and exactly the same valid-sample mask.
+        if 'newton_correction_first' not in batch or 'valid_correction_mask_first' not in batch:
+            raise ValueError('First-direction control requires genuine saved first-path labels.')
+        path_target = batch['newton_correction_first']
+        correction_valid_mask = batch['valid_correction_mask_first']
+        endpoint_target = batch.get(
+            'endpoint_increment',
+            batch['y'] - batch['x'][:, :model.config.out_channels],
+        )
+        scales = batch.get('field_scales')
+        if scales is not None:
+            scales = scales.to(path_target)
+            if scales.ndim == 1:
+                scales = scales.view(1, -1, 1, 1)
+            elif scales.ndim == 2:
+                scales = scales[:, :, None, None]
+            else:
+                raise ValueError('field_scales must have shape [C] or [B,C].')
+            path_for_norm = path_target / scales
+            endpoint_for_norm = endpoint_target / scales
+        else:
+            path_for_norm = path_target
+            endpoint_for_norm = endpoint_target
+        path_norm = path_for_norm.flatten(1).norm(dim=1)
+        endpoint_norm = endpoint_for_norm.flatten(1).norm(dim=1)
+        scale = path_norm / endpoint_norm.clamp_min(
+            float(training_config['path_epsilon'])
+        )
+        correction_target = endpoint_target * scale[:, None, None, None]
     else:
         raise ValueError(f'Unknown auxiliary target: {auxiliary_target}')
     path_loss, details = correction_direction_magnitude_loss(
         probe,
         correction_target,
-        batch["valid_correction_mask"],
+        correction_valid_mask,
         log_magnitude_weight=float(training_config["path_log_magnitude_weight"]),
         epsilon=float(training_config["path_epsilon"]),
         field_scales=batch.get("field_scales"),
@@ -481,13 +574,39 @@ def _train_batch(
     }
 
 
-def _averages(rows: list[dict[str, float]]) -> dict[str, float]:
+def _averages(rows: list[dict[str, float | torch.Tensor]]) -> dict[str, float]:
     keys = sorted({key for row in rows for key in row})
-    result = {}
+    values_by_key = []
+    aggregation_device = next(
+        (
+            value.device
+            for row in rows
+            for value in row.values()
+            if isinstance(value, torch.Tensor)
+        ),
+        torch.device("cpu"),
+    )
     for key in keys:
-        values = [row[key] for row in rows if key in row and row[key] == row[key]]
-        result[key] = float(sum(values) / len(values)) if values else float("nan")
-    return result
+        values = [row.get(key, float("nan")) for row in rows]
+        tensors = [
+            value.detach().to(device=aggregation_device, dtype=torch.float64)
+            if isinstance(value, torch.Tensor)
+            else torch.as_tensor(value, device=aggregation_device, dtype=torch.float64)
+            for value in values
+        ]
+        stacked = torch.stack(tensors)
+        finite = torch.isfinite(stacked)
+        count = finite.sum()
+        mean = torch.where(
+            count > 0,
+            torch.where(finite, stacked, torch.zeros_like(stacked)).sum()
+            / count.clamp_min(1),
+            stacked.new_tensor(float("nan")),
+        )
+        values_by_key.append(mean)
+    # One device-to-host synchronization for the complete diagnostic record.
+    means = torch.stack(values_by_key).detach().cpu().tolist() if values_by_key else []
+    return dict(zip(keys, (float(value) for value in means)))
 
 
 def train(
@@ -556,6 +675,13 @@ def train(
         )
         train_dataset = BundleDataset(train_bundle)
         train_manifest_sha256 = train_bundle.meta["manifest_sha256"]
+    rollout_horizon = int(training_config.get("rollout_horizon", 1))
+    if rollout_horizon < 1:
+        raise ValueError("training.rollout_horizon must be positive")
+    if rollout_horizon > 1:
+        if not train_is_stream:
+            raise ValueError("multi-step supervised training requires genuine v4 rollout shards")
+        train_dataset = RolloutWindowDataset(train_dataset, horizon=rollout_horizon)
     validation_sources = [
         str(path) if str(path).endswith(".index.json") and bool(training_config.get("stream_v4", True))
         else materialize_index(path) if str(path).endswith(".index.json")
@@ -584,6 +710,41 @@ def train(
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
+    # Target adaptation uses one unseen boundary per task. Precompute its HR
+    # harmonic lift once instead of copying the same CUDA lift to the CPU and
+    # hashing it again for every minibatch. Multi-boundary source training
+    # retains the general per-batch path below.
+    precomputed_refined_lifts: dict[int, torch.Tensor] = {}
+    source_train_dataset = (
+        train_dataset.dataset
+        if isinstance(train_dataset, RolloutWindowDataset)
+        else train_dataset
+    )
+    if isinstance(source_train_dataset, RolloutShardDataset):
+        selected_boundary_ids = {
+            int(source_train_dataset.index["shards"][shard_index]["boundary_id"])
+            for shard_index, _ in source_train_dataset.samples
+        }
+        if len(selected_boundary_ids) == 1:
+            has_cross_resolution = (
+                objective in {"blrpng_v2", "blrpng_plus", "commutator_only", "pino"}
+                and float(training_config.get("commutator_weight", 0.05)) > 0.0
+            )
+            if has_cross_resolution:
+                coarse_resolution = int(source_train_dataset.index["metadata"]["resolution"])
+                configured_resolutions = training_config.get("calibration_resolutions")
+                resolutions = (
+                    [int(value) for value in configured_resolutions]
+                    if configured_resolutions is not None else
+                    [int(training_config.get("calibration_resolution", coarse_resolution * 2))]
+                )
+                resolutions = sorted({value for value in resolutions if value > coarse_resolution})
+                first_sample = source_train_dataset[0]
+                coarse_lift = first_sample["boundary_lift"].unsqueeze(0)
+                for resolution in resolutions:
+                    precomputed_refined_lifts[resolution] = _exact_refined_lift(
+                        coarse_lift, resolution
+                    ).to(device)
     optimizer_name = str(training_config.get("optimizer", "adam")).lower()
     optimizer_class = {
         "adam": torch.optim.Adam,
@@ -591,10 +752,15 @@ def train(
     }.get(optimizer_name)
     if optimizer_class is None:
         raise ValueError(f"Unsupported optimizer: {optimizer_name}")
+    optimizer_kwargs = {
+        "lr": float(training_config["lr"]),
+        "weight_decay": float(training_config["weight_decay"]),
+    }
+    if "optimizer_foreach" in training_config:
+        optimizer_kwargs["foreach"] = bool(training_config["optimizer_foreach"])
     optimizer = optimizer_class(
         [parameter for parameter in model.parameters() if parameter.requires_grad],
-        lr=float(training_config["lr"]),
-        weight_decay=float(training_config["weight_decay"]),
+        **optimizer_kwargs,
     )
     scheduler_name = str(training_config.get("lr_scheduler", "multistep"))
     if scheduler_name == "multistep":
@@ -628,11 +794,18 @@ def train(
     best_raw: dict[str, torch.Tensor] | None = None
     best_ema: dict[str, torch.Tensor] | None = None
     optimizer_steps = 0
+    epochs_without_improvement = 0
     if resume_checkpoint is not None:
         resume_path = resolve_in_project(resume_checkpoint, must_exist=True)
         resumed = torch.load(resume_path, map_location=device, weights_only=False)
         model.load_state_dict(resumed["raw_weights"])
         optimizer.load_state_dict(resumed["optimizer"])
+        # Optimizer.load_state_dict restores serialized param-group options,
+        # including foreach=None. Reapply an explicitly requested kernel mode
+        # after loading so a safe recovery override is not silently discarded.
+        if "optimizer_foreach" in training_config:
+            for param_group in optimizer.param_groups:
+                param_group["foreach"] = bool(training_config["optimizer_foreach"])
         scheduler.load_state_dict(resumed["scheduler"])
         ema.load_state_dict(resumed["ema"])
         start_epoch = int(resumed["epoch"]) + 1
@@ -641,6 +814,19 @@ def train(
         best_raw = resumed.get("best_raw_weights")
         best_ema = resumed.get("best_ema_weights")
         optimizer_steps = int(resumed.get("optimizer_steps", 0))
+        if "epochs_without_improvement" in resumed:
+            epochs_without_improvement = int(resumed["epochs_without_improvement"])
+        elif history:
+            # Older recovery files did not persist the early-stop counter.
+            # Reconstruct its exact value from the stored validation history.
+            metrics = [
+                float(row["validation"]["rollout_rel_l2"])
+                for row in history
+            ]
+            last_best_index = max(
+                index for index, metric in enumerate(metrics) if metric == best_metric
+            )
+            epochs_without_improvement = len(history) - 1 - last_best_index
         if best_raw is None or best_ema is None:
             # Compatibility with v1 recovery files: preserve a valid resume
             # point even though the historical best snapshot was not embedded.
@@ -691,7 +877,6 @@ def train(
         int(early_stopping_patience) if early_stopping_patience is not None else None
     )
     minimum_epochs = int(training_config.get("minimum_epochs", 1))
-    epochs_without_improvement = 0
     stopped_early = False
     last_epoch = start_epoch - 1
     for epoch in range(start_epoch, epochs):
@@ -710,6 +895,10 @@ def train(
             cpu_batch["field_scales"] = torch.tensor(
                 model.field_scales, dtype=cpu_batch["x"].dtype
             ).repeat(cpu_batch["x"].shape[0], 1)
+            for resolution, refined_lift in precomputed_refined_lifts.items():
+                cpu_batch[f"refined_boundary_lift_{resolution}"] = refined_lift.expand(
+                    cpu_batch["x"].shape[0], -1, -1, -1
+                )
             batch = _batch_to_device(cpu_batch, device)
             epoch_training_config = training_config
             if objective in {"blrpng_safe", "blrpng_annealed", "blrpng_safe_annealed"}:
@@ -750,7 +939,7 @@ def train(
                 optimizer.zero_grad(set_to_none=True)
                 optimizer_steps += 1
                 ema.update(model)
-            rows.append({"total_loss": float(loss.detach()), **metrics})
+            rows.append({"total_loss": loss.detach(), **metrics})
         if scheduler_name != "plateau":
             scheduler.step()
         if device.type == "cuda":
@@ -835,6 +1024,7 @@ def train(
                 "best_raw_weights": best_raw,
                 "best_ema_weights": best_ema,
                 "optimizer_steps": optimizer_steps,
+                "epochs_without_improvement": epochs_without_improvement,
             }
             recovery_path = ensure_artifact_path(
                 f"artifacts/checkpoints/{checkpoint_path.stem}_recovery.pt"

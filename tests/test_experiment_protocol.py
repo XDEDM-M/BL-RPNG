@@ -9,9 +9,19 @@ from blrpng.data.generate import _case_chunks, generate_from_config
 from blrpng.cli.verify_data import _formal_paths
 from blrpng.paths import exclusive_artifact_lock
 from blrpng.training.matrix import matrix_payload
+from scripts.summarize_phase1_progress import terminal_gpu_hours
 
 
 class ExperimentProtocolTests(unittest.TestCase):
+    def test_progress_accounting_counts_duplicate_hrdev_executions(self):
+        rows = [
+            {"trial_id": "task00", "status": "DONE", "round": "R2", "elapsed_gpu_hours": "0.1"},
+            {"trial_id": "task00", "status": "EXCLUDED_RESOURCE_CONTENTION", "round": "R2", "elapsed_gpu_hours": "0.1"},
+            {"trial_id": "eval-task00", "status": "DONE", "round": "HRDEV", "elapsed_gpu_hours": "0.001"},
+            {"trial_id": "eval-task00", "status": "DONE", "round": "HRDEV", "elapsed_gpu_hours": "0.002"},
+        ]
+        self.assertAlmostEqual(terminal_gpu_hours(rows), 0.103)
+
     def test_formal_matrix_has_120_matched_tasks(self):
         payload = matrix_payload(load_config("configs/allen_cahn_formal.yaml"))
         self.assertEqual(payload["causal_task_count"], 120)

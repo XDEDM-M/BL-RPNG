@@ -1,0 +1,166 @@
+{
+  "amendments": [
+    {
+      "amendment_id": "source_ic_coverage_v1_1",
+      "change": "Add three independent HR initial conditions to each of seven eligible source tasks. The complete source pretraining set is now the seven V0 ic_a HR supports plus 21 new HR source trajectories (28 total, 560 transitions). Keep the 14 V0 source query HR trajectories isolated for source checkpoint validation. Use batch size 8 so the preregistered 60-epoch budget still performs approximately 70 updates per epoch.",
+      "created_utc": "2026-10-15T15:20:00+00:00",
+      "partial_checkpoint": "artifacts/checkpoints/ns_pimple_method_v1/exploratory_pre_expansion/source_selected_pimple_path_seed42.pt",
+      "partial_checkpoint_disposition": "Preserved for audit only; excluded from every source, target, and query result. Restart all three source arms from fresh seed-42 initialization.",
+      "partial_checkpoint_sha256": "bc6eda0e2a4be736257ab250f08226097e494427d8deeb86f03c6d504bbfcd91",
+      "path_selection_changed": false,
+      "reason": "The train/validation gap showed that the original source IC coverage was too small for the selected model and rollout metric. Broader source IC coverage is needed before target adaptation can test solver-information transfer.",
+      "target_hr_query_read": false,
+      "target_optimizer_or_checkpoint_selection_changed": false,
+      "target_support_validation_design_changed": false,
+      "trigger": "Before any target HR query was opened, a partial 20-epoch selected-PIMPLE-path source run on seven trajectories (140 transitions) reduced training loss to 0.0345 but its best independent source-validation 20-step rollout error was 1.3115 at epoch 2 and had risen to 1.3728 by epoch 20."
+    }
+  ],
+  "arms": {
+    "lifted_lr_scratch": "random lifted FNO, trained on the same target LR support only; checkpoint selected on the same LR validation",
+    "matched_endpoint_control": "same path loss and norm as selected_pimple_path, but use endpoint direction with the first-path norm; followed by identical target NLT",
+    "ordinary_final_only": "matched HR source endpoint training without path supervision, followed by identical target NLT",
+    "selected_pimple_path": "HR source endpoint loss plus BL-RPNG correction loss on the first screened PIMPLE outer state, followed by final-only target NLT"
+  },
+  "base_preregistration_sha256": "7512bda832fbde44cd5eaa08037c4be1dadfeab9f3f93efcb50de7c336f03ccc",
+  "data_roles": {
+    "development_target": {
+      "family": "F5_dual_sin1",
+      "query": "four HR trajectories per task: V0 ic_b/ic_c plus method-V1 query_q1/q2; do not read before the global checkpoint/evaluator freeze",
+      "support": "m=4 LR trajectories per task: V0 ic_a plus method-V1 support_s1/s2/s3",
+      "tasks": [
+        "top080_bottom030",
+        "top100_bottom050"
+      ],
+      "validation": "four independent method-V1 validation_v1/v2/v3/v4 LR trajectories per task"
+    },
+    "sealed_target": {
+      "family": "F6_left_sin1",
+      "query": "four HR trajectories per task: V0 ic_b/ic_c plus method-V1 query_q1/q2; do not read before the global checkpoint/evaluator freeze",
+      "support": "m=4 LR trajectories per task: V0 ic_a plus method-V1 support_s1/s2/s3",
+      "tasks": [
+        "a100",
+        "a075"
+      ],
+      "validation": "four independent method-V1 validation_v1/v2/v3/v4 LR trajectories per task"
+    },
+    "source_training": {
+      "additional_hr_source_trajectories": {
+        "eligible_tasks": [
+          "F1_poly16_top/a100",
+          "F1_poly16_top/a075",
+          "F2_sin1_top/a100",
+          "F2_sin1_top/a075",
+          "F3_sinmix_top/a070_m015",
+          "F3_sinmix_top/a100_m015",
+          "F4_poly24_top/a080"
+        ],
+        "excluded_task": "F4_poly24_top/a060",
+        "initial_conditions": [
+          "source_s1",
+          "source_s2",
+          "source_s3"
+        ],
+        "initial_parameters": {
+          "source_s1": {
+            "mode_x": 1,
+            "mode_y": 3,
+            "streamfunction_amplitude": 0.05
+          },
+          "source_s2": {
+            "mode_x": 2,
+            "mode_y": 2,
+            "streamfunction_amplitude": 0.05
+          },
+          "source_s3": {
+            "mode_x": 3,
+            "mode_y": 1,
+            "streamfunction_amplitude": 0.05
+          }
+        },
+        "manifest": "/gemini/code/NS-PIMPLE/data/source_pretraining_v1/manifest.json",
+        "new_ic_per_task": 3,
+        "validation_ic_overlap": false
+      },
+      "label": "canonical HR endpoint plus exactly the first complete non-endpoint PIMPLE outer correction at every physical step",
+      "pair_ids": [
+        "F1_poly16_top_a100_ic_a",
+        "F1_poly16_top_a075_ic_a",
+        "F2_sin1_top_a100_ic_a",
+        "F2_sin1_top_a075_ic_a",
+        "F3_sinmix_top_a070_m015_ic_a",
+        "F3_sinmix_top_a100_m015_ic_a",
+        "F4_poly24_top_a080_ic_a"
+      ],
+      "resolution": 128,
+      "role": "support",
+      "source_split": "source",
+      "total_eligible_trajectories": 28,
+      "total_physical_transitions": 560
+    },
+    "source_validation": {
+      "pair_ids": [
+        "F1_poly16_top_a100_ic_b",
+        "F1_poly16_top_a100_ic_c",
+        "F1_poly16_top_a075_ic_b",
+        "F1_poly16_top_a075_ic_c",
+        "F2_sin1_top_a100_ic_b",
+        "F2_sin1_top_a100_ic_c",
+        "F2_sin1_top_a075_ic_b",
+        "F2_sin1_top_a075_ic_c",
+        "F3_sinmix_top_a070_m015_ic_b",
+        "F3_sinmix_top_a070_m015_ic_c",
+        "F3_sinmix_top_a100_m015_ic_b",
+        "F3_sinmix_top_a100_m015_ic_c",
+        "F4_poly24_top_a080_ic_b",
+        "F4_poly24_top_a080_ic_c"
+      ],
+      "resolution": 128,
+      "role": "query",
+      "source_split": "source",
+      "use": "select source pretraining checkpoints by mean 20-step native HR rollout error"
+    }
+  },
+  "date": "2026-10-15",
+  "evaluation": {
+    "claim_limit": "Only two target boundary families and four tasks are available. Treat the outcome as a focused validation, not broad statistical confirmation. No Newton-specific inference.",
+    "confirmation": "F6, two tasks, four HR query initial conditions per task",
+    "development": "F5, two tasks, four HR query initial conditions per task",
+    "freeze_order": "Freeze all three source checkpoints, all F5/F6 target adapters, scratch checkpoints, evaluator code/config, and data-role manifest before reading any target HR query field.",
+    "interpretation_rule": "Solver-path learnability is supported only if selected_pimple_path beats both ordinary_final_only and matched_endpoint_control on development and confirmation means; otherwise report the corresponding negative result. Report lifted scratch separately.",
+    "primary_metric": "mean across 20 physical steps of ||U_pred-U_HR||_2/||U_HR||_2; report each query trajectory and task means",
+    "secondary_diagnostics": [
+      "teacher-forced one-step relative-L2 to separate one-step approximation from autoregressive error accumulation",
+      "per-velocity-component relative-L2",
+      "prediction-to-reference velocity norm ratio",
+      "cell-centred finite-difference divergence RMS for prediction and reference (diagnostic only; not a conservative FV continuity metric)"
+    ]
+  },
+  "experiment": "NS-PIMPLE-METHOD-V1",
+  "path_screen": {
+    "all_other_outer_iterations_are_training_labels": false,
+    "audit": "artifacts/reports/ns_pimple_v0_pilot/selected_iteration_screen.json",
+    "frozen_rule": "earliest complete non-endpoint PIMPLE outer state per physical step",
+    "selection_gate": "first-hook D1/S1 medians, D1 coverage, and second-half D1 thresholds from the V0 path gate; per-step maximization of both D and S is not required",
+    "single_path_label_per_transition": true,
+    "supervised_target": "U_first_outer - U_solver_initial"
+  },
+  "question": "Does a single previously screened, informative PIMPLE solver-path state improve source pretraining for low-resolution-to-high-resolution Navier-Stokes adaptation?",
+  "schema": "blrpng_ns_pimple_method_preregistration_v1_1",
+  "scope": {
+    "equation": "2-D incompressible Navier-Stokes, Re=100, 20 backward-Euler physical steps, FV cavity flows.",
+    "existing_v0_unchanged": true,
+    "method_claim": "Solver-generated intermediate information may be learnable and useful; this study does not require Newton-path updates and makes no Newton-specific claim.",
+    "method_specific_access_policy": "This pre-registration explicitly authorizes HR labels only for source-split source pretraining and source validation, and LR labels for target support and validation. It does not change NS-PIMPLE V0 training_access or its manifest.",
+    "previously_exposed_task_exclusion": "Exclude all HR and LR data from F4_poly24_top/a060 from this study because the earlier pilot opened its HR query trajectories."
+  },
+  "status": "amended_before_target_hr_query_access",
+  "supersedes": "docs/prereg/ns_pimple_method_v1.json",
+  "training": {
+    "model": "6-layer width-48 FNO, 16x16 modes, lifted cell-centred FV coordinates, velocity output (u,v)",
+    "scratch": "AdamW lr=3e-4, weight_decay=1e-4, batch=4, maximum 500 epochs, minimum 50, patience 25",
+    "seed": 42,
+    "source": "AdamW lr=3e-4, weight_decay=1e-6, batch=8, maximum 60 epochs, minimum 30, patience 12, path-gradient ratio 0.05, path layer index 1; 28 HR trajectories and 560 transitions.",
+    "target_nlt": "AdamW lr=1e-3, weight_decay=1e-6, batch=4, maximum 100 epochs, minimum 30, patience 12; final-only support objective",
+    "validation_checkpoint_metric": "mean 20-step LR rollout vector relative-L2 on the four independent target validation trajectories"
+  }
+}

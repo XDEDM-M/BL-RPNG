@@ -10,16 +10,24 @@ dependency on the former parent FNOtest source tree.
 - tests and execution scripts;
 - method and theory contracts;
 - curated immutable experiment records under `docs/experiment_records/`;
+- experiment protocol, chronology, ledger and conclusions under `docs/`;
+- a small allowlist of curated Phase-1 Markdown reports and aggregate JSON under
+  `artifacts/reports/` (raw per-task histories remain local);
 - a small representative PNG set under `docs/figures/`.
 
 ## Local-only material
 
-The `artifacts/` tree is intentionally excluded from Git. It contains raw FEM
-rollouts, model and optimizer states, full evaluation tables, generated
-figures, run progress, and workspace audit logs. At snapshot time it occupied
-approximately 217 GiB. These files are retained locally for reproducibility
-but are neither required to inspect the implementation nor suitable for a
-normal GitHub repository.
+The `artifacts/` tree is mostly excluded from Git. It contains raw FEM rollouts,
+model and optimizer states, per-task evaluation histories, generated figures,
+run progress, and workspace audit logs. Selected summary reports and aggregate
+JSON files are explicit exceptions so the conclusions and their machine
+readable aggregates are available from GitHub. Raw data, checkpoints, detailed
+histories and operational logs stay local. At the earlier snapshot this tree
+occupied approximately 217 GiB.
+
+The top-level `results/` tree stores complete per-task training histories and
+is also local-only; selected conclusions and task-aggregate reports live in
+version-controlled Markdown and JSON instead.
 
 The ignore policy also rejects `*.pt`, `*.pth`, `*.ckpt`, `*.npz`, `*.npy`,
 HDF5 and Zarr files outside `artifacts/`, preventing accidental publication of

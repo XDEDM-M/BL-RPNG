@@ -1,0 +1,100 @@
+experiment:
+  name: ns_pimple_method_v1
+  seed: 42
+  deterministic: true
+  device: cuda:1
+  dataset_project: /gemini/code/NS-PIMPLE
+  immutable_v0_manifest: /gemini/code/NS-PIMPLE/data/v0/manifest.json
+  extension_manifest: /gemini/code/NS-PIMPLE/data/method_v1/manifest.json
+
+path_selection:
+  rule: earliest_complete_nonendpoint_pimple_outer_state_per_physical_step
+  supervision: path_u[first_valid_nonendpoint] - solver_initial_u
+  gate_report: artifacts/reports/ns_pimple_v0_pilot/selected_iteration_screen.json
+  selected_nodes_per_step: 1
+  other_solver_iterations_used_as_labels: false
+
+data:
+  source_train:
+    resolution: 128
+    split: source
+    role: support_plus_independent_source_ic_extension
+    level: hr
+    independent_initial_conditions_per_task: 4
+    exclude_task: F4_poly24_top/a060
+    exclude_reason: its target HR query was opened in the previous pilot
+  source_validation:
+    resolution: 128
+    split: source
+    role: query
+    level: hr
+    same_tasks_as_source_train: true
+    use: source_checkpoint_selection_only
+  target_development:
+    family: F5_dual_sin1
+    resolution: 64
+    support_initial_conditions_per_task: 4
+    validation_initial_conditions_per_task: 4
+    hr_query_initial_conditions_per_task: 4
+  target_confirmation:
+    family: F6_left_sin1
+    resolution: 64
+    support_initial_conditions_per_task: 4
+    validation_initial_conditions_per_task: 4
+    hr_query_initial_conditions_per_task: 4
+  physical_steps: 20
+
+model:
+  architecture: FNO2d
+  representation: lifted
+  output_fields: [u_velocity, v_velocity]
+  condition_fields: [physical_previous_u, physical_previous_v, current_lift_u, current_lift_v, next_lift_u, next_lift_v, viscosity, delta_t]
+  layers: 6
+  width: 48
+  modes1: 16
+  modes2: 16
+  probe_mode: per_layer
+  nlt_rank: 4
+  nlt_alpha: 4.0
+
+source_pretraining:
+  epochs_max: 60
+  epochs_min: 30
+  early_stopping_patience: 12
+  validation_interval_epochs: 1
+  batch_size: 8
+  optimizer: AdamW
+  learning_rate: 0.0003
+  weight_decay: 0.000001
+  path_layer: 1
+  path_gradient_ratio: 0.05
+  path_log_magnitude_weight: 0.1
+  arms: [selected_pimple_path, final_only, matched_endpoint_direction_and_path_norm]
+
+target_adaptation:
+  transfer_adapter: NLT
+  transfer_epochs_max: 100
+  transfer_epochs_min: 30
+  transfer_early_stopping_patience: 12
+  transfer_validation_interval_epochs: 1
+  transfer_batch_size: 4
+  transfer_learning_rate: 0.001
+  transfer_weight_decay: 0.000001
+  transfer_objective: final_only
+  scratch_epochs_max: 500
+  scratch_epochs_min: 50
+  scratch_early_stopping_patience: 25
+  scratch_validation_interval_epochs: 5
+  scratch_batch_size: 4
+  scratch_learning_rate: 0.0003
+  scratch_weight_decay: 0.0001
+
+evaluation:
+  metric: mean_over_steps_of_vector_velocity_relative_l2
+  query_resolution: 128
+  query_horizon: 20
+  primary_development_split: F5_dual_sin1
+  sealed_confirmation_split: F6_left_sin1
+  target_hr_query_read: only_after_all_source_and_target_checkpoints_and_evaluator_are_frozen
+  target_path_adaptation: false
+  newton_specific_claim: false

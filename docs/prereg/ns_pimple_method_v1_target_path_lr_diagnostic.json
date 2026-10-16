@@ -1,0 +1,42 @@
+{
+  "schema": "blrpng_ns_pimple_target_path_lr_diagnostic_preregistration_v1",
+  "status": "frozen_before_training",
+  "created_local": "2026-10-16",
+  "purpose": "Exploratory LR-only follow-up testing whether selected PIMPLE path labels help when used during target NLT fine-tuning, following the Allen-Cahn path-fine-tuning comparison.",
+  "scope": {
+    "uses_only": ["existing frozen source checkpoints", "target LR support", "target LR validation"],
+    "reads_or_evaluates_target_hr_query": false,
+    "sealed_confirmation_claim": false,
+    "existing_v1_hr_result_is_unchanged": true,
+    "selection_metric": "mean 20-step target LR autoregressive vector relative-L2"
+  },
+  "data": {
+    "tasks": [
+      "F5_dual_sin1_top080_bottom030",
+      "F5_dual_sin1_top100_bottom050",
+      "F6_left_sin1_a100",
+      "F6_left_sin1_a075"
+    ],
+    "support_trajectories_per_task": 4,
+    "support_transitions_per_task": 80,
+    "validation_trajectories_per_task": 4,
+    "selected_label": "first complete nonendpoint PIMPLE outer velocity state minus solver_initial velocity at each physical transition",
+    "other_outer_iterations_used_as_labels": false
+  },
+  "design": {
+    "source_initializations": ["selected_pimple_path", "final_only", "matched_endpoint_control"],
+    "target_objectives": ["final_only", "selected_pimple_path", "matched_endpoint_control"],
+    "factorial": "3 source initializations x 3 target objectives, all tasks; all source arms use identical target NLT and LR-validation selection",
+    "selected_pimple_path_target_loss": "BL-RPNG safe correction-direction/log-magnitude loss on selected PIMPLE label plus endpoint relative-L2, path-gradient ratio 0.05, probe layer index 1",
+    "matched_endpoint_target_loss": "same BL-RPNG loss and norm as selected path, with endpoint direction rescaled to selected PIMPLE label norm",
+    "final_only_target_loss": "endpoint relative-L2 only",
+    "optimizer": "AdamW, lr=1e-3, weight_decay=1e-6, batch=4, max 100 epochs, min 30 epochs, patience 12",
+    "adaptation": "NLT rank 4, alpha 4; source backbone frozen except the configured NLT adaptation parameters and existing trainable probe/project components",
+    "checkpoint_selection": "best mean 20-step LR autoregressive rollout relative-L2"
+  },
+  "interpretation": {
+    "target_path_signal_supported_on_lr": "selected_pimple_path objective must improve over both final_only and matched_endpoint_control under the same source initialization, across F5 development and F6 LR confirmation means",
+    "source_path_signal_supported_on_lr": "selected_pimple_path source initialization must improve over final_only and matched_endpoint_control when the target objective is held fixed",
+    "hr_claim": "No HR conclusion is permitted; any follow-up confirmation requires a new sealed HR query set."
+  }
+}

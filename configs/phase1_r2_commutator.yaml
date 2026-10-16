@@ -1,0 +1,56 @@
+experiment:
+  round: R2
+  id: r2_target_multires_consistency_20261013
+  description: >-
+    Add label-free 64-to-128 prediction consistency during target LR adaptation.
+    Screen on the same four development families and select only with LR
+    validation before independent HR-development evaluation. No query is read.
+  base_training_config: configs/allen_cahn_v2_calibration.yaml
+  screen_model_seed: 42
+  support_budget: 4
+  tasks: [0, 1, 3, 5]
+  primary_selection_metric: mean_task_lr_validation_rollout_rel_l2
+  data_manifest: artifacts/manifests/phase1_development/hrdev_20261012/tasks.json
+  data_root: artifacts/data/phase1_development/hrdev_20261012_t20_ss271829
+  support_seed: 271829
+  support_index_template: "{root}/task{task:02d}_support_s{support_seed}_m{budget}.index.json"
+  validation_index_template: "{root}/task{task:02d}_validation_lr_64.index.json"
+  selection_data: "64x64 20-step LR development validation only; no HR validation/query loaded in R2 screen"
+  checkpoint: artifacts/checkpoints/phase1/R1/source_path_s42_resume_resume50.pt
+trials:
+  - id: comm_lr1e-3_cw001_r1
+    objective: commutator_only
+    lr: 0.001
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+    calibration_resolution: 128
+    commutator_weight: 0.01
+    commutator_rollout_steps: 1
+  - id: comm_lr1e-3_cw005_r1
+    objective: commutator_only
+    lr: 0.001
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+    calibration_resolution: 128
+    commutator_weight: 0.05
+    commutator_rollout_steps: 1
+  - id: comm_lr1e-3_cw020_r1
+    objective: commutator_only
+    lr: 0.001
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+    calibration_resolution: 128
+    commutator_weight: 0.2
+    commutator_rollout_steps: 1
+  - id: comm_lr1e-3_cw005_r2
+    objective: commutator_only
+    lr: 0.001
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+    calibration_resolution: 128
+    commutator_weight: 0.05
+    commutator_rollout_steps: 2

@@ -1,0 +1,47 @@
+{
+  "schema": "blrpng_ns_pimple_rotation_target_path_lr_prereg_v1",
+  "experiment_id": "NS-PIMPLE-ROTATION-TARGET-PATH-LR-20261016",
+  "status": "registered_before_target_path_adaptation",
+  "created_utc": "2026-10-16T03:42:27+00:00",
+  "hypothesis": "Rotation-augmented PIMPLE-path source pretraining may need matching PIMPLE-path supervision during target LR adaptation; the previous rotation run adapted every target arm with final-only labels.",
+  "population": {
+    "development_tasks": [
+      "F5_dual_sin1_top080_bottom030",
+      "F5_dual_sin1_top100_bottom050"
+    ],
+    "target_support": "the existing four LR support trajectories per F5 task",
+    "target_validation": "the existing V1 LR validation plus two fresh V2 LR validation trajectories per F5 task",
+    "development_hr": "the four existing V2 F5 HR query trajectories, opened only after model checkpoints are frozen",
+    "confirmation_hr": "none in this screening stage; any later confirmation must use a fresh, independently generated F6 query set"
+  },
+  "fixed_source": {
+    "checkpoint": "rotation-augmented selected_pimple_path source checkpoint from rotation_source_lr_diagnostic.json",
+    "selection": "source validation only",
+    "augmentation": "trajectory-consistent random 0/90/180/270 degree rotations"
+  },
+  "target_arms": [
+    "final_only",
+    "selected_pimple_path",
+    "matched_endpoint_control"
+  ],
+  "training": {
+    "adaptation": "NLT rank 4, alpha 4",
+    "optimizer": "AdamW lr=1e-3 weight_decay=1e-6",
+    "batch_size": 4,
+    "maximum_epochs": 100,
+    "minimum_epochs": 30,
+    "early_stopping_patience": 12,
+    "checkpoint_selection": "mean 20-step autoregressive relative-L2 over six LR validation trajectories only",
+    "path_label": "earliest complete non-endpoint PIMPLE outer state at each physical step, matching the frozen method dataset selection",
+    "matched_control": "endpoint direction scaled to the selected path correction norm"
+  },
+  "decision_rule": {
+    "screening": "Freeze all checkpoints before opening F5 HR development data. Continue to new F6 confirmation only if selected_pimple_path target adaptation beats both final_only and matched_endpoint_control by at least 1% in mean F5 HR 20-step rollout relative-L2, with no F5 task worse than either control.",
+    "confirmation": "A positive F5 screen is not a claim. Confirm once on new F6 HR query ICs that are not present in V1 or V2; compare the same path, final, and matched arms using the identical primary metric."
+  },
+  "prohibitions": [
+    "Do not use any F6 HR query from V1 or V2 to train, select, or tune this follow-up.",
+    "Do not change model architecture, optimizer, loss weights, data roles, or the registered screening threshold after training begins.",
+    "Do not treat the already reported V2 F6 confirmation result as a tuning signal for this follow-up."
+  ]
+}

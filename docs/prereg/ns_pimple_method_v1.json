@@ -1,0 +1,93 @@
+{
+  "schema": "blrpng_ns_pimple_method_preregistration_v1",
+  "experiment": "NS-PIMPLE-METHOD-V1",
+  "status": "frozen_before_training",
+  "date": "2026-10-15",
+  "question": "Does a single previously screened, informative PIMPLE solver-path state improve source pretraining for low-resolution-to-high-resolution Navier-Stokes adaptation?",
+  "scope": {
+    "method_claim": "Solver-generated intermediate information may be learnable and useful; this study does not require Newton-path updates and makes no Newton-specific claim.",
+    "equation": "2-D incompressible Navier-Stokes, Re=100, 20 backward-Euler physical steps, FV cavity flows.",
+    "existing_v0_unchanged": true,
+    "method_specific_access_policy": "This pre-registration explicitly authorizes HR labels only for source-split source pretraining and source validation, and LR labels for target support and validation. It does not change NS-PIMPLE V0 training_access or its manifest.",
+    "previously_exposed_task_exclusion": "Exclude all HR and LR data from F4_poly24_top/a060 from this study because the earlier pilot opened its HR query trajectories."
+  },
+  "data_roles": {
+    "source_training": {
+      "source_split": "source",
+      "role": "support",
+      "resolution": 128,
+      "pair_ids": [
+        "F1_poly16_top_a100_ic_a", "F1_poly16_top_a075_ic_a",
+        "F2_sin1_top_a100_ic_a", "F2_sin1_top_a075_ic_a",
+        "F3_sinmix_top_a070_m015_ic_a", "F3_sinmix_top_a100_m015_ic_a",
+        "F4_poly24_top_a080_ic_a"
+      ],
+      "label": "canonical HR endpoint plus exactly the first complete non-endpoint PIMPLE outer correction at every physical step"
+    },
+    "source_validation": {
+      "source_split": "source",
+      "role": "query",
+      "resolution": 128,
+      "pair_ids": [
+        "F1_poly16_top_a100_ic_b", "F1_poly16_top_a100_ic_c",
+        "F1_poly16_top_a075_ic_b", "F1_poly16_top_a075_ic_c",
+        "F2_sin1_top_a100_ic_b", "F2_sin1_top_a100_ic_c",
+        "F2_sin1_top_a075_ic_b", "F2_sin1_top_a075_ic_c",
+        "F3_sinmix_top_a070_m015_ic_b", "F3_sinmix_top_a070_m015_ic_c",
+        "F3_sinmix_top_a100_m015_ic_b", "F3_sinmix_top_a100_m015_ic_c",
+        "F4_poly24_top_a080_ic_b", "F4_poly24_top_a080_ic_c"
+      ],
+      "use": "select source pretraining checkpoints by mean 20-step native HR rollout error"
+    },
+    "development_target": {
+      "family": "F5_dual_sin1",
+      "tasks": ["top080_bottom030", "top100_bottom050"],
+      "support": "m=4 LR trajectories per task: V0 ic_a plus method-V1 support_s1/s2/s3",
+      "validation": "four independent method-V1 validation_v1/v2/v3/v4 LR trajectories per task",
+      "query": "four HR trajectories per task: V0 ic_b/ic_c plus method-V1 query_q1/q2; do not read before the global checkpoint/evaluator freeze"
+    },
+    "sealed_target": {
+      "family": "F6_left_sin1",
+      "tasks": ["a100", "a075"],
+      "support": "m=4 LR trajectories per task: V0 ic_a plus method-V1 support_s1/s2/s3",
+      "validation": "four independent method-V1 validation_v1/v2/v3/v4 LR trajectories per task",
+      "query": "four HR trajectories per task: V0 ic_b/ic_c plus method-V1 query_q1/q2; do not read before the global checkpoint/evaluator freeze"
+    }
+  },
+  "path_screen": {
+    "frozen_rule": "earliest complete non-endpoint PIMPLE outer state per physical step",
+    "supervised_target": "U_first_outer - U_solver_initial",
+    "single_path_label_per_transition": true,
+    "all_other_outer_iterations_are_training_labels": false,
+    "selection_gate": "first-hook D1/S1 medians, D1 coverage, and second-half D1 thresholds from the V0 path gate; per-step maximization of both D and S is not required",
+    "audit": "artifacts/reports/ns_pimple_v0_pilot/selected_iteration_screen.json"
+  },
+  "arms": {
+    "selected_pimple_path": "HR source endpoint loss plus BL-RPNG correction loss on the first screened PIMPLE outer state, followed by final-only target NLT",
+    "ordinary_final_only": "matched HR source endpoint training without path supervision, followed by identical target NLT",
+    "matched_endpoint_control": "same path loss and norm as selected_pimple_path, but use endpoint direction with the first-path norm; followed by identical target NLT",
+    "lifted_lr_scratch": "random lifted FNO, trained on the same target LR support only; checkpoint selected on the same LR validation"
+  },
+  "training": {
+    "seed": 42,
+    "model": "6-layer width-48 FNO, 16x16 modes, lifted cell-centred FV coordinates, velocity output (u,v)",
+    "source": "AdamW lr=3e-4, weight_decay=1e-6, batch=2, maximum 60 epochs, minimum 30, patience 12, path-gradient ratio 0.05, path layer index 1",
+    "target_nlt": "AdamW lr=1e-3, weight_decay=1e-6, batch=4, maximum 100 epochs, minimum 30, patience 12; final-only support objective",
+    "scratch": "AdamW lr=3e-4, weight_decay=1e-4, batch=4, maximum 500 epochs, minimum 50, patience 25",
+    "validation_checkpoint_metric": "mean 20-step LR rollout vector relative-L2 on the four independent target validation trajectories"
+  },
+  "evaluation": {
+    "primary_metric": "mean across 20 physical steps of ||U_pred-U_HR||_2/||U_HR||_2; report each query trajectory and task means",
+    "secondary_diagnostics": [
+      "teacher-forced one-step relative-L2 to separate one-step approximation from autoregressive error accumulation",
+      "per-velocity-component relative-L2",
+      "prediction-to-reference velocity norm ratio",
+      "cell-centred finite-difference divergence RMS for prediction and reference (diagnostic only; not a conservative FV continuity metric)"
+    ],
+    "development": "F5, two tasks, four HR query initial conditions per task",
+    "confirmation": "F6, two tasks, four HR query initial conditions per task",
+    "freeze_order": "Freeze all three source checkpoints, all F5/F6 target adapters, scratch checkpoints, evaluator code/config, and data-role manifest before reading any target HR query field.",
+    "interpretation_rule": "Solver-path learnability is supported only if selected_pimple_path beats both ordinary_final_only and matched_endpoint_control on development and confirmation means; otherwise report the corresponding negative result. Report lifted scratch separately.",
+    "claim_limit": "Only two target boundary families and four tasks are available. Treat the outcome as a focused validation, not broad statistical confirmation. No Newton-specific inference."
+  }
+}

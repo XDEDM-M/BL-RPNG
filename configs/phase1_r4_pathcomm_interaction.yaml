@@ -1,0 +1,51 @@
+experiment:
+  round: R4
+  id: firstpath_plus_comm256_interaction_20261015
+  description: >-
+    Test whether genuine target Newton-path fine-tuning complements the
+    strongest measured two-step 64-to-256 cross-resolution calibration.
+  base_training_config: configs/allen_cahn_v2_calibration.yaml
+  screen_model_seed: 42
+  support_budget: 4
+  tasks: [0, 1, 2, 3, 4, 5]
+  primary_selection_metric: mean_task_lr_validation_rollout_rel_l2
+  data_manifest: artifacts/manifests/phase1_development/hrdev_20261012/tasks.json
+  data_root: artifacts/data/phase1_development/hrdev_20261013_firstpath_ss271829
+  support_seed: 271829
+  support_index_template: "{root}/task{task:02d}_support_s{support_seed}_m{budget}.index.json"
+  validation_index_template: "artifacts/data/phase1_development/hrdev_20261012_t20_ss271829/task{task:02d}_validation_lr_64.index.json"
+  selection_data: >-
+    Genuine 64x64 m=4 LR support with saved first accepted Newton corrections;
+    independent 64x64 20-step LR validation only for checkpoint selection.
+    HR is evaluated only after all LR checkpoints are fixed. No query/test data.
+trials:
+  - id: pathsource_firstpath_ratio005_comm256
+    objective: blrpng_v2
+    initialization_checkpoint_template: artifacts/checkpoints/phase1/R1/source_path_s{seed}_scratch.pt
+    adapter_strategy: nlt
+    auxiliary_target: newton_correction_first
+    lr: 0.001
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+    path_gradient_ratio: 0.05
+    path_layer: 1
+    path_anneal_gamma: 2.0
+    calibration_resolution: 256
+    commutator_weight: 0.05
+    commutator_rollout_steps: 2
+  - id: pathsource_endpoint_ratio005_comm256
+    objective: blrpng_v2
+    initialization_checkpoint_template: artifacts/checkpoints/phase1/R1/source_path_s{seed}_scratch.pt
+    adapter_strategy: nlt
+    auxiliary_target: endpoint_increment
+    lr: 0.001
+    epochs: 100
+    scheduler: cosine
+    minimum_lr: 0.000001
+    path_gradient_ratio: 0.05
+    path_layer: 1
+    path_anneal_gamma: 2.0
+    calibration_resolution: 256
+    commutator_weight: 0.05
+    commutator_rollout_steps: 2

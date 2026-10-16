@@ -1,0 +1,56 @@
+{
+  "schema": "blrpng_ns_pimple_v0_fv_pilot_prereg_v2",
+  "status": "frozen_before_query_access",
+  "supersedes": "docs/prereg/ns_pimple_v0_pilot.json",
+  "amendment_reason": "The first, pre-query bridge screen found 2.49-3.67% cell-center-to-node round-trip error for F1-F3; that lossy remap failed its frozen 1% bridge gate. This amendment keeps the native finite-volume cell centers and uses a finite-volume harmonic lift defined by exact wall-face Dirichlet values.",
+  "dataset": {
+    "project": "NS-PIMPLE",
+    "dataset_id": "NS-PIMPLE-V0",
+    "dataset_gate_report": "/gemini/code/NS-PIMPLE/runs/ns-method-review-20261015/dataset_audit.json",
+    "reader_gate_report": "/gemini/code/NS-PIMPLE/runs/ns-method-review-20261015/interface_validation.json",
+    "source": "OpenCFD OpenFOAM v2412 pimplePathFoam",
+    "path_semantics": "complete PIMPLE outer-loop states, not Newton iterates",
+    "native_time_scheme": "backward",
+    "native_state": "cell-centred two-component velocity; prescribed Dirichlet values live on finite-volume wall faces"
+  },
+  "screen": {
+    "purpose": "one-fold method/interface and causal pilot; not paper-level confirmation",
+    "source_pretraining": "six source-support LR trajectories from F1-F3; hold out all F4 support and query cases",
+    "target_support": "F4_poly24_top_a060_ic_a, LR only, first four physical transitions",
+    "query": "same task's source-split query-role HR trajectories; two independent initial conditions; opened only after all model/adaptation checkpoints are frozen",
+    "sealed_test_access": false,
+    "seed": 42,
+    "support_sampling_seed": 271828,
+    "architecture": "FNO small: 4 layers, width 32, 12 modes per axis",
+    "source_optimizer_updates": 600,
+    "target_nlt_optimizer_updates": 200,
+    "batch_size": 8,
+    "source_learning_rate": 0.0003,
+    "target_learning_rate": 0.001,
+    "weight_decay": 0.000001,
+    "path_gradient_ratio": 0.05,
+    "path_hook": "first complete PIMPLE outer state minus the actual solver initial state",
+    "matched_endpoint_control": "same solver initial to converged endpoint direction, scaled to the first PIMPLE correction norm using training labels only",
+    "adaptation": "final-only NLT, identical target support and update count for every source objective",
+    "primary_metric": "mean over rollout steps of native cell-centred velocity relative L2, averaged over the two HR query initial conditions",
+    "data_bridge_gate": {
+      "native_cell_center_fields_preserved_without_resampling": true,
+      "finite_volume_harmonic_lift_residual_max": 1e-10,
+      "minimum_median_first_hook_D": 0.05,
+      "minimum_median_first_hook_S": 0.01,
+      "first_path_and_endpoint_labels_finite": true,
+      "same_wall_face_trace_for_all_iterates_within_each_physical_step": true
+    }
+  },
+  "arms": [
+    "ordinary final-only source pretraining plus NLT",
+    "first-PIMPLE-outer-correction source supervision plus NLT",
+    "matched-endpoint-direction source supervision plus NLT"
+  ],
+  "interpretation_limits": [
+    "PIMPLE outer-path supervision is not Newton-path supervision.",
+    "This one-seed, one-family, one-task screen cannot establish a paper-level NS claim.",
+    "The pilot predicts velocity and does not test pressure prediction as a separate output.",
+    "The user-visible frozen sealed_test split remains unopened."
+  ]
+}
